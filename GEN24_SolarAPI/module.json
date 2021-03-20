@@ -1,0 +1,12 @@
+{
+    "id": "{AB36C448-F64A-905A-630E-47006768A86E}",
+    "name": "GEN24_SolarAPI",
+    "type": 3,
+    "vendor": "Fronius",
+    "aliases": ["Fronius Symo GEN24 Plus - Solar API (JSON API)"],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "GEN24",
+    "url": "https://www.fronius.com/de"
+}

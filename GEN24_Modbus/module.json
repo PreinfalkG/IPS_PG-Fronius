@@ -1,0 +1,12 @@
+{
+    "id": "{D76AC0B1-D6C7-F50C-27B8-40BF15241657}",
+    "name": "GEN24_Modebus",
+    "type": 3,
+    "vendor": "Fronius",
+    "aliases": ["Fronius Symo GEN24 Plus - Modbus"],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "GEN24MB",
+    "url": "https://www.fronius.com/de"
+}

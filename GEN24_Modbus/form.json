@@ -1,0 +1,129 @@
+{
+    "elements": [
+
+
+        { 
+            "type": "RowLayout",
+            "visible": false,
+            "items": [
+              
+                {
+                    "type": "Label",
+                    "label": "GEN24  "
+                },    
+                {
+                    "type": "ValidationTextBox",
+                    "caption": "IP",
+                    "name": "GEN24_IP"
+                }
+            ]
+        },
+
+        { 
+            "type": "RowLayout",
+            "visible": false,
+            "items": [
+              
+                {
+                    "type": "Label",
+                    "label": "GEN24  "
+                },    
+                {
+                    "type": "ValidationTextBox",
+                    "caption": "PORT",
+                    "name": "GEN24_PORT"
+                }
+            ]
+        },         
+
+        { "type": "SelectInstance", "name": "si_ModebusGatewayID", "value": 0, "caption": "GEN24 Modbus Gateway", 
+            "validModules": [ 
+                "{A5F663AB-C400-4FE5-B207-4D67CC030564}" 
+        ]},
+       
+        {
+            "type": "Label",
+            "label": " "
+        },  
+
+        { "name": "EnableAutoUpdate", "type": "CheckBox", "caption": "Auto Update" },
+
+        { "name": "AutoUpdateInterval", "type": "NumberSpinner", "caption": "Update Interval", "suffix": "sec"},
+
+		{ "name": "LogLevel", "type": "Select", "caption": "Debug/Log Level",
+            "options": [
+                { "label": "ALL", "value": 9 },
+                { "label": "TEST", "value": 8 },
+                { "label": "TRACE", "value": 7 },
+                { "label": "COMMUNICATION", "value": 6 },
+                { "label": "DEBUG", "value": 5 },
+				{ "label": "INFO", "value": 4 },
+                { "label": "WARN", "value": 3 },
+                { "label": "ERROR", "value": 2 },
+				{ "label": "FATAL", "value": 1 },
+                { "label": "OFF", "value": 0 }
+        ]},   
+        {
+            "type": "Label",
+            "label": " "
+        },        
+        {
+            "type": "Label",
+            "label": "Request Data for:"
+        },
+        {
+            "type": "CheckBox",
+            "enabled": false,
+            "caption": "IC120 Nameplate Modell *",
+            "name": "cb_IC120"
+        },          
+        {
+            "type": "CheckBox",
+            "enabled": false,
+            "caption": "IC121 Basic Settings Modell *",
+            "name": "cb_IC121"
+        },        
+        {
+            "type": "CheckBox",
+            "enabled": false,
+            "caption": "IC122 Extended Measurements & Status Modell *",
+            "name": "cb_IC122"
+        },
+        {
+            "type": "CheckBox",
+            "enabled": false,
+            "caption": "IC123 Immediate Controls Modell *",
+            "name": "cb_IC123"
+        },        
+        {
+            "type": "CheckBox",
+            "caption": "IC124 Basic Storage Control Model",
+            "name": "cb_IC124"
+        },        
+        {
+            "type": "CheckBox",
+            "enabled": false,
+            "caption": "IC160 Multiple MPPT Inverter Extension Modell *",
+            "name": "cb_IC160"
+        },
+        {
+            "type": "Label",
+            "label": "* Inverter Model not supported yet"
+        }    
+
+    ],
+    "actions": [
+        {
+            "type": "Button",
+            "caption": "Manual Update",
+            "onClick": "GEN24MB_Update($id);"
+        },    
+        {
+            "type": "Button",
+            "caption": "Reset Counter Variables",
+            "confirm": "This sets the counter variables to 0. Are you sure?",
+            "onClick": "GEN24MB_ResetCounterVariables($id);"
+        }  
+    ],
+    "status": []
+}

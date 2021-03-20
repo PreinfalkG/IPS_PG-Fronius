@@ -1,0 +1,12 @@
+{
+    "id": "{A72B59B9-9DD1-4477-21C7-049D92C25A8E}",
+    "name": "Fronius",
+    "author": "PreinfalkG",
+    "url": "",
+    "compatibility": {
+        "version": "5.3"
+    },
+    "version": "1.0",
+    "build": 20210222,
+    "date": 1613970800
+}
