@@ -19,7 +19,7 @@ trait GEN24_PrivateAPI {
                 $parmArr["BackupMode"]              = array("varType" => 0, "multiplikator" => 1, 	    "round" => 0, "profileName" => "");
                 $parmArr["BatteryStandby"]          = array("varType" => 0, "multiplikator" => 1, 	    "round" => 0, "profileName" => "");
                 $parmArr["E_Day"]                   = array("varType" => 2, "multiplikator" => 1,     	"round" => 3, "profileName" => "");
-                $parmArr["E_Total"]                 = array("varType" => 2, "multiplikator" => 1,     	"round" => 3, "profileName" => "");
+                $parmArr["E_Total"]                 = array("varType" => 2, "multiplikator" => 0.001,   "round" => 3, "profileName" => "GEN24.kWh");
                 $parmArr["E_Year"]                  = array("varType" => 2, "multiplikator" => 1, 	    "round" => 3, "profileName" => "");
                 $parmArr["MLoc"]                    = array("varType" => 1, "multiplikator" => 1,   	"round" => 0, "profileName" => "");
                 $parmArr["Mode"]                    = array("varType" => 3, "multiplikator" => 1,     	"round" => null, "profileName" => "");
@@ -66,6 +66,7 @@ trait GEN24_PrivateAPI {
                 $parmArr["BatMode"]     = array("varType" => 1, "multiplikator" => 1, 	    "round" => 0, "profileName" => "");
                 $parmArr["CID"]         = array("varType" => 1, "multiplikator" => 1, 	    "round" => 0, "profileName" => "");
                 $parmArr["DT"]          = array("varType" => 1, "multiplikator" => 1, 	    "round" => 0, "profileName" => "");
+                $parmArr["E_Total"]     = array("varType" => 2, "multiplikator" => 0.001,   "round" => 3, "profileName" => "GEN24.kWh");
                 $parmArr["ID"]          = array("varType" => 1, "multiplikator" => 1, 	    "round" => 0, "profileName" => "");
                 $parmArr["P"]           = array("varType" => 2, "multiplikator" => 1, 	    "round" => 2, "profileName" => "GEN24.Power.2");
                 $parmArr["SOC"]         = array("varType" => 2, "multiplikator" => 1, 	    "round" => 1, "profileName" => "GEN24.Prozent");
@@ -192,18 +193,13 @@ trait GEN24_PrivateAPI {
         $categoryObjId = $this->GetCategoryObjId(self::CATEGORY_NAME_PowerMeters);
         if($categoryObjId !== false) {
 
-            $parmArr["ACBRIDGE_CURRENT_ACTIVE_MEAN_01_F32"]             = array("varType" => 2, "multiplikator" => 1, 	    "round" => 2, "profileName" => "GEN24.Current");
-            $parmArr["ACBRIDGE_CURRENT_ACTIVE_MEAN_02_F32"]             = array("varType" => 2, "multiplikator" => 1, 	    "round" => 2, "profileName" => "GEN24.Current");
-            $parmArr["ACBRIDGE_CURRENT_ACTIVE_MEAN_03_F32"]             = array("varType" => 2, "multiplikator" => 1,     	"round" => 2, "profileName" => "GEN24.Current");
-            $parmArr["ACBRIDGE_CURRENT_AC_SUM_NOW_F64"]                 = array("varType" => 2, "multiplikator" => 1,     	"round" => 2, "profileName" => "GEN24.Current");
-            $parmArr["ACBRIDGE_VOLTAGE_MEAN_12_F32"]                    = array("varType" => 2, "multiplikator" => 1,     	"round" => 2, "profileName" => "GEN24.Voltage");
-            $parmArr["ACBRIDGE_VOLTAGE_MEAN_23_F32"]                    = array("varType" => 2, "multiplikator" => 1, 	    "round" => 2, "profileName" => "GEN24.Voltage");
-            $parmArr["ACBRIDGE_VOLTAGE_MEAN_31_F32"]                    = array("varType" => 2, "multiplikator" => 1,   	"round" => 2, "profileName" => "GEN24.Voltage");
+
             $parmArr["COMPONENTS_MODE_ENABLE_U16"]                      = array("varType" => 1, "multiplikator" => 1,   	"round" => 0, "profileName" => "");
             $parmArr["COMPONENTS_MODE_VISIBLE_U16"]                     = array("varType" => 1, "multiplikator" => 1,   	"round" => 0, "profileName" => "");
             $parmArr["COMPONENTS_TIME_STAMP_U64"]                       = array("varType" => 1, "multiplikator" => 1,   	"round" => 0, "profileName" => "~UnixTimestamp");
-            $parmArr["ACBRIDGE_VOLTAGE_MEAN_31_F32"]                    = array("varType" => 2, "multiplikator" => 1,   	"round" => 2, "profileName" => "GEN24.Voltage");
-            $parmArr["GRID_FREQUENCY_MEAN_F32"]                         = array("varType" => 2, "multiplikator" => 1,   	"round" => 2, "profileName" => "GEN24.Frequency");
+            $parmArr["SMARTMETER_CURRENT_01_F64"]                       = array("varType" => 2, "multiplikator" => 1, 	    "round" => 2, "profileName" => "GEN24.Current");
+            $parmArr["SMARTMETER_CURRENT_02_F64"]                       = array("varType" => 2, "multiplikator" => 1, 	    "round" => 2, "profileName" => "GEN24.Current");
+            $parmArr["SMARTMETER_CURRENT_03_F64"]                       = array("varType" => 2, "multiplikator" => 1,     	"round" => 2, "profileName" => "GEN24.Current");
             $parmArr["SMARTMETER_ENERGYACTIVE_ABSOLUT_MINUS_F64"]       = array("varType" => 2, "multiplikator" => 0.001,   "round" => 2, "profileName" => "GEN24.kWh");
             $parmArr["SMARTMETER_ENERGYACTIVE_ABSOLUT_PLUS_F64"]        = array("varType" => 2, "multiplikator" => 0.001,   "round" => 2, "profileName" => "GEN24.kWh");
             $parmArr["SMARTMETER_ENERGYACTIVE_CONSUMED_SUM_F64"]        = array("varType" => 2, "multiplikator" => 0.001,   "round" => 2, "profileName" => "GEN24.kWh");
@@ -214,6 +210,7 @@ trait GEN24_PrivateAPI {
             $parmArr["SMARTMETER_FACTOR_POWER_02_F64"]                  = array("varType" => 2, "multiplikator" => 1,       "round" => 2, "profileName" => "");
             $parmArr["SMARTMETER_FACTOR_POWER_03_F64"]                  = array("varType" => 2, "multiplikator" => 1,       "round" => 2, "profileName" => "");
             $parmArr["SMARTMETER_FACTOR_POWER_SUM_F64"]                 = array("varType" => 2, "multiplikator" => 1,       "round" => 2, "profileName" => "");
+            $parmArr["SMARTMETER_FREQUENCY_MEAN_F64"]                   = array("varType" => 2, "multiplikator" => 1,   	"round" => 3, "profileName" => "GEN24.Frequency");
             $parmArr["SMARTMETER_POWERACTIVE_01_F64"]                  = array("varType" => 2, "multiplikator" => 1,        "round" => 2, "profileName" => "GEN24.Power.2");  
             $parmArr["SMARTMETER_POWERACTIVE_02_F64"]                  = array("varType" => 2, "multiplikator" => 1,        "round" => 2, "profileName" => "GEN24.Power.2");
             $parmArr["SMARTMETER_POWERACTIVE_03_F64"]                  = array("varType" => 2, "multiplikator" => 1,        "round" => 2, "profileName" => "GEN24.Power.2");
@@ -239,6 +236,9 @@ trait GEN24_PrivateAPI {
             $parmArr["SMARTMETER_VOLTAGE_MEAN_01_F64"]                 = array("varType" => 2, "multiplikator" => 1,        "round" => 2, "profileName" => "GEN24.Voltage");
             $parmArr["SMARTMETER_VOLTAGE_MEAN_02_F64"]                 = array("varType" => 2, "multiplikator" => 1,        "round" => 2, "profileName" => "GEN24.Voltage");
             $parmArr["SMARTMETER_VOLTAGE_MEAN_03_F64"]                 = array("varType" => 2, "multiplikator" => 1,        "round" => 2, "profileName" => "GEN24.Voltage");
+            $parmArr["SMARTMETER_VOLTAGE_MEAN_12_F64"]                 = array("varType" => 2, "multiplikator" => 1,     	"round" => 2, "profileName" => "GEN24.Voltage");
+            $parmArr["SMARTMETER_VOLTAGE_MEAN_23_F64"]                 = array("varType" => 2, "multiplikator" => 1, 	    "round" => 2, "profileName" => "GEN24.Voltage");
+            $parmArr["SMARTMETER_VOLTAGE_MEAN_31_F64"]                 = array("varType" => 2, "multiplikator" => 1,   	    "round" => 2, "profileName" => "GEN24.Voltage");            
             $parmArr["unknown"]                                        = array("varType" => 3, "multiplikator" => 1, 	    "round" => null, "profileName" => "");
 
             $jsonData = $this->RequestJsonData($url);
