@@ -140,7 +140,7 @@ trait GEN24_PrivateAPI {
                     }   
                 }
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->SecondaryMeters' not found in '%s'", self::CATEGORY_NAME_PowerFlow), 0); }
+                if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("jsonData->SecondaryMeters' not found in '%s'", self::CATEGORY_NAME_PowerFlow), 0); }
             }
 
 
