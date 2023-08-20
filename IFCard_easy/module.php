@@ -43,7 +43,7 @@ require_once __DIR__ . '/../libs/FRONIUS_COMMON.php';
 
 			$this->RegisterPropertyBoolean('cb_GetPower_NOW', false);
 
-			$this->RegisterTimer('Timer_AutoUpdate', 0, 'FoniusIFC_Timer_AutoUpdate($_IPS[\'TARGET\']);');
+			$this->RegisterTimer('Timer_AutoUpdate', 0, 'IFC_Timer_AutoUpdate($_IPS[\'TARGET\']);');
 
 		}
 
@@ -86,7 +86,8 @@ require_once __DIR__ . '/../libs/FRONIUS_COMMON.php';
 
 		public function Timer_AutoUpdate() {
             if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "called ...", 0); }
-			$this->Update();
+			if($this->ReadPropertyBoolean("cb_GetPower_NOW")) 	{ $this->Update(); }
+
 		}
 
 
