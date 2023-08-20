@@ -1,0 +1,16 @@
+{
+    "id": "{67CBD40C-C119-2F3A-3C65-462800AAEF33}",
+    "name": "IFCard_easy",
+    "type": 3,
+    "vendor": "Fronius",
+    "aliases": ["Fronius IG Interface Card easy"],
+    "parentRequirements": [
+        "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}"
+    ],
+    "childRequirements": [],
+    "implemented": [
+        "{018EF6B5-AB94-40C6-AA53-46943E824ACF}"
+    ],
+    "prefix": "IFC",
+    "url": "https://www.fronius.com/de"
+}

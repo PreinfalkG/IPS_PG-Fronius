@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../libs/FRONIUS_COMMON.php'; 
 require_once __DIR__ . '/../libs/GEN24_COMMON.php'; 
 include_once("GEN24_Modbus.php");
 include_once("GEN24_ModbusConfig.php");

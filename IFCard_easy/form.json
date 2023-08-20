@@ -1,0 +1,62 @@
+{
+    "elements": [
+
+        {
+            "type": "Label",
+            "label": " "
+        },  
+
+        { "name": "EnableAutoUpdate", "type": "CheckBox", "caption": "Auto Update" },
+
+        { "name": "AutoUpdateInterval", "type": "NumberSpinner", "caption": "Update Interval", "suffix": "sec"},
+
+		{ "name": "LogLevel", "type": "Select", "caption": "Debug/Log Level",
+            "options": [
+                { "label": "ALL", "value": 9 },
+                { "label": "TEST", "value": 8 },
+                { "label": "TRACE", "value": 7 },
+                { "label": "COMMUNICATION", "value": 6 },
+                { "label": "DEBUG", "value": 5 },
+				{ "label": "INFO", "value": 4 },
+                { "label": "WARN", "value": 3 },
+                { "label": "ERROR", "value": 2 },
+				{ "label": "FATAL", "value": 1 },
+                { "label": "OFF", "value": 0 }
+        ]},   
+        {
+            "type": "Label",
+            "label": " "
+        },        
+        {
+            "type": "Label",
+            "label": "Request Data for:"
+        },
+        {
+            "type": "CheckBox",
+            "enabled": true,
+            "caption": "Get power - NOW",
+            "name": "cb_GetPower_NOW"
+        }          
+       
+
+    ],
+    "actions": [
+        {
+            "type": "Button",
+            "caption": "Manual Update",
+            "onClick": "IFC_Update($id);"
+        },    
+        {
+            "type": "Button",
+            "caption": "Reset Counter Variables",
+            "confirm": "This sets the counter variables to 0. Are you sure?",
+            "onClick": "IFC_ResetCounterVariables($id);"
+        },
+        {
+            "type": "Button",
+            "caption": "Send",
+            "onClick": "IFC_Send($id, $Text);"
+        }
+    ],
+    "status": []
+}
