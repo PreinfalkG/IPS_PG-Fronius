@@ -201,6 +201,6 @@ require_once __DIR__ . '/../libs/FRONIUS_COMMON.php';
             SetValue($this->GetIDForIdent("receiveCnt"), GetValue($this->GetIDForIdent("receiveCnt")) + 1);  											
             SetValue($this->GetIDForIdent("LastDataReceived"), time()); 
 
-			PS_LogMessage('Device RECV', utf8_decode($data->Buffer));
+			IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
 		}
 	}
