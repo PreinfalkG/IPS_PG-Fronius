@@ -10,6 +10,8 @@
 
         { "name": "AutoUpdateInterval", "type": "NumberSpinner", "caption": "Update Interval", "suffix": "sec"},
 
+        { "name": "IG_Nr", "type": "NumberSpinner", "caption": "Gerätenummer (IG Nr.)", "suffix": ""},
+
 		{ "name": "LogLevel", "type": "Select", "caption": "Debug/Log Level",
             "options": [
                 { "label": "ALL", "value": 9 },
@@ -22,22 +24,55 @@
                 { "label": "ERROR", "value": 2 },
 				{ "label": "FATAL", "value": 1 },
                 { "label": "OFF", "value": 0 }
-        ]},   
-        {
-            "type": "Label",
-            "label": " "
-        },        
-        {
-            "type": "Label",
-            "label": "Request Data for:"
-        },
-        {
-            "type": "CheckBox",
-            "enabled": true,
-            "caption": "Get power - NOW",
-            "name": "cb_GetPower_NOW"
-        }          
-       
+        ]},  
+
+        { "type": "Label", "label": " " },        
+        { "type": "Label", "label": "Request Data for:" },
+
+        { "type": "ExpansionPanel", "caption": "Interface and Inverter Info", "expanded": true, "visible": true, "items": [
+            { "type": "CheckBox", "enabled": true, "caption": "Inerface Info",          "name": "cb_IFC_Info" },
+            { "type": "CheckBox", "enabled": true, "caption": "Device Type",            "name": "cb_IFC_DeviceTyp" }
+        ]},
+
+        { "type": "ExpansionPanel", "caption": "NOW", "expanded": true, "visible": true, "items": [
+            { "type": "CheckBox", "enabled": true, "caption": "Power",                  "name": "cb_Power" },
+            { "type": "CheckBox", "enabled": true, "caption": "DC Voltage",             "name": "cb_DcV" },
+            { "type": "CheckBox", "enabled": true, "caption": "DC Current",             "name": "cb_DcA" },
+
+            { "type": "CheckBox", "enabled": true, "caption": "AC Voltage",             "name": "cb_AcV" },
+            { "type": "CheckBox", "enabled": true, "caption": "AC Current",             "name": "cb_AcA" },
+            { "type": "CheckBox", "enabled": true, "caption": "AC Frequency",           "name": "cb_AcF" }
+        ]},
+
+        { "type": "ExpansionPanel", "caption": "DAY", "expanded": true, "visible": true, "items": [
+            { "type": "CheckBox", "enabled": true, "caption": "DAY - Energy",           "name": "cb_Day_Energy" },
+            { "type": "CheckBox", "enabled": true, "caption": "DAY - Yield max",        "name": "cb_Day_Ymax" },
+            { "type": "CheckBox", "enabled": true, "caption": "DAY - Power max",        "name": "cb_Day_Pmax"  },
+            { "type": "CheckBox", "enabled": true, "caption": "DAY - AC Voltage max",   "name": "cb_Day_AcVmax" },
+            { "type": "CheckBox", "enabled": true, "caption": "DAY - AC Voltage min",   "name": "cb_Day_AcVMin" },
+            { "type": "CheckBox", "enabled": true, "caption": "DAY - DC Voltage max",   "name": "cb_Day_DcVmax" },
+            { "type": "CheckBox", "enabled": true, "caption": "DAY - Operating Hours",  "name": "cb_Day_oHours" }                                        
+        ]},
+
+        { "type": "ExpansionPanel", "caption": "YEAR", "expanded": false, "visible": true, "items": [
+            { "type": "CheckBox", "enabled": true, "caption": "YEAR - Energy",           "name": "cb_Year_Energy" },
+            { "type": "CheckBox", "enabled": true, "caption": "YEAR - Yield max",        "name": "cb_Year_Ymax" },
+            { "type": "CheckBox", "enabled": true, "caption": "YEAR - Power max",        "name": "cb_Year_Pmax"  },
+            { "type": "CheckBox", "enabled": true, "caption": "YEAR - AC Voltage max",   "name": "cb_Year_AcVmax" },
+            { "type": "CheckBox", "enabled": true, "caption": "YEAR - AC Voltage min",   "name": "cb_Year_AcVMin" },
+            { "type": "CheckBox", "enabled": true, "caption": "YEAR - DC Voltage max",   "name": "cb_Year_DcVmax" },
+            { "type": "CheckBox", "enabled": true, "caption": "YEAR - Operating Hours",  "name": "cb_Year_oHours" }
+        ]},                                        
+
+        { "type": "ExpansionPanel", "caption": "TOTAL", "expanded": false, "visible": true, "items": [
+            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Energy",           "name": "cb_Total_Energy" },
+            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Yield max",        "name": "cb_Total_Ymax" },
+            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Power max",        "name": "cb_DTotal_Pmax"  },
+            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - AC Voltage max",   "name": "cb_Total_AcVmax" },
+            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - AC Voltage min",   "name": "cb_Total_AcVMin" },
+            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - DC Voltage max",   "name": "cb_Total_DcVmax" },
+            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Operating Hours",  "name": "cb_Total_oHours" }
+        ]}   
 
     ],
     "actions": [
