@@ -53,14 +53,13 @@ trait IFCard {
     protected function Request_DeviceTyp() {
         $packetArr = $this->BuildPacket( IFC_DEVICETYPE, 1, 1 );
         if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
-        $this->Send();
+        $this->SendPacketArr($packetArr); 
     }  
 
     protected function Request_ActivInverterNumbers() {
-        //$packetArr = $this->BuildPacket( IFC_ACTIVINVERTERNUMBER, 0, 0 );
-        //if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        //$this->SendPacketArr($packetArr);
+        $packetArr = $this->BuildPacket( IFC_ACTIVINVERTERNUMBER, 0, 0 );
+        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
+        $this->SendPacketArr($packetArr);
         return 1;
     } 
 

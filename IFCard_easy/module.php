@@ -68,7 +68,7 @@ include_once("IFCard.php");
 			$this->RegisterPropertyBoolean('cb_AcF', 			true);
 
 			$this->RegisterPropertyBoolean('cb_Day_Energy', 	false);
-			$this->RegisterPropertyBoolean('cb_Day_Ymax', 		false);
+			$this->RegisterPropertyBoolean('cb_Day_Yield', 		false);
 			$this->RegisterPropertyBoolean('cb_Day_Pmax', 		false);
 			$this->RegisterPropertyBoolean('cb_Day_AcVmax', 	false);
 			$this->RegisterPropertyBoolean('cb_Day_AcVMin', 	false);
@@ -76,7 +76,7 @@ include_once("IFCard.php");
 			$this->RegisterPropertyBoolean('cb_Day_oHours',	 	false);
 					
 			$this->RegisterPropertyBoolean('cb_Year_Energy', 	false);
-			$this->RegisterPropertyBoolean('cb_Year_Ymax', 		false);
+			$this->RegisterPropertyBoolean('cb_Year_Yield',		false);
 			$this->RegisterPropertyBoolean('cb_Year_Pmax', 		false);
 			$this->RegisterPropertyBoolean('cb_Year_AcVmax', 	false);
 			$this->RegisterPropertyBoolean('cb_Year_AcVMin', 	false);
@@ -84,7 +84,7 @@ include_once("IFCard.php");
 			$this->RegisterPropertyBoolean('cb_Year_oHours',	false);
 
 			$this->RegisterPropertyBoolean('cb_Total_Energy', 	false);
-			$this->RegisterPropertyBoolean('cb_Total_Ymax', 	false);
+			$this->RegisterPropertyBoolean('cb_Total_Yield', 	false);
 			$this->RegisterPropertyBoolean('cb_Total_Pmax', 	false);
 			$this->RegisterPropertyBoolean('cb_Total_AcVmax', 	false);
 			$this->RegisterPropertyBoolean('cb_Total_AcVMin', 	false);
@@ -259,12 +259,11 @@ include_once("IFCard.php");
 			$varId = $this->RegisterVariableInteger("connectionState", "Connection STATE", "IPS_ModulConnectionState", 20);
 			AC_SetLoggingStatus ($this->archivInstanzID, $varId, true);
 
-
 			if($this->ReadPropertyBoolean("cb_IFC_Info")) { $this->RegisterVariableString("IFC_Info", "Interface", "", 100); }
 			$this->RegisterVariableInteger("IFC_ActivInverterCnt", "Activ Inverters", "", 110);
 			if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) { $this->RegisterVariableString("IFC_DeviceType", "Device Type", "", 120); }
 
-			if($this->ReadPropertyBoolean ("cb_Power")) 		{ $this->RegisterVariableFloat("P", 			"Power", 					"~Watt", 200); }
+			if($this->ReadPropertyBoolean ("cb_Power")) 		{ $this->RegisterVariableFloat("P", 			"POWER", 					"~Watt", 200); }
 			if($this->ReadPropertyBoolean ("cb_DcV")) 			{ $this->RegisterVariableFloat("DcV", 			"DC Voltage", 				"~Volt", 250); }
 			if($this->ReadPropertyBoolean ("cb_DcA")) 			{ $this->RegisterVariableFloat("DcA", 			"DC Current", 				"~Ampere", 260); }
 
@@ -272,32 +271,34 @@ include_once("IFCard.php");
 			if($this->ReadPropertyBoolean ("cb_AcA")) 			{ $this->RegisterVariableFloat("AcA",			"AC Current", 				"~Ampere", 310); }
 			if($this->ReadPropertyBoolean ("cb_AcF")) 			{ $this->RegisterVariableFloat("AcF", 			"AC Frequency", 			"~Hertz.50", 320); }
 
+			if($this->ReadPropertyBoolean ("cb_Total_Energy")) 	{ $this->RegisterVariableFloat("total_E", 		"TOTAL Energy", 			"~Electricity", 600); }
 			if($this->ReadPropertyBoolean ("cb_Day_Energy")) 	{ $this->RegisterVariableFloat("day_E", 		"DAY Energy", 				"~Electricity", 400); }
-			if($this->ReadPropertyBoolean ("cb_Day_Ymax")) 		{ $this->RegisterVariableFloat("day_Ymax", 		"DAY max. Yield", 	 		"", 	 410); }
+			if($this->ReadPropertyBoolean ("cb_Year_Energy")) 	{ $this->RegisterVariableFloat("year_E", 		"YEAR Energy",				"~Electricity", 500); }
+
+			if($this->ReadPropertyBoolean ("cb_Day_Yield")) 	{ $this->RegisterVariableFloat("day_Yield", 	"DAY Yield", 	 			"", 	 410); }
 			if($this->ReadPropertyBoolean ("cb_Day_Pmax")) 		{ $this->RegisterVariableFloat("day_Pmax", 		"DAY max. Power", 	 		"~Watt", 420); }
 			if($this->ReadPropertyBoolean ("cb_Day_AcVmax")) 	{ $this->RegisterVariableFloat("day_AcVmax", 	"DAY max. AC Voltage", 		"~Volt", 430); }
 			if($this->ReadPropertyBoolean ("cb_Day_AcVMin")) 	{ $this->RegisterVariableFloat("day_AcVmin", 	"DAY min. AC Voltage", 		"~Volt", 440); }
 			if($this->ReadPropertyBoolean ("cb_Day_DcVmax")) 	{ $this->RegisterVariableFloat("day_DcVmax", 	"DAY max. DC Voltage", 		"~Volt", 450); }
 			if($this->ReadPropertyBoolean ("cb_Day_oHours")) 	{ $this->RegisterVariableInteger("day_oHours", 	"DAY Operating Hours", 		"~UnixTimestampTime", 460); }
 
-			if($this->ReadPropertyBoolean ("cb_Year_Energy")) 	{ $this->RegisterVariableFloat("year_E", 		"YEAR Energy",				"~Electricity", 500); }
-			if($this->ReadPropertyBoolean ("cb_Year_Ymax")) 	{ $this->RegisterVariableFloat("year_Ymax", 	"YEAR max. Yield", 	 		"", 	 510); }
+			if($this->ReadPropertyBoolean ("cb_Year_Yield")) 	{ $this->RegisterVariableFloat("year_Yield", 	"YEAR Yield", 	 			"", 	 510); }
 			if($this->ReadPropertyBoolean ("cb_Year_Pmax")) 	{ $this->RegisterVariableFloat("year_Pmax", 	"YEAR max. Power", 	 		"~Watt", 520); }
 			if($this->ReadPropertyBoolean ("cb_Year_AcVmax")) 	{ $this->RegisterVariableFloat("year_AcVmax", 	"YEAR max. AC Voltage", 	"~Volt", 530); }
 			if($this->ReadPropertyBoolean ("cb_Year_AcVMin")) 	{ $this->RegisterVariableFloat("year_AcVmin", 	"YEAR min. AC Voltage", 	"~Volt", 540); }
 			if($this->ReadPropertyBoolean ("cb_Year_DcVmax")) 	{ $this->RegisterVariableFloat("year_DcVmax", 	"YEAR max. DC Voltage", 	"~Volt", 550); }
 			if($this->ReadPropertyBoolean ("cb_Year_oHours")) 	{ $this->RegisterVariableInteger("year_oHours", "YEAR Operating Hours", 	"~UnixTimestampTime", 560); }
 
-			if($this->ReadPropertyBoolean ("cb_Total_Energy")) 	{ $this->RegisterVariableFloat("total_E", 		"TOTAL Energy", 			"~Electricity", 600); }
-			if($this->ReadPropertyBoolean ("cb_Total_Ymax")) 	{ $this->RegisterVariableFloat("total_Ymax", 	"TOTAL max. Yield", 	 	"", 	 610); }
+			if($this->ReadPropertyBoolean ("cb_Total_Yield")) 	{ $this->RegisterVariableFloat("total_Yield", 	"TOTAL Yield", 	 			"", 	 610); }
 			if($this->ReadPropertyBoolean ("cb_Total_Pmax")) 	{ $this->RegisterVariableFloat("total_Pmax", 	"TOTAL max. Power", 	 	"~Watt", 620); }
 			if($this->ReadPropertyBoolean ("cb_Total_AcVmax")) 	{ $this->RegisterVariableFloat("total_AcVmax", 	"TOTAL max. AC Voltage", 	"~Volt", 630); }
 			if($this->ReadPropertyBoolean ("cb_Total_AcVMin")) 	{ $this->RegisterVariableFloat("total_AcVmin", 	"TOTAL min. AC Voltage", 	"~Volt", 640); }
 			if($this->ReadPropertyBoolean ("cb_Total_DcVmax")) 	{ $this->RegisterVariableFloat("total_DcVmax", 	"TOTAL max. DC Voltage", 	"~Volt", 650); }
 			if($this->ReadPropertyBoolean ("cb_Total_oHours")) 	{ $this->RegisterVariableInteger("total_oHours","TOTAL Operating Hours", 	"~UnixTimestampTime", 660); }
 
-
-			
+			$this->RegisterVariableInteger("ERR_Nr", "Error Number", "", 680);
+			$this->RegisterVariableString("ERR_Info", "Error Info", "", 681);
+			$this->RegisterVariableInteger("ERR_Cnt", "Error Cnt", "", 682);
 
 			$this->RegisterVariableInteger("requestCnt", "Request Cnt", "", 900);
 			$this->RegisterVariableInteger("receiveCnt", "Receive Cnt", "", 910);
@@ -353,6 +354,12 @@ include_once("IFCard.php");
 		}
 
 
+		public function ReceiveTestData(string $data) {
+			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $this->String2Hex($data), 0); }
+			return true;
+		}
+
+
 		public function ReceiveData($JSONString) {
 			$data = json_decode($JSONString);
 			$dataBuffer = utf8_decode($data->Buffer);
@@ -361,49 +368,243 @@ include_once("IFCard.php");
 			//$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA) . $dataBuffer;
 			//$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
 
-			if($this->logLevel >= LogLevel::TRACE	) { $this->AddLog(__FUNCTION__, "dataBuffer:      " . $this->String2Hex($dataBuffer)); }
+			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer: ",  $this->String2Hex($dataBuffer)); }
 			//if($this->logLevel >= LogLevel::TRACE	) { $this->AddLog(__FUNCTION__, "receiveBuffer: " . $this->String2Hex($receiveBuffer)); }
             SetValue($this->GetIDForIdent("receiveCnt"), GetValue($this->GetIDForIdent("receiveCnt")) + 1);  											
             SetValue($this->GetIDForIdent("LastDataReceived"), time()); 
 			
-			$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, true);
+			//$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, true);
 
-			$rpacketArr = explode("\x80\x80\x80", $dataBuffer);
-			$this->AddLog(__FUNCTION__, print_r($rpacketArr, true));
+			$rpacketsArr = explode("\x80\x80\x80", $dataBuffer);
 
-			foreach($rpacketArr as $rpacket) {
-				$this->AddLog(__FUNCTION__, "\r\n - rpacket: " . $this->String2Hex($rpacket));
+			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ . "_rpacketsArr", print_r($rpacketsArr, true)); }
+
+			foreach($rpacketsArr as $rpacket) {
 				$rpacketArr = unpack('C*', $rpacket);
-				$arrLen = count($rpacketArr);
-				$this->AddLog(__FUNCTION__, "   arrLen is: " . $arrLen);
-				if($arrLen > 3) {
-					$dataLen = 	$rpacketArr[0];
-					$arrLenSoll = $dataLen + 5;  // Länge | Gerät | Number | Befehl | dATa | CRC
-					$this->AddLog(__FUNCTION__, sprintf("   dataLen is: %d | rpacketLen soll: %d" , $dataLen, $arrLenSoll));
+				$rpacketLenIST = count($rpacketArr);
+				if($rpacketLenIST > 3) {
+
+					//$this->AddLog(__FUNCTION__, "\r\n - rpacket: " . $this->String2Hex($rpacket));
+					//$this->AddLog(__FUNCTION__, "   arrLen is: " . $rpacketLen);
+					//$this->SendDebug("loop", print_r($rpacketArr, true), 1); 	
+
+					$rpacketLenByte = 	$rpacketArr[1];
+					$rpacketLenSOLL = $rpacketLenByte + 5;  // Länge | Gerät | Number | Befehl | dATa | CRC
+
+					if($rpacketLenIST == $rpacketLenSOLL) {
+
+						$this->ParsePacket($rpacketArr);
+
+					} else {
+						$logMsg = sprintf("WARN :: rpacketLenByte is: %d > rpacketLenSOLL is: %d | rpacketLenIST: %d  {%s}" , $rpacketLenByte, $rpacketLenSOLL, $rpacketLenIST, $this->ByteArr2HexStr($rpacketArr));
+						SetValue($this->GetIDForIdent("ErrorCnt"), GetValue($this->GetIDForIdent("ErrorCnt")) + 1);
+						SetValue($this->GetIDForIdent("LastError"), $logMsg);
+						if($this->logLevel >= LogLevel::WARN) { 
+							$this->AddLog(__FUNCTION__, $logMsg); 
+						}
+					}
 				}
 
 			}
-
-
-			
-			return true;
-
-			$pos = strpos($dataBuffer, "\x80\x80\x80");
-			$this->AddLog(__FUNCTION__, "startsequence pos is: " . $pos);
-			if($pos == 0) {
-				$bufferArr = unpack('C*', $dataBuffer);
-				$arrLen = count($bufferArr);
-				$this->AddLog(__FUNCTION__, "arrLen is: " . $arrLen);
-				$dataLen = 	$bufferArr[2];
-				$this->AddLog(__FUNCTION__, "dataLen is: " . $this->byte2hex($dataLen));
-
-			}
-
-			//$buffArr = $this->GetBufferList();
-            //$this->AddLog(__FUNCTION__ . "::", print_r($buffArr, true));
-
 			return true;
 		}
+
+
+		private function ParsePacket(array $rpacketArr) {
+			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($rpacketArr)); }
+		
+			$rpacketCommand = $rpacketArr[4];
+			switch( $rpacketCommand )  {
+
+				case 0x0E:
+
+					$errSource = $rpacketArr[5];
+					$errNr = $rpacketArr[6];
+					$errInfo = "n.a";
+					switch($errNr) {
+						case 0x01:
+							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - unknown Command", $errSource, $errNr);
+							break;
+						case 0x03:
+							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - wrong data structure", $errSource, $errNr);
+							break;							
+						case 0x04:
+							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - queue full", $errSource, $errNr);							
+							break;
+						case 0x05:
+							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - device/option not available", $errSource, $errNr);
+							break;
+						case 0x09:
+							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - wrong command for device/option", $errSource, $errNr);
+							break;							
+						default:
+							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - unknown {case default}", $errSource, $errNr);
+							break;
+					}
+
+					SetValue($this->GetIDForIdent("ERR_Nr"), $errNr);
+					SetValue($this->GetIDForIdent("ERR_Info"), $errInfo);
+					$varIdErrCnt = $this->GetIDForIdent("ERR_Cnt");
+					SetValueInteger($varIdErrCnt, GetValueInteger($varIdErrCnt) + 1);
+
+					if($this->logLevel >= LogLevel::ERROR ) { $this->AddLog(__FUNCTION__ . "ERR", sprintf("Error Received :: SrcCommand: 0x%02X | ErrorNr: %d", $errSource, $errNr)); }
+					break;
+
+				case IFC_INFO:
+					$ifc_Type = $rpacketArr[5];
+					if($ifc_Type == 2) { $ifc_Type = "RS232 Interface Card easy"; } else { $ifc_Type = $this->byte2hex($ifc_Type); }
+					$ifc_version_major = $rpacketArr[6];
+					$ifc_version_minor = $rpacketArr[7];
+					$ifc_version_release = $rpacketArr[8];
+					$IFCinfo = sprintf("%s v%d.%d.%d", $ifc_Type, $ifc_version_major, $ifc_version_minor, $ifc_version_release); 
+					SetValue($this->GetIDForIdent("IFC_Info"), $IFCinfo);
+					if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_INFO: %s {%s}", $IFCinfo, $this->ByteArr2HexStr($rpacketArr))); }
+					break;
+				case IFC_DEVICETYPE:
+					$device = "n.a.";
+					$deviceType = $rpacketArr[5];
+					if($deviceType == 0xfd) { $device = "Fronius IG 20"; }
+					SetValue( $this->GetIDForIdent("IFC_DeviceType"), sprintf("%s  [0x%02X]", $device, $deviceType) ); 
+					if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_DEVICETYPE: %s {%s}", $device, $this->ByteArr2HexStr($rpacketArr))); }
+					break;
+				case IFC_ACTIVINVERTERNUMBER:
+				  		$activInvNumbers = $rpacketArr[5];
+						SetValue($this->GetIDForIdent("IFC_ActivInverterCnt"), $activInvNumbers ); 
+						if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_ACTIVINVERTERNUMBER: %d {%s}", $activInvNumbers, $this->ByteArr2HexStr($rpacketArr))); }						
+						break;															
+				
+				case ENERGY_TOTAL:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "ENERGY_TOTAL", "total_E", 0.001 );
+					break;
+				case ENERGY_DAY:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "ENERGY_DAY", "day_E", 0.001 );
+					break;
+				case ENERGY_YEAR:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "ENERGY_YEAR", "year_E", 0.001 );
+					break;
+
+				case WR_POWER:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "WR_POWER", "P" );
+					break;
+				case DC_VOLTAGE:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "DC_VOLTAGE", "DcV" );
+					break;
+				case DC_CURRENT:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "DC_CURRENT", "DcA" );
+					break;
+
+				case AC_VOLTAGE:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "AC_VOLTAGE", "AcV" );
+					break;
+				case AC_CURRENT:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "AC_CURRENT", "AcA" );
+					break;
+				case AC_FREQUENCY:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "AC_FREQUENCY", "AcF" );
+					break;
+
+
+				case YIELD_DAY:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "YIELD_DAY", "day_Yield" );
+					break;
+				case MAX_POWER_DAY:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_POWER_DAY", "day_Pmax" );
+					break;
+				case MAX_AC_VOLTAGE_DAY:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_AC_VOLTAGE_DAY", "day_AcVmax" );
+					break;
+				case MIN_AC_VOLTAGE_DAY:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MIN_AC_VOLTAGE_DAY", "day_AcVmin" );
+					break;
+				case MAX_DC_VOLTAGE_DAY:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_DC_VOLTAGE_DAY", "day_DcVmax" );
+				break;
+				case OPERATING_HOURS_DAY:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "OPERATING_HOURS_DAY", "day_oHours", 60, -3600 );
+					break;
+
+
+				case YIELD_YEAR:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "YIELD_YEAR", "year_Yield" );
+					break;
+				case MAX_POWER_YEAR:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_POWER_YEAR", "year_Pmax" );
+					break;
+				case MAX_AC_VOLTAGE_YEAR:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_AC_VOLTAGE_YEAR", "year_AcVmax" );
+					break;
+				case MIN_AC_VOLTAGE_YEAR:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MIN_AC_VOLTAGE_YEAR", "year_AcVmin" );
+					break;
+				case MAX_DC_VOLTAGE_YEAR:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_DC_VOLTAGE_YEAR", "year_DcVmax" );
+				break;
+				case OPERATING_HOURS_YEAR:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "OPERATING_HOURS_YEAR", "year_oHours", 60, -3600 );
+					break;
+
+				case YIELD_TOTAL:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "YIELD_TOTAL", "total_Yield" );
+					break;
+				case MAX_POWER_TOTAL:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_POWER_TOTAL", "total_Pmax" );
+					break;
+				case MAX_AC_VOLTAGE_TOTAL:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_AC_VOLTAGE_TOTAL", "total_AcVmax" );
+					break;
+				case MIN_AC_VOLTAGE_TOTAL:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MIN_AC_VOLTAGE_TOTAL", "total_AcVmin" );
+					break;
+				case MAX_DC_VOLTAGE_TOTAL:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_DC_VOLTAGE_TOTAL", "total_DcVmax" );
+				break;
+				case OPERATING_HOURS_TOTAL:
+					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "OPERATING_HOURS_TOTAL", "total_oHours", 60, -3600 );
+					break;					
+
+				default:
+					SetValue($this->GetIDForIdent("ERR_Nr"), 99);
+					if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Received Packet not evaluated > Command BYTE: 0x%02X", $rpacketCommand)); }
+					break;
+			}
+
+		}
+
+
+		private function ExtractSaveMeteringValue(array $rpacketArr, string $command, string $varIdent, float $faktor=1, float $offset=0 ) {	 
+			$value = 0;
+			$byte1 = $rpacketArr[5];
+			$byte2 = $rpacketArr[6];
+			$exp = $rpacketArr[7];
+
+			if ($exp >= 0b10000000) { $exp = $exp - 0xFF - 1; }
+			$valueRaw =  $byte1 * 256 + $byte2;
+			if ( $exp <= 10 && $exp >= -3 ) {
+				$value =  $valueRaw * pow( 10, $exp );
+				
+				$value = $value * $faktor;
+				$value = $value + $offset;
+
+				if($this->logLevel >= LogLevel::DEBUG ) { 
+					$logMsg = sprintf("%s: %.02f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
+					$this->AddLog(__FUNCTION__, $logMsg);
+				}
+			 } else {
+				$value = $valueRaw * -1;
+				if($this->logLevel >= LogLevel::WARN ) {
+					$logMsg = sprintf("%s !Over- or underflow of exponent Value! : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
+					$this->AddLog(__FUNCTION__ . "_WARN", $logMsg); 
+				}				
+			 }
+
+			$varId = @$this->GetIDForIdent($varIdent);
+			if($varId !== false) {
+				SetValue($varId, $value); 
+			} else {
+				if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("VarIdent '%s' not found!", $varIdent), 0, true); }
+			}
+			 return $value;
+		  }
 
 
 		private function WaitForResponse(int $timeout)
