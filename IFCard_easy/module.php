@@ -37,8 +37,7 @@ include_once("IFCard.php");
 
 				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
 
-			} else {
-				SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);				
+			} else {		
 				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
 			}
 		}
@@ -388,9 +387,9 @@ include_once("IFCard.php");
 			$data = json_decode($JSONString);
 			$dataBuffer = utf8_decode($data->Buffer);
 			$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA);
-			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ . "_dataBuffer_old: ",  $this->String2Hex($receiveBuffer)); }
+			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ . "_dataBuffer_old",  $this->String2Hex($receiveBuffer)); }
 			$receiveBuffer .= $dataBuffer;
-			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer: ",  $this->String2Hex($receiveBuffer)); }
+			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer",  $this->String2Hex($receiveBuffer)); }
 
 			//$rchecksum = ord( substr( $receiveBuffer, strlen( $receiveBuffer ) - 1, 1  ) );
 
@@ -409,11 +408,11 @@ include_once("IFCard.php");
 					if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ , sprintf("$rpacketLenIST {%d} < $rpacketLenSOLL {%d}", $rpacketLenIST, $rpacketLenSOLL) ); }
 					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
 				} else if($rpacketLenIST == $rpacketLenSOLL) {
-					if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataAvailable=: ",  $this->String2Hex($receiveBuffer)); }
+					if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataAvailable",  $this->String2Hex($receiveBuffer)); }
 					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
 					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, "yes");
 				} else if($rpacketLenIST > $rpacketLenSOLL) {
-					if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataAvailable>: ",  $this->String2Hex($receiveBuffer)); }
+					if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataOverflow",  $this->String2Hex($receiveBuffer)); }
 					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
 					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, "no");	
 					//$this->HandleReceivedData($receiveBuffer);									

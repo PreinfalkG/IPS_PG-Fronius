@@ -73,7 +73,7 @@ trait IFCard {
 
     protected function RequestData(array $packetArr, int $command, string $comandTxt) {
         if($this->logLevel >= LogLevel::DEBUG) { 
-            $logMsg =  sprintf("Request :: %s [0x%02X] > %s", $comandTxt, $command, $this->ByteArr2HexStr($packetArr));
+            $logMsg =  sprintf("%s [command: 0x%02X] {%s}", $comandTxt, $command, $this->ByteArr2HexStr($packetArr));
             $this->AddLog(__FUNCTION__, $logMsg); 
         }
         $this->SendPacketArr($packetArr);  
@@ -83,7 +83,7 @@ trait IFCard {
         if ($this->WaitForResponse(800)) { 
 
 			$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA);
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Receive DONE for '%s' {%s}", $comandTxt, $this->String2Hex($receiveBuffer))); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Receive DONE '%s' {%s}", $comandTxt, $this->String2Hex($receiveBuffer))); }
 
             SetValue($this->GetIDForIdent("receiveCnt"), GetValue($this->GetIDForIdent("receiveCnt")) + 1);  											
             SetValue($this->GetIDForIdent("LastDataReceived"), time()); 
@@ -298,7 +298,7 @@ trait IFCard {
 
             default:
 
-                $errInfo = sprintf("Received Packet not evaluated > Command BYTE: 0x%02X", $rpacketCommand)
+                $errInfo = sprintf("Received Packet not evaluated > Command BYTE: 0x%02X", $rpacketCommand);
                 SetValue($this->GetIDForIdent("ERR_Nr"), 98);
                 SetValue($this->GetIDForIdent("ERR_Info"), $errInfo);
                 $varIdErrCnt = $this->GetIDForIdent("ERR_Cnt");
