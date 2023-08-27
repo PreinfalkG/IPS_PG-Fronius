@@ -14,7 +14,7 @@ const ENERGY_YEAR           = 0x13;
 
 const AC_CURRENT            = 0x14;
 const AC_VOLTAGE            = 0x15;
-const AC_FREQUENCY           = 0x16;
+const AC_FREQUENCY          = 0x16;
 
 const DC_CURRENT            = 0x17;
 const DC_VOLTAGE            = 0x18;
@@ -65,68 +65,14 @@ trait IFCard {
         //$this->SendPacketArr($packetArr);
     } 
 
-/*
-    protected function Request_Power() {
-        $packetArr = $this->BuildPacket( WR_POWER, $this->deviceOption, $this->IGNr );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
-    } 
-    protected function Request_DcVoltage() {
-        $packetArr = $this->BuildPacket( DC_VOLTAGE, $this->deviceOption, $this->IGNr );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
-    } 
-    protected function Request_DcCurrent() {
-        $packetArr = $this->BuildPacket( DC_CURRENT, $this->deviceOption, $this->IGNr );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
-    }     
-
-    protected function Request_AcVoltage() {
-        $packetArr = $this->BuildPacket( AC_VOLTAGE, $this->deviceOption, $this->IGNr );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
-    } 
-    protected function Request_AcCurrent() {
-        $packetArr = $this->BuildPacket( AC_CURRENT, $this->deviceOption, $this->IGNr );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
-    } 
-    protected function Request_AcFrequency() {
-        $packetArr = $this->BuildPacket( AC_FREQUENCY, $this->deviceOption, $this->IGNr );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
-    }    
-*/
 
     protected function UpdateInverterData(int $command, string $comandTxt) {
         $packetArr = $this->BuildPacket( $command, $this->deviceOption, $this->IGNr );      
         return $this->RequestData($packetArr, $command, $comandTxt);
-
-        /*
-        if ($this->WaitForResponse(800)) { 
-            $buffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA);
-            $this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
-            $bufferArr = unpack('C*', $buffer);
-
-            if($this->logLevel >= LogLevel::COMMUNICATION) { 
-                $logMsg = sprintf("Receive :: %s [0x%02X] > %s", $comandTxt, $command, $this->ByteArr2HexStr($bufferArr));
-                $this->AddLog(__FUNCTION__, $logMsg); 
-            }
-        } else {
-
-            $buffArr = $this->GetBufferList();
-            $this->AddLog(__FUNCTION__ . "..", print_r($buffArr, true));
-
-
-            if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Receive :: WARN Receive Timeout on '%s'", $comandTxt)); }
-        }        
-        */
     }
 
-
     protected function RequestData(array $packetArr, int $command, string $comandTxt) {
-        if($this->logLevel >= LogLevel::COMMUNICATION) { 
+        if($this->logLevel >= LogLevel::DEBUG) { 
             $logMsg =  sprintf("Request :: %s [0x%02X] > %s", $comandTxt, $command, $this->ByteArr2HexStr($packetArr));
             $this->AddLog(__FUNCTION__, $logMsg); 
         }
@@ -137,7 +83,7 @@ trait IFCard {
         if ($this->WaitForResponse(800)) { 
 
 			$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA);
-            if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Receive DONE for '%s' {%s}", $comandTxt, $this->String2Hex($receiveBuffer))); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Receive DONE for '%s' {%s}", $comandTxt, $this->String2Hex($receiveBuffer))); }
 
             SetValue($this->GetIDForIdent("receiveCnt"), GetValue($this->GetIDForIdent("receiveCnt")) + 1);  											
             SetValue($this->GetIDForIdent("LastDataReceived"), time()); 
@@ -152,7 +98,8 @@ trait IFCard {
         }
     }
 
-
+    /*
+    // not Used
     protected function RequestData_v1(array $packetArr, int $command, string $comandTxt) {
         if($this->logLevel >= LogLevel::COMMUNICATION) { 
             $logMsg =  sprintf("Request :: %s [0x%02X] > %s", $comandTxt, $command, $this->ByteArr2HexStr($packetArr));
@@ -169,6 +116,7 @@ trait IFCard {
             if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Receive :: WARN Receive Timeout on '%s'", $comandTxt)); }
         }
     }
+    */
 
      
     protected function BuildPacket(int $command, $deviceOption, $igNr) {
@@ -249,7 +197,11 @@ trait IFCard {
                 $returnValue = $device;
                 break;
             case IFC_ACTIVINVERTERNUMBER:
-                    $activInvNumbers = $rpacketArr[5 + $byteOffset];
+                    $activInvNumbers = 0;
+                    $dataLenIST = $rpacketArr[1 + $byteOffset];
+                    if ($dataLenIST == 1) {
+                        $activInvNumbers = $rpacketArr[5 + $byteOffset];
+                    }
                     SetValue($this->GetIDForIdent("IFC_ActivInverterCnt"), $activInvNumbers ); 
                     if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_ACTIVINVERTERNUMBER: %d {%s}", $activInvNumbers, $this->ByteArr2HexStr($rpacketArr))); }						
                     $returnValue = $activInvNumbers;
@@ -345,8 +297,13 @@ trait IFCard {
                 break;					
 
             default:
-                SetValue($this->GetIDForIdent("ERR_Nr"), 99);
-                if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Received Packet not evaluated > Command BYTE: 0x%02X", $rpacketCommand)); }
+
+                $errInfo = sprintf("Received Packet not evaluated > Command BYTE: 0x%02X", $rpacketCommand)
+                SetValue($this->GetIDForIdent("ERR_Nr"), 98);
+                SetValue($this->GetIDForIdent("ERR_Info"), $errInfo);
+                $varIdErrCnt = $this->GetIDForIdent("ERR_Cnt");
+                SetValueInteger($varIdErrCnt, GetValueInteger($varIdErrCnt) + 1);
+                if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", $errInfo); }
                 $returnValue = false;
                 break;
         }

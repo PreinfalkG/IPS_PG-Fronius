@@ -35,12 +35,11 @@ include_once("IFCard.php");
 				$this->deviceOption = 1;
 				$this->IGNr = $this->ReadPropertyInteger("IG_Nr");
 
-
 				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
 
-
 			} else {
-				if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
+				SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);				
+				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
 			}
 		}
 
@@ -56,8 +55,9 @@ include_once("IFCard.php");
 			$this->RegisterPropertyInteger('IG_Nr', 			 1);	
 			$this->RegisterPropertyInteger('LogLevel', 			 3);
 
-			$this->RegisterPropertyBoolean('cb_IFC_Info', 		true);
-			$this->RegisterPropertyBoolean('cb_IFC_DeviceTyp', 	false);
+			$this->RegisterPropertyBoolean('cb_IFC_Info', 			true);
+			$this->RegisterPropertyBoolean('cb_IFC_ActivInverters', true);
+			$this->RegisterPropertyBoolean('cb_IFC_DeviceTyp', 		true);
 
 			$this->RegisterPropertyBoolean('cb_Power', 			true);
 			$this->RegisterPropertyBoolean('cb_DcV', 			true);
@@ -67,13 +67,13 @@ include_once("IFCard.php");
 			$this->RegisterPropertyBoolean('cb_AcA', 			true);
 			$this->RegisterPropertyBoolean('cb_AcF', 			true);
 
-			$this->RegisterPropertyBoolean('cb_Day_Energy', 	false);
+			$this->RegisterPropertyBoolean('cb_Day_Energy', 	true);
 			$this->RegisterPropertyBoolean('cb_Day_Yield', 		false);
-			$this->RegisterPropertyBoolean('cb_Day_Pmax', 		false);
-			$this->RegisterPropertyBoolean('cb_Day_AcVmax', 	false);
-			$this->RegisterPropertyBoolean('cb_Day_AcVMin', 	false);
-			$this->RegisterPropertyBoolean('cb_Day_DcVmax', 	false);
-			$this->RegisterPropertyBoolean('cb_Day_oHours',	 	false);
+			$this->RegisterPropertyBoolean('cb_Day_Pmax', 		true);
+			$this->RegisterPropertyBoolean('cb_Day_AcVmax', 	true);
+			$this->RegisterPropertyBoolean('cb_Day_AcVMin', 	true);
+			$this->RegisterPropertyBoolean('cb_Day_DcVmax', 	true);
+			$this->RegisterPropertyBoolean('cb_Day_oHours',	 	true);
 					
 			$this->RegisterPropertyBoolean('cb_Year_Energy', 	false);
 			$this->RegisterPropertyBoolean('cb_Year_Yield',		false);
@@ -83,7 +83,7 @@ include_once("IFCard.php");
 			$this->RegisterPropertyBoolean('cb_Year_DcVmax', 	false);
 			$this->RegisterPropertyBoolean('cb_Year_oHours',	false);
 
-			$this->RegisterPropertyBoolean('cb_Total_Energy', 	false);
+			$this->RegisterPropertyBoolean('cb_Total_Energy', 	true);
 			$this->RegisterPropertyBoolean('cb_Total_Yield', 	false);
 			$this->RegisterPropertyBoolean('cb_Total_Pmax', 	false);
 			$this->RegisterPropertyBoolean('cb_Total_AcVmax', 	false);
@@ -136,7 +136,7 @@ include_once("IFCard.php");
 		
 			$masterOnOff = GetValue($this->GetIDForIdent("masterOnOff"));
 			if($masterOnOff) {
-            	if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "called ...", 0); }
+            	if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "called ...", 0); }
 				$this->Update(); 
 			} else {
 				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("AutoUpate CANCELED > Master Swich is OFF > Connection State '%s' ...", $this->GetConnectionState()), 0); }
@@ -168,11 +168,12 @@ include_once("IFCard.php");
 	
 					if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Request/Update Inverter Data via Interface Card ...", 0); }
 
+					if($this->ReadPropertyBoolean("cb_IFC_Info")) 			{ $this->Request_InterfaceInfo(); }
 					$activInverters = $this->Request_ActivInverterNumbers();
 					if($activInverters > 0) {
-						if($this->ReadPropertyBoolean("cb_IFC_Info")) 			{ $this->Request_InterfaceInfo(); }
+
 						if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) 		{ $this->Request_DeviceTyp(); }
-							
+
 						if($this->ReadPropertyBoolean("cb_Power")) 				{ $this->UpdateInverterData(WR_POWER, "WR_POWER"); }
 						if($this->ReadPropertyBoolean("cb_DcV")) 				{ $this->UpdateInverterData(DC_VOLTAGE, "DC_VOLTAGE"); }
 						if($this->ReadPropertyBoolean("cb_DcA")) 				{ $this->UpdateInverterData(DC_CURRENT, "DC_CURRENT"); }
@@ -204,16 +205,26 @@ include_once("IFCard.php");
 						if($this->ReadPropertyBoolean("cb_Total_AcVMin")) 		{ $this->UpdateInverterData(MIN_AC_VOLTAGE_TOTAL, "MIN_AC_VOLTAGE_TOTAL"); }
 						if($this->ReadPropertyBoolean("cb_Total_DcVmax")) 		{ $this->UpdateInverterData(MAX_DC_VOLTAGE_TOTAL, "MAX_DC_VOLTAGE_TOTAL"); }	
 						if($this->ReadPropertyBoolean("cb_Total_oHours")) 		{ $this->UpdateInverterData(OPERATING_HOURS_TOTAL, "OPERATING_HOURS_TOTAL"); }						
+					
+					} else {
+
+						$varId = @$this->GetIDForIdent("P");   if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("DcV"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("DcA"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("AcV"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("AcA"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("AcF"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
 					}
 
 
 				} else {
+					SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
 					if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Connection NOT activ [Status=%s]", $connectionState), 0); }
 				}
 			} else {
+				SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
 				SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
 				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus), 0); }
-
 			}
 		
 		}
@@ -331,7 +342,6 @@ include_once("IFCard.php");
 			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered", 0); }
 		}
 
-
 		protected function RegisterProfiles() {
 
             if ( !IPS_VariableProfileExists('IPS_ModulConnectionState') ) {
@@ -358,7 +368,7 @@ include_once("IFCard.php");
 		}
 
 		public function Send(string $Text) {
-			if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, $this->String2Hex($Text), 0); }
+			if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->String2Hex($Text), 0); }
 			$Text = utf8_encode($Text);		
 			SetValue($this->GetIDForIdent("requestCnt"), GetValue($this->GetIDForIdent("requestCnt")) + 1);  
 
@@ -374,19 +384,13 @@ include_once("IFCard.php");
 		}
 
 
-		public function ReceiveTestData(string $data) {
-			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $this->String2Hex($data), 0); }
-			return true;
-		}
-
-
 		public function ReceiveData($JSONString) {
 			$data = json_decode($JSONString);
 			$dataBuffer = utf8_decode($data->Buffer);
 			$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA);
-			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer_old: ",  $this->String2Hex($receiveBuffer)); }
+			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ . "_dataBuffer_old: ",  $this->String2Hex($receiveBuffer)); }
 			$receiveBuffer .= $dataBuffer;
-			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer_new: ",  $this->String2Hex($receiveBuffer)); }
+			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer: ",  $this->String2Hex($receiveBuffer)); }
 
 			//$rchecksum = ord( substr( $receiveBuffer, strlen( $receiveBuffer ) - 1, 1  ) );
 
@@ -395,18 +399,24 @@ include_once("IFCard.php");
 				if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ , "receiveBuffer <= 6" ); }
 				$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
 			} else if( ord( substr( $receiveBuffer, 0, 3 ) ) != ord( "\x80\x80\x80" ) ) {
-				if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ , "no STARTSEQUENCE" ); }
+				if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ , "no STARTSEQUENCE > skip ReceivedData ..." ); }
 				$this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
 		 	} else {
 				$rpacketLenBYTE = ord( substr( $receiveBuffer, 3, 1 ) );
 				$rpacketLenSOLL = $rpacketLenBYTE + 8;  // Länge | Gerät | Number | Befehl | dATa | CRC
 
 				if($rpacketLenIST < $rpacketLenSOLL) {
+					if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ , sprintf("$rpacketLenIST {%d} < $rpacketLenSOLL {%d}", $rpacketLenIST, $rpacketLenSOLL) ); }
 					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
 				} else if($rpacketLenIST == $rpacketLenSOLL) {
-					if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataAvailable: ",  $this->String2Hex($receiveBuffer)); }
+					if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataAvailable=: ",  $this->String2Hex($receiveBuffer)); }
 					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
 					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, "yes");
+				} else if($rpacketLenIST > $rpacketLenSOLL) {
+					if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataAvailable>: ",  $this->String2Hex($receiveBuffer)); }
+					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
+					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, "no");	
+					//$this->HandleReceivedData($receiveBuffer);									
 				} else {
 					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
 					$logMsg = sprintf("WARN :: rpacketLenByte is: %d > rpacketLenSOLL is: %d | rpacketLenIST: %d  {%s}" , $rpacketLenBYTE, $rpacketLenSOLL, $rpacketLenIST, $this->String2Hex($receiveBuffer));
@@ -418,20 +428,46 @@ include_once("IFCard.php");
 		}
 
 
+		protected function HandleReceivedData(string  $receiveBuffer) {
+
+			$rpacketsArr = explode("\x80\x80\x80", $receiveBuffer);
+			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ . "_rpacketsArr", print_r($rpacketsArr, true)); }
+
+			foreach($rpacketsArr as $rpacket) {
+				$rpacketArr = unpack('C*', $rpacket);
+				$rpacketLenIST = count($rpacketArr);
+				if($rpacketLenIST >= 6) {
+
+					$rpacketLenByte = $rpacketArr[1];
+					$rpacketLenSOLL = $rpacketLenByte + 5;  // Länge | Gerät | Number | Befehl | dATa | CRC
+
+					if($rpacketLenIST == $rpacketLenSOLL) {
+						array_unshift($rpacketArr, 0x80);
+						array_unshift($rpacketArr, 0x80);
+						array_unshift($rpacketArr, 0x80);
+						$this->ParsePacket($rpacketArr);
+					} else {
+						$logMsg = sprintf("WARN :: rpacketLenByte is: %d > rpacketLenSOLL is: %d | rpacketLenIST: %d  {%s}" , $rpacketLenByte, $rpacketLenSOLL, $rpacketLenIST, $this->ByteArr2HexStr($rpacketArr));
+						SetValue($this->GetIDForIdent("ErrorCnt"), GetValue($this->GetIDForIdent("ErrorCnt")) + 1);
+						SetValue($this->GetIDForIdent("LastError"), $logMsg);
+						if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, $logMsg); }
+					}
+				}
+			}
+		}
+
+
+		/*
+		not used
 		public function ReceiveData_v1($JSONString) {
 			$data = json_decode($JSONString);
 			$dataBuffer = utf8_decode($data->Buffer);
 			
-			
-			//$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA) . $dataBuffer;
-			//$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
-
 			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer: ",  $this->String2Hex($dataBuffer)); }
 			//if($this->logLevel >= LogLevel::TRACE	) { $this->AddLog(__FUNCTION__, "receiveBuffer: " . $this->String2Hex($receiveBuffer)); }
             SetValue($this->GetIDForIdent("receiveCnt"), GetValue($this->GetIDForIdent("receiveCnt")) + 1);  											
             SetValue($this->GetIDForIdent("LastDataReceived"), time()); 
-			
-			
+						
 			$rpacketsArr = explode("\x80\x80\x80", $dataBuffer);
 
 			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ . "_rpacketsArr", print_r($rpacketsArr, true)); }
@@ -459,19 +495,17 @@ include_once("IFCard.php");
 			}
 			return true;
 		}
-
-
-
+		*/
 	
 		private function WaitForResponse(int $timeout) {
-			for ($i = 0; $i < $timeout / 25; $i++) {
+			for ($i = 0; $i < $timeout / 20; $i++) {
 				$event = $this->GetBuffer(self::BUFFER_RECEIVE_EVENT);
-				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, $event); }				
+				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("[%d] Receive Event > %s", $i, $event)); }				
 				if ($event == "yes") {
 					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, "no");
 					return true;
 				} else {
-					IPS_Sleep(25);
+					IPS_Sleep(20);
 				}
 			}
 			return false;

@@ -31,6 +31,7 @@
 
         { "type": "ExpansionPanel", "caption": "Interface and Inverter Info", "expanded": true, "visible": true, "items": [
             { "type": "CheckBox", "enabled": true, "caption": "Inerface Info",          "name": "cb_IFC_Info" },
+            { "type": "CheckBox", "enabled": false, "caption": "Activ Inverters",       "name": "cb_IFC_ActivInverters" },
             { "type": "CheckBox", "enabled": true, "caption": "Device Type",            "name": "cb_IFC_DeviceTyp" }
         ]},
 
@@ -86,11 +87,6 @@
             "caption": "Reset Counter Variables",
             "confirm": "This sets the counter variables to 0. Are you sure?",
             "onClick": "IFC_ResetCounterVariables($id);"
-        },
-        {
-            "type": "Button",
-            "caption": "ReceiveTestData",
-            "onClick": "IFC_ReceiveTestData($id, $Text);"
         }
     ],
     "status": []
