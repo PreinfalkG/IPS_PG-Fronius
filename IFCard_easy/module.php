@@ -206,6 +206,9 @@ include_once("IFCard.php");
 		public function ResetCounterVariables() {
             if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, 'RESET Counter Variables', 0); }
             
+			SetValue($this->GetIDForIdent("ERR_Nr"), 0);
+			SetValue($this->GetIDForIdent("ERR_Info"), 0);
+			SetValue($this->GetIDForIdent("ERR_Cnt"), 0);
 			SetValue($this->GetIDForIdent("connectionState"), 0); 
 			SetValue($this->GetIDForIdent("requestCnt"), 0);
 			SetValue($this->GetIDForIdent("receiveCnt"), 0);
@@ -363,7 +366,6 @@ include_once("IFCard.php");
 		public function ReceiveData($JSONString) {
 			$data = json_decode($JSONString);
 			$dataBuffer = utf8_decode($data->Buffer);
-
 			
 			//$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA) . $dataBuffer;
 			//$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
@@ -373,8 +375,7 @@ include_once("IFCard.php");
             SetValue($this->GetIDForIdent("receiveCnt"), GetValue($this->GetIDForIdent("receiveCnt")) + 1);  											
             SetValue($this->GetIDForIdent("LastDataReceived"), time()); 
 			
-			//$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, true);
-
+			
 			$rpacketsArr = explode("\x80\x80\x80", $dataBuffer);
 
 			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ . "_rpacketsArr", print_r($rpacketsArr, true)); }
@@ -382,19 +383,14 @@ include_once("IFCard.php");
 			foreach($rpacketsArr as $rpacket) {
 				$rpacketArr = unpack('C*', $rpacket);
 				$rpacketLenIST = count($rpacketArr);
-				if($rpacketLenIST > 3) {
+				if($rpacketLenIST >= 6) {
 
-					//$this->AddLog(__FUNCTION__, "\r\n - rpacket: " . $this->String2Hex($rpacket));
-					//$this->AddLog(__FUNCTION__, "   arrLen is: " . $rpacketLen);
-					//$this->SendDebug("loop", print_r($rpacketArr, true), 1); 	
-
-					$rpacketLenByte = 	$rpacketArr[1];
+					$rpacketLenByte = $rpacketArr[1];
 					$rpacketLenSOLL = $rpacketLenByte + 5;  // Länge | Gerät | Number | Befehl | dATa | CRC
 
 					if($rpacketLenIST == $rpacketLenSOLL) {
-
 						$this->ParsePacket($rpacketArr);
-
+						$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, true);
 					} else {
 						$logMsg = sprintf("WARN :: rpacketLenByte is: %d > rpacketLenSOLL is: %d | rpacketLenIST: %d  {%s}" , $rpacketLenByte, $rpacketLenSOLL, $rpacketLenIST, $this->ByteArr2HexStr($rpacketArr));
 						SetValue($this->GetIDForIdent("ErrorCnt"), GetValue($this->GetIDForIdent("ErrorCnt")) + 1);
@@ -404,211 +400,14 @@ include_once("IFCard.php");
 						}
 					}
 				}
-
 			}
 			return true;
 		}
 
 
-		private function ParsePacket(array $rpacketArr) {
-			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($rpacketArr)); }
-		
-			$rpacketCommand = $rpacketArr[4];
-			switch( $rpacketCommand )  {
 
-				case 0x0E:
-
-					$errSource = $rpacketArr[5];
-					$errNr = $rpacketArr[6];
-					$errInfo = "n.a";
-					switch($errNr) {
-						case 0x01:
-							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - unknown Command", $errSource, $errNr);
-							break;
-						case 0x03:
-							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - wrong data structure", $errSource, $errNr);
-							break;							
-						case 0x04:
-							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - queue full", $errSource, $errNr);							
-							break;
-						case 0x05:
-							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - device/option not available", $errSource, $errNr);
-							break;
-						case 0x09:
-							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - wrong command for device/option", $errSource, $errNr);
-							break;							
-						default:
-							$errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - unknown {case default}", $errSource, $errNr);
-							break;
-					}
-
-					SetValue($this->GetIDForIdent("ERR_Nr"), $errNr);
-					SetValue($this->GetIDForIdent("ERR_Info"), $errInfo);
-					$varIdErrCnt = $this->GetIDForIdent("ERR_Cnt");
-					SetValueInteger($varIdErrCnt, GetValueInteger($varIdErrCnt) + 1);
-
-					if($this->logLevel >= LogLevel::ERROR ) { $this->AddLog(__FUNCTION__ . "ERR", sprintf("Error Received :: SrcCommand: 0x%02X | ErrorNr: %d", $errSource, $errNr)); }
-					break;
-
-				case IFC_INFO:
-					$ifc_Type = $rpacketArr[5];
-					if($ifc_Type == 2) { $ifc_Type = "RS232 Interface Card easy"; } else { $ifc_Type = $this->byte2hex($ifc_Type); }
-					$ifc_version_major = $rpacketArr[6];
-					$ifc_version_minor = $rpacketArr[7];
-					$ifc_version_release = $rpacketArr[8];
-					$IFCinfo = sprintf("%s v%d.%d.%d", $ifc_Type, $ifc_version_major, $ifc_version_minor, $ifc_version_release); 
-					SetValue($this->GetIDForIdent("IFC_Info"), $IFCinfo);
-					if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_INFO: %s {%s}", $IFCinfo, $this->ByteArr2HexStr($rpacketArr))); }
-					break;
-				case IFC_DEVICETYPE:
-					$device = "n.a.";
-					$deviceType = $rpacketArr[5];
-					if($deviceType == 0xfd) { $device = "Fronius IG 20"; }
-					SetValue( $this->GetIDForIdent("IFC_DeviceType"), sprintf("%s  [0x%02X]", $device, $deviceType) ); 
-					if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_DEVICETYPE: %s {%s}", $device, $this->ByteArr2HexStr($rpacketArr))); }
-					break;
-				case IFC_ACTIVINVERTERNUMBER:
-				  		$activInvNumbers = $rpacketArr[5];
-						SetValue($this->GetIDForIdent("IFC_ActivInverterCnt"), $activInvNumbers ); 
-						if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_ACTIVINVERTERNUMBER: %d {%s}", $activInvNumbers, $this->ByteArr2HexStr($rpacketArr))); }						
-						break;															
-				
-				case ENERGY_TOTAL:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "ENERGY_TOTAL", "total_E", 0.001 );
-					break;
-				case ENERGY_DAY:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "ENERGY_DAY", "day_E", 0.001 );
-					break;
-				case ENERGY_YEAR:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "ENERGY_YEAR", "year_E", 0.001 );
-					break;
-
-				case WR_POWER:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "WR_POWER", "P" );
-					break;
-				case DC_VOLTAGE:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "DC_VOLTAGE", "DcV" );
-					break;
-				case DC_CURRENT:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "DC_CURRENT", "DcA" );
-					break;
-
-				case AC_VOLTAGE:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "AC_VOLTAGE", "AcV" );
-					break;
-				case AC_CURRENT:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "AC_CURRENT", "AcA" );
-					break;
-				case AC_FREQUENCY:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "AC_FREQUENCY", "AcF" );
-					break;
-
-
-				case YIELD_DAY:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "YIELD_DAY", "day_Yield" );
-					break;
-				case MAX_POWER_DAY:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_POWER_DAY", "day_Pmax" );
-					break;
-				case MAX_AC_VOLTAGE_DAY:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_AC_VOLTAGE_DAY", "day_AcVmax" );
-					break;
-				case MIN_AC_VOLTAGE_DAY:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MIN_AC_VOLTAGE_DAY", "day_AcVmin" );
-					break;
-				case MAX_DC_VOLTAGE_DAY:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_DC_VOLTAGE_DAY", "day_DcVmax" );
-				break;
-				case OPERATING_HOURS_DAY:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "OPERATING_HOURS_DAY", "day_oHours", 60, -3600 );
-					break;
-
-
-				case YIELD_YEAR:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "YIELD_YEAR", "year_Yield" );
-					break;
-				case MAX_POWER_YEAR:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_POWER_YEAR", "year_Pmax" );
-					break;
-				case MAX_AC_VOLTAGE_YEAR:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_AC_VOLTAGE_YEAR", "year_AcVmax" );
-					break;
-				case MIN_AC_VOLTAGE_YEAR:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MIN_AC_VOLTAGE_YEAR", "year_AcVmin" );
-					break;
-				case MAX_DC_VOLTAGE_YEAR:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_DC_VOLTAGE_YEAR", "year_DcVmax" );
-				break;
-				case OPERATING_HOURS_YEAR:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "OPERATING_HOURS_YEAR", "year_oHours", 60, -3600 );
-					break;
-
-				case YIELD_TOTAL:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "YIELD_TOTAL", "total_Yield" );
-					break;
-				case MAX_POWER_TOTAL:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_POWER_TOTAL", "total_Pmax" );
-					break;
-				case MAX_AC_VOLTAGE_TOTAL:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_AC_VOLTAGE_TOTAL", "total_AcVmax" );
-					break;
-				case MIN_AC_VOLTAGE_TOTAL:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MIN_AC_VOLTAGE_TOTAL", "total_AcVmin" );
-					break;
-				case MAX_DC_VOLTAGE_TOTAL:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "MAX_DC_VOLTAGE_TOTAL", "total_DcVmax" );
-				break;
-				case OPERATING_HOURS_TOTAL:
-					$value = $this->ExtractSaveMeteringValue( $rpacketArr, "OPERATING_HOURS_TOTAL", "total_oHours", 60, -3600 );
-					break;					
-
-				default:
-					SetValue($this->GetIDForIdent("ERR_Nr"), 99);
-					if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Received Packet not evaluated > Command BYTE: 0x%02X", $rpacketCommand)); }
-					break;
-			}
-
-		}
-
-
-		private function ExtractSaveMeteringValue(array $rpacketArr, string $command, string $varIdent, float $faktor=1, float $offset=0 ) {	 
-			$value = 0;
-			$byte1 = $rpacketArr[5];
-			$byte2 = $rpacketArr[6];
-			$exp = $rpacketArr[7];
-
-			if ($exp >= 0b10000000) { $exp = $exp - 0xFF - 1; }
-			$valueRaw =  $byte1 * 256 + $byte2;
-			if ( $exp <= 10 && $exp >= -3 ) {
-				$value =  $valueRaw * pow( 10, $exp );
-				
-				$value = $value * $faktor;
-				$value = $value + $offset;
-
-				if($this->logLevel >= LogLevel::DEBUG ) { 
-					$logMsg = sprintf("%s: %.02f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-					$this->AddLog(__FUNCTION__, $logMsg);
-				}
-			 } else {
-				$value = $valueRaw * -1;
-				if($this->logLevel >= LogLevel::WARN ) {
-					$logMsg = sprintf("%s !Over- or underflow of exponent Value! : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-					$this->AddLog(__FUNCTION__ . "_WARN", $logMsg); 
-				}				
-			 }
-
-			$varId = @$this->GetIDForIdent($varIdent);
-			if($varId !== false) {
-				SetValue($varId, $value); 
-			} else {
-				if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("VarIdent '%s' not found!", $varIdent), 0, true); }
-			}
-			 return $value;
-		  }
-
-
-		private function WaitForResponse(int $timeout)
-		{
+	
+		private function WaitForResponse(int $timeout) {
 			for ($i = 0; $i < $timeout / 5; $i++) {
 				if ($this->GetBuffer(self::BUFFER_RECEIVE_EVENT)) {
 					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, false);
