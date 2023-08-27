@@ -170,25 +170,40 @@ include_once("IFCard.php");
 
 					$activInverters = $this->Request_ActivInverterNumbers();
 					if($activInverters > 0) {
-						if($this->ReadPropertyBoolean("cb_IFC_Info")) 		{ $this->Request_InterfaceInfo(); }
-						if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) 	{ $this->Request_DeviceTyp(); }
-		
-						//if($this->ReadPropertyBoolean("cb_Power")) 		{ $this->Request_Power(); }
-						//if($this->ReadPropertyBoolean("cb_DcV")) 			{ $this->Request_DcVoltage(); }
-						//if($this->ReadPropertyBoolean("cb_DcA")) 			{ $this->Request_DcCurrent(); }
-		
-						//if($this->ReadPropertyBoolean("cb_AcV")) 			{ $this->Request_AcVoltage(); }
-						//if($this->ReadPropertyBoolean("cb_AcA")) 			{ $this->Request_AcCurrent(); }
-						//if($this->ReadPropertyBoolean("cb_AcF")) 			{ $this->Request_AcFrequency(); }	
+						if($this->ReadPropertyBoolean("cb_IFC_Info")) 			{ $this->Request_InterfaceInfo(); }
+						if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) 		{ $this->Request_DeviceTyp(); }
+							
+						if($this->ReadPropertyBoolean("cb_Power")) 				{ $this->UpdateInverterData(WR_POWER, "WR_POWER"); }
+						if($this->ReadPropertyBoolean("cb_DcV")) 				{ $this->UpdateInverterData(DC_VOLTAGE, "DC_VOLTAGE"); }
+						if($this->ReadPropertyBoolean("cb_DcA")) 				{ $this->UpdateInverterData(DC_CURRENT, "DC_CURRENT"); }
 						
-						if($this->ReadPropertyBoolean("cb_Power")) 			{ $this->UpdateInverterData(WR_POWER, "WR_POWER"); }
-						if($this->ReadPropertyBoolean("cb_DcV")) 			{ $this->UpdateInverterData(DC_VOLTAGE, "DC_VOLTAGE"); }
-						if($this->ReadPropertyBoolean("cb_DcA")) 			{ $this->UpdateInverterData(DC_CURRENT, "DC_CURRENT"); }
+						if($this->ReadPropertyBoolean("cb_AcV")) 				{ $this->UpdateInverterData(AC_VOLTAGE, "AC_VOLTAGE"); }
+						if($this->ReadPropertyBoolean("cb_AcA")) 				{ $this->UpdateInverterData(AC_CURRENT, "AC_CURRENT"); }
+						if($this->ReadPropertyBoolean("cb_AcF")) 				{ $this->UpdateInverterData(AC_FREQUENCY, "AC_FREQUENCY"); }		
 						
-						if($this->ReadPropertyBoolean("cb_AcV")) 			{ $this->UpdateInverterData(AC_VOLTAGE, "AC_VOLTAGE"); }
-						if($this->ReadPropertyBoolean("cb_AcA")) 			{ $this->UpdateInverterData(AC_CURRENT, "AC_CURRENT"); }
-						if($this->ReadPropertyBoolean("cb_AcF")) 			{ $this->UpdateInverterData(AC_FREQUENCY, "AC_FREQUENCY"); }							
+						if($this->ReadPropertyBoolean("cb_Day_Energy")) 		{ $this->UpdateInverterData(ENERGY_DAY, "ENERGY_DAY"); }
+						if($this->ReadPropertyBoolean("cb_Day_Yield")) 			{ $this->UpdateInverterData(YIELD_DAY, "YIELD_DAY"); }
+						if($this->ReadPropertyBoolean("cb_Day_Pmax")) 			{ $this->UpdateInverterData(MAX_POWER_DAY, "MAX_POWER_DAY"); }								
+						if($this->ReadPropertyBoolean("cb_Day_AcVmax")) 		{ $this->UpdateInverterData(MAX_AC_VOLTAGE_DAY, "MAX_AC_VOLTAGE_DAY"); }
+						if($this->ReadPropertyBoolean("cb_Day_AcVMin")) 		{ $this->UpdateInverterData(MIN_AC_VOLTAGE_DAY, "MIN_AC_VOLTAGE_DAY"); }
+						if($this->ReadPropertyBoolean("cb_Day_DcVmax")) 		{ $this->UpdateInverterData(MAX_DC_VOLTAGE_DAY, "MAX_DC_VOLTAGE_DAY"); }	
+						if($this->ReadPropertyBoolean("cb_Day_oHours")) 		{ $this->UpdateInverterData(OPERATING_HOURS_DAY, "AC_FREOPERATING_HOURS_DAYQUENCY"); }
 
+						if($this->ReadPropertyBoolean("cb_Year_Energy")) 		{ $this->UpdateInverterData(AC_VOENERGY_YEARLTAGE, "ENERGY_YEAR"); }
+						if($this->ReadPropertyBoolean("cb_Year_Yield")) 		{ $this->UpdateInverterData(YIELD_YEAR, "YIELD_YEAR"); }
+						if($this->ReadPropertyBoolean("cb_Year_Pmax")) 			{ $this->UpdateInverterData(MAX_POWER_YEAR, "MAX_POWER_YEAR"); }								
+						if($this->ReadPropertyBoolean("cb_Year_AcVmax")) 		{ $this->UpdateInverterData(MAX_AC_VOLTAGE_YEAR, "MAX_AC_VOLTAGE_YEAR"); }
+						if($this->ReadPropertyBoolean("cb_Year_AcVMin")) 		{ $this->UpdateInverterData(MIN_AC_VOLTAGE_YEAR, "MIN_AC_VOLTAGE_YEAR"); }
+						if($this->ReadPropertyBoolean("cb_Year_DcVmax")) 		{ $this->UpdateInverterData(MAX_DC_VOLTAGE_YEAR, "MAX_DC_VOLTAGE_YEAR"); }	
+						if($this->ReadPropertyBoolean("cb_Year_oHours")) 		{ $this->UpdateInverterData(OPERATING_HOURS_YEAR, "OPERATING_HOURS_YEAR"); }
+						
+						if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ $this->UpdateInverterData(ENERGY_TOTAL, "ENERGY_TOTAL"); }
+						if($this->ReadPropertyBoolean("cb_Total_Yield")) 		{ $this->UpdateInverterData(YIELD_TOTAL, "YIELD_TOTAL"); }
+						if($this->ReadPropertyBoolean("cb_Total_Pmax")) 		{ $this->UpdateInverterData(MAX_POWER_TOTAL, "MAX_POWER_TOTAL"); }								
+						if($this->ReadPropertyBoolean("cb_Total_AcVmax")) 		{ $this->UpdateInverterData(MAX_AC_VOLTAGE_TOTAL, "MAX_AC_VOLTAGE_TOTAL"); }
+						if($this->ReadPropertyBoolean("cb_Total_AcVMin")) 		{ $this->UpdateInverterData(MIN_AC_VOLTAGE_TOTAL, "MIN_AC_VOLTAGE_TOTAL"); }
+						if($this->ReadPropertyBoolean("cb_Total_DcVmax")) 		{ $this->UpdateInverterData(MAX_DC_VOLTAGE_TOTAL, "MAX_DC_VOLTAGE_TOTAL"); }	
+						if($this->ReadPropertyBoolean("cb_Total_oHours")) 		{ $this->UpdateInverterData(OPERATING_HOURS_TOTAL, "OPERATING_HOURS_TOTAL"); }						
 					}
 
 
@@ -347,7 +362,9 @@ include_once("IFCard.php");
 			$Text = utf8_encode($Text);		
 			SetValue($this->GetIDForIdent("requestCnt"), GetValue($this->GetIDForIdent("requestCnt")) + 1);  
 
+			$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, "no");
 			$this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
+			
 			$SendOk = $this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', "Buffer" => $Text]));
 
 			if ($SendOk) {
@@ -366,6 +383,45 @@ include_once("IFCard.php");
 		public function ReceiveData($JSONString) {
 			$data = json_decode($JSONString);
 			$dataBuffer = utf8_decode($data->Buffer);
+			$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA);
+			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer_old: ",  $this->String2Hex($receiveBuffer)); }
+			$receiveBuffer .= $dataBuffer;
+			if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataBuffer_new: ",  $this->String2Hex($receiveBuffer)); }
+
+			//$rchecksum = ord( substr( $receiveBuffer, strlen( $receiveBuffer ) - 1, 1  ) );
+
+			$rpacketLenIST = strlen($receiveBuffer);
+			if($rpacketLenIST <= 6) {
+				if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ , "receiveBuffer <= 6" ); }
+				$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
+			} else if( ord( substr( $receiveBuffer, 0, 3 ) ) != ord( "\x80\x80\x80" ) ) {
+				if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ , "no STARTSEQUENCE" ); }
+				$this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
+		 	} else {
+				$rpacketLenBYTE = ord( substr( $receiveBuffer, 3, 1 ) );
+				$rpacketLenSOLL = $rpacketLenBYTE + 8;  // Länge | Gerät | Number | Befehl | dATa | CRC
+
+				if($rpacketLenIST < $rpacketLenSOLL) {
+					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
+				} else if($rpacketLenIST == $rpacketLenSOLL) {
+					if($this->logLevel >= LogLevel::COMMUNICATION ) { $this->AddLog(__FUNCTION__ . "_dataAvailable: ",  $this->String2Hex($receiveBuffer)); }
+					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
+					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, "yes");
+				} else {
+					$this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
+					$logMsg = sprintf("WARN :: rpacketLenByte is: %d > rpacketLenSOLL is: %d | rpacketLenIST: %d  {%s}" , $rpacketLenBYTE, $rpacketLenSOLL, $rpacketLenIST, $this->String2Hex($receiveBuffer));
+					SetValue($this->GetIDForIdent("ErrorCnt"), GetValue($this->GetIDForIdent("ErrorCnt")) + 1);
+					SetValue($this->GetIDForIdent("LastError"), $logMsg);
+					if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, $logMsg); }					
+				}				
+			}
+		}
+
+
+		public function ReceiveData_v1($JSONString) {
+			$data = json_decode($JSONString);
+			$dataBuffer = utf8_decode($data->Buffer);
+			
 			
 			//$receiveBuffer = $this->GetBuffer(self::BUFFER_RECEIVED_DATA) . $dataBuffer;
 			//$this->SetBuffer(self::BUFFER_RECEIVED_DATA, $receiveBuffer);
@@ -408,12 +464,14 @@ include_once("IFCard.php");
 
 	
 		private function WaitForResponse(int $timeout) {
-			for ($i = 0; $i < $timeout / 5; $i++) {
-				if ($this->GetBuffer(self::BUFFER_RECEIVE_EVENT)) {
-					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, false);
+			for ($i = 0; $i < $timeout / 25; $i++) {
+				$event = $this->GetBuffer(self::BUFFER_RECEIVE_EVENT);
+				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, $event); }				
+				if ($event == "yes") {
+					$this->SetBuffer(self::BUFFER_RECEIVE_EVENT, "no");
 					return true;
 				} else {
-					IPS_Sleep(5);
+					IPS_Sleep(25);
 				}
 			}
 			return false;
