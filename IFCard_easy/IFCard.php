@@ -46,20 +46,23 @@ trait IFCard {
     
     protected function Request_InterfaceInfo() {
         $packetArr = $this->BuildPacket( IFC_INFO, 0, 0 );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__,$this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
+        $this->RequestData($packetArr, IFC_INFO, "IFC_INFO");
+        //if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__,$this->ByteArr2HexStr($packetArr)); }
+        //$this->SendPacketArr($packetArr);
     }
 
     protected function Request_DeviceTyp() {
         $packetArr = $this->BuildPacket( IFC_DEVICETYPE, 1, 1 );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr); 
+        $this->RequestData($packetArr, IFC_DEVICETYPE, "IFC_DEVICETYPE");
+        //if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
+        //$this->SendPacketArr($packetArr); 
     }  
 
     protected function Request_ActivInverterNumbers() {
         $packetArr = $this->BuildPacket( IFC_ACTIVINVERTERNUMBER, 0, 0 );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
-        $this->SendPacketArr($packetArr);
+        $this->RequestData($packetArr, IFC_ACTIVINVERTERNUMBER, "IFC_ACTIVINVERTERNUMBER");
+        //if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->ByteArr2HexStr($packetArr)); }
+        //$this->SendPacketArr($packetArr);
         return 1;
     } 
 
@@ -99,21 +102,8 @@ trait IFCard {
 
     protected function UpdateInverterData(int $command, string $comandTxt) {
         $packetArr = $this->BuildPacket( $command, $this->deviceOption, $this->IGNr );
-        if($this->logLevel >= LogLevel::COMMUNICATION) { 
-            $logMsg =  sprintf("Request :: %s [0x%02X] > %s", $comandTxt, $command, $this->ByteArr2HexStr($packetArr));
-            $this->AddLog(__FUNCTION__, $logMsg); 
-        }
-        $this->SendPacketArr($packetArr);  
-        
-        IPS_Sleep(50);
-
-        if ($this->WaitForResponse(800)) { 
-            if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Receive DONE for '%s'", $comandTxt)); }
-
-        } else {
-            if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Receive :: WARN Receive Timeout on '%s'", $comandTxt)); }
-        }
-
+       
+        $this->RequestData($packetArr, $command, $comandTxt);
 
 
         /*
@@ -135,6 +125,23 @@ trait IFCard {
             if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Receive :: WARN Receive Timeout on '%s'", $comandTxt)); }
         }        
         */
+    }
+
+    protected function RequestData(array $packetArr, int $command, string $comandTxt) {
+        if($this->logLevel >= LogLevel::COMMUNICATION) { 
+            $logMsg =  sprintf("Request :: %s [0x%02X] > %s", $comandTxt, $command, $this->ByteArr2HexStr($packetArr));
+            $this->AddLog(__FUNCTION__, $logMsg); 
+        }
+        $this->SendPacketArr($packetArr);  
+        
+        IPS_Sleep(50);
+
+        if ($this->WaitForResponse(800)) { 
+            if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Receive DONE for '%s'", $comandTxt)); }
+
+        } else {
+            if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Receive :: WARN Receive Timeout on '%s'", $comandTxt)); }
+        }
     }
 
      
