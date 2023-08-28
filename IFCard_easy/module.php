@@ -288,6 +288,7 @@ include_once("IFCard.php");
 			IPS_SetParent($scriptId, $this->InstanceID);
 			IPS_SetHidden($scriptId, true);
 			IPS_SetDisabled($scriptId, true);
+			IPS_SetPosition($scriptId, 999);
 
 			IPS_SetVariableCustomAction($varId, $scriptId);
 
@@ -307,7 +308,7 @@ include_once("IFCard.php");
 			if($this->ReadPropertyBoolean ("cb_AcF")) 			{ $this->RegisterVariableFloat("AcF", 			"AC Frequency", 			"~Hertz.50", 320); }
 			
 			if($this->ReadPropertyBoolean ("cb_Day_Energy")) 	{ $this->RegisterVariableFloat("day_Energy", 	"DAY Energy", 				"~Electricity", 400); }
-			if($this->ReadPropertyBoolean ("cb_Day_Yield")) 	{ $this->RegisterVariableFloat("day_Yield", 	"DAY Yield", 	 			"", 	 410); }
+			if($this->ReadPropertyBoolean ("cb_Day_Yield")) 	{ $this->RegisterVariableFloat("day_Yield", 	"DAY Yield", 	 			"~Euro", 410); }
 			if($this->ReadPropertyBoolean ("cb_Day_Pmax")) 		{ $this->RegisterVariableFloat("day_Pmax", 		"DAY max. Power", 	 		"~Watt", 420); }
 			if($this->ReadPropertyBoolean ("cb_Day_AcVmax")) 	{ $this->RegisterVariableFloat("day_AcVmax", 	"DAY max. AC Voltage", 		"~Volt", 430); }
 			if($this->ReadPropertyBoolean ("cb_Day_AcVMin")) 	{ $this->RegisterVariableFloat("day_AcVmin", 	"DAY min. AC Voltage", 		"~Volt", 440); }
@@ -315,7 +316,7 @@ include_once("IFCard.php");
 			if($this->ReadPropertyBoolean ("cb_Day_oHours")) 	{ $this->RegisterVariableInteger("day_oHours", 	"DAY Operating Hours", 		"~UnixTimestampTime", 460); }
 
 			if($this->ReadPropertyBoolean ("cb_Year_Energy")) 	{ $this->RegisterVariableFloat("year_Energy", 	"YEAR Energy",				"~Electricity", 500); }			
-			if($this->ReadPropertyBoolean ("cb_Year_Yield")) 	{ $this->RegisterVariableFloat("year_Yield", 	"YEAR Yield", 	 			"", 	 510); }
+			if($this->ReadPropertyBoolean ("cb_Year_Yield")) 	{ $this->RegisterVariableFloat("year_Yield", 	"YEAR Yield", 	 			"~Euro", 510); }
 			if($this->ReadPropertyBoolean ("cb_Year_Pmax")) 	{ $this->RegisterVariableFloat("year_Pmax", 	"YEAR max. Power", 	 		"~Watt", 520); }
 			if($this->ReadPropertyBoolean ("cb_Year_AcVmax")) 	{ $this->RegisterVariableFloat("year_AcVmax", 	"YEAR max. AC Voltage", 	"~Volt", 530); }
 			if($this->ReadPropertyBoolean ("cb_Year_AcVMin")) 	{ $this->RegisterVariableFloat("year_AcVmin", 	"YEAR min. AC Voltage", 	"~Volt", 540); }
@@ -323,7 +324,7 @@ include_once("IFCard.php");
 			if($this->ReadPropertyBoolean ("cb_Year_oHours")) 	{ $this->RegisterVariableFloat("year_oHours", 	"YEAR Operating [years]", 		 "", 560); }
 			
 			if($this->ReadPropertyBoolean ("cb_Total_Energy")) 	{ $this->RegisterVariableFloat("total_Energy", 	"TOTAL Energy", 			"~Electricity", 600); }
-			if($this->ReadPropertyBoolean ("cb_Total_Yield")) 	{ $this->RegisterVariableFloat("total_Yield", 	"TOTAL Yield", 	 			"", 	 610); }
+			if($this->ReadPropertyBoolean ("cb_Total_Yield")) 	{ $this->RegisterVariableFloat("total_Yield", 	"TOTAL Yield", 	 			"~Euro", 610); }
 			if($this->ReadPropertyBoolean ("cb_Total_Pmax")) 	{ $this->RegisterVariableFloat("total_Pmax", 	"TOTAL max. Power", 	 	"~Watt", 620); }
 			if($this->ReadPropertyBoolean ("cb_Total_AcVmax")) 	{ $this->RegisterVariableFloat("total_AcVmax", 	"TOTAL max. AC Voltage", 	"~Volt", 630); }
 			if($this->ReadPropertyBoolean ("cb_Total_AcVMin")) 	{ $this->RegisterVariableFloat("total_AcVmin", 	"TOTAL min. AC Voltage", 	"~Volt", 640); }
