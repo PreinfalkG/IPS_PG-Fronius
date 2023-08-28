@@ -167,43 +167,44 @@ include_once("IFCard.php");
 	
 					if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Request/Update Inverter Data via Interface Card ...", 0); }
 
-					if($this->ReadPropertyBoolean("cb_IFC_Info")) 			{ $this->Request_InterfaceInfo(); }
-					$activInverters = $this->Request_ActivInverterNumbers();
+					if($this->ReadPropertyBoolean("cb_IFC_Info")) 			{ $this->Request_InterfaceCardInfo("IFC_Info"); }
+					
+					$activInverters = $this->Request_ActivInverters("IFC_ActivInverters");
 					if($activInverters > 0) {
 
-						if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) 		{ $this->Request_DeviceTyp(); }
+						if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) 		{ $this->Request_DeviceTyp("IFC_DeviceType"); }
 
-						if($this->ReadPropertyBoolean("cb_Power")) 				{ $this->UpdateInverterData(WR_POWER, "WR_POWER"); }
-						if($this->ReadPropertyBoolean("cb_DcV")) 				{ $this->UpdateInverterData(DC_VOLTAGE, "DC_VOLTAGE"); }
-						if($this->ReadPropertyBoolean("cb_DcA")) 				{ $this->UpdateInverterData(DC_CURRENT, "DC_CURRENT"); }
+						if($this->ReadPropertyBoolean("cb_Power")) 				{ $this->RequestInverterData(WR_POWER, "P"); }
+						if($this->ReadPropertyBoolean("cb_DcV")) 				{ $this->RequestInverterData(DC_VOLTAGE, "DcV"); }
+						if($this->ReadPropertyBoolean("cb_DcA")) 				{ $this->RequestInverterData(DC_CURRENT, "DcA"); }
 						
-						if($this->ReadPropertyBoolean("cb_AcV")) 				{ $this->UpdateInverterData(AC_VOLTAGE, "AC_VOLTAGE"); }
-						if($this->ReadPropertyBoolean("cb_AcA")) 				{ $this->UpdateInverterData(AC_CURRENT, "AC_CURRENT"); }
-						if($this->ReadPropertyBoolean("cb_AcF")) 				{ $this->UpdateInverterData(AC_FREQUENCY, "AC_FREQUENCY"); }		
+						if($this->ReadPropertyBoolean("cb_AcV")) 				{ $this->RequestInverterData(AC_VOLTAGE, "AcV"); }
+						if($this->ReadPropertyBoolean("cb_AcA")) 				{ $this->RequestInverterData(AC_CURRENT, "AcA"); }
+						if($this->ReadPropertyBoolean("cb_AcF")) 				{ $this->RequestInverterData(AC_FREQUENCY, "AcF"); }		
 						
-						if($this->ReadPropertyBoolean("cb_Day_Energy")) 		{ $this->UpdateInverterData(ENERGY_DAY, "ENERGY_DAY"); }
-						if($this->ReadPropertyBoolean("cb_Day_Yield")) 			{ $this->UpdateInverterData(YIELD_DAY, "YIELD_DAY"); }
-						if($this->ReadPropertyBoolean("cb_Day_Pmax")) 			{ $this->UpdateInverterData(MAX_POWER_DAY, "MAX_POWER_DAY"); }								
-						if($this->ReadPropertyBoolean("cb_Day_AcVmax")) 		{ $this->UpdateInverterData(MAX_AC_VOLTAGE_DAY, "MAX_AC_VOLTAGE_DAY"); }
-						if($this->ReadPropertyBoolean("cb_Day_AcVMin")) 		{ $this->UpdateInverterData(MIN_AC_VOLTAGE_DAY, "MIN_AC_VOLTAGE_DAY"); }
-						if($this->ReadPropertyBoolean("cb_Day_DcVmax")) 		{ $this->UpdateInverterData(MAX_DC_VOLTAGE_DAY, "MAX_DC_VOLTAGE_DAY"); }	
-						if($this->ReadPropertyBoolean("cb_Day_oHours")) 		{ $this->UpdateInverterData(OPERATING_HOURS_DAY, "AC_FREOPERATING_HOURS_DAYQUENCY"); }
+						if($this->ReadPropertyBoolean("cb_Day_Energy")) 		{ $this->RequestInverterData(ENERGY_DAY, "day_Energy"); }
+						if($this->ReadPropertyBoolean("cb_Day_Yield")) 			{ $this->RequestInverterData(YIELD_DAY, "day_Yield"); }
+						if($this->ReadPropertyBoolean("cb_Day_Pmax")) 			{ $this->RequestInverterData(MAX_POWER_DAY, "day_Pmax"); }								
+						if($this->ReadPropertyBoolean("cb_Day_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_DAY, "day_AcVmax"); }
+						if($this->ReadPropertyBoolean("cb_Day_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_DAY, "day_AcVmin"); }
+						if($this->ReadPropertyBoolean("cb_Day_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_DAY, "day_DcVmax"); }	
+						if($this->ReadPropertyBoolean("cb_Day_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_DAY, "day_oHours"); }
 
-						if($this->ReadPropertyBoolean("cb_Year_Energy")) 		{ $this->UpdateInverterData(AC_VOENERGY_YEARLTAGE, "ENERGY_YEAR"); }
-						if($this->ReadPropertyBoolean("cb_Year_Yield")) 		{ $this->UpdateInverterData(YIELD_YEAR, "YIELD_YEAR"); }
-						if($this->ReadPropertyBoolean("cb_Year_Pmax")) 			{ $this->UpdateInverterData(MAX_POWER_YEAR, "MAX_POWER_YEAR"); }								
-						if($this->ReadPropertyBoolean("cb_Year_AcVmax")) 		{ $this->UpdateInverterData(MAX_AC_VOLTAGE_YEAR, "MAX_AC_VOLTAGE_YEAR"); }
-						if($this->ReadPropertyBoolean("cb_Year_AcVMin")) 		{ $this->UpdateInverterData(MIN_AC_VOLTAGE_YEAR, "MIN_AC_VOLTAGE_YEAR"); }
-						if($this->ReadPropertyBoolean("cb_Year_DcVmax")) 		{ $this->UpdateInverterData(MAX_DC_VOLTAGE_YEAR, "MAX_DC_VOLTAGE_YEAR"); }	
-						if($this->ReadPropertyBoolean("cb_Year_oHours")) 		{ $this->UpdateInverterData(OPERATING_HOURS_YEAR, "OPERATING_HOURS_YEAR"); }
+						if($this->ReadPropertyBoolean("cb_Year_Energy")) 		{ $this->RequestInverterData(ENERGY_YEAR, "year_Energy"); }
+						if($this->ReadPropertyBoolean("cb_Year_Yield")) 		{ $this->RequestInverterData(YIELD_YEAR, "year_Yield"); }
+						if($this->ReadPropertyBoolean("cb_Year_Pmax")) 			{ $this->RequestInverterData(MAX_POWER_YEAR, "year_Pmax"); }								
+						if($this->ReadPropertyBoolean("cb_Year_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_YEAR, "year_AcVmax"); }
+						if($this->ReadPropertyBoolean("cb_Year_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_YEAR, "year_AcVmin"); }
+						if($this->ReadPropertyBoolean("cb_Year_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_YEAR, "year_DcVmax"); }	
+						if($this->ReadPropertyBoolean("cb_Year_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_YEAR, "year_oHours"); }
 						
-						if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ $this->UpdateInverterData(ENERGY_TOTAL, "ENERGY_TOTAL"); }
-						if($this->ReadPropertyBoolean("cb_Total_Yield")) 		{ $this->UpdateInverterData(YIELD_TOTAL, "YIELD_TOTAL"); }
-						if($this->ReadPropertyBoolean("cb_Total_Pmax")) 		{ $this->UpdateInverterData(MAX_POWER_TOTAL, "MAX_POWER_TOTAL"); }								
-						if($this->ReadPropertyBoolean("cb_Total_AcVmax")) 		{ $this->UpdateInverterData(MAX_AC_VOLTAGE_TOTAL, "MAX_AC_VOLTAGE_TOTAL"); }
-						if($this->ReadPropertyBoolean("cb_Total_AcVMin")) 		{ $this->UpdateInverterData(MIN_AC_VOLTAGE_TOTAL, "MIN_AC_VOLTAGE_TOTAL"); }
-						if($this->ReadPropertyBoolean("cb_Total_DcVmax")) 		{ $this->UpdateInverterData(MAX_DC_VOLTAGE_TOTAL, "MAX_DC_VOLTAGE_TOTAL"); }	
-						if($this->ReadPropertyBoolean("cb_Total_oHours")) 		{ $this->UpdateInverterData(OPERATING_HOURS_TOTAL, "OPERATING_HOURS_TOTAL"); }						
+						if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ $this->RequestInverterData(ENERGY_TOTAL, "total_Energy"); }
+						if($this->ReadPropertyBoolean("cb_Total_Yield")) 		{ $this->RequestInverterData(YIELD_TOTAL, "total_Yield"); }
+						if($this->ReadPropertyBoolean("cb_Total_Pmax")) 		{ $this->RequestInverterData(MAX_POWER_TOTAL, "total_Pmax"); }								
+						if($this->ReadPropertyBoolean("cb_Total_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_TOTAL, "total_AcVmax"); }
+						if($this->ReadPropertyBoolean("cb_Total_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_TOTAL, "total_AcVmin"); }
+						if($this->ReadPropertyBoolean("cb_Total_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_TOTAL, "total_DcVmax"); }	
+						if($this->ReadPropertyBoolean("cb_Total_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_TOTAL, "total_oHours"); }						
 					
 					} else {
 
@@ -288,7 +289,7 @@ include_once("IFCard.php");
 			AC_SetLoggingStatus ($this->archivInstanzID, $varId, true);
 
 			if($this->ReadPropertyBoolean("cb_IFC_Info")) { $this->RegisterVariableString("IFC_Info", "Interface", "", 100); }
-			$this->RegisterVariableInteger("IFC_ActivInverterCnt", "Activ Inverters", "", 110);
+			$this->RegisterVariableInteger("IFC_ActivInverters", "Activ Inverters", "", 110);
 			if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) { $this->RegisterVariableString("IFC_DeviceType", "Device Type", "", 120); }
 
 			if($this->ReadPropertyBoolean ("cb_Power")) 		{ $this->RegisterVariableFloat("P", 			"POWER", 					"~Watt", 200); }
@@ -298,11 +299,8 @@ include_once("IFCard.php");
 			if($this->ReadPropertyBoolean ("cb_AcV")) 			{ $this->RegisterVariableFloat("AcV", 			"AC Voltage", 				"~Volt", 300); }
 			if($this->ReadPropertyBoolean ("cb_AcA")) 			{ $this->RegisterVariableFloat("AcA",			"AC Current", 				"~Ampere", 310); }
 			if($this->ReadPropertyBoolean ("cb_AcF")) 			{ $this->RegisterVariableFloat("AcF", 			"AC Frequency", 			"~Hertz.50", 320); }
-
-			if($this->ReadPropertyBoolean ("cb_Total_Energy")) 	{ $this->RegisterVariableFloat("total_E", 		"TOTAL Energy", 			"~Electricity", 600); }
-			if($this->ReadPropertyBoolean ("cb_Day_Energy")) 	{ $this->RegisterVariableFloat("day_E", 		"DAY Energy", 				"~Electricity", 400); }
-			if($this->ReadPropertyBoolean ("cb_Year_Energy")) 	{ $this->RegisterVariableFloat("year_E", 		"YEAR Energy",				"~Electricity", 500); }
-
+			
+			if($this->ReadPropertyBoolean ("cb_Day_Energy")) 	{ $this->RegisterVariableFloat("day_Energy", 	"DAY Energy", 				"~Electricity", 400); }
 			if($this->ReadPropertyBoolean ("cb_Day_Yield")) 	{ $this->RegisterVariableFloat("day_Yield", 	"DAY Yield", 	 			"", 	 410); }
 			if($this->ReadPropertyBoolean ("cb_Day_Pmax")) 		{ $this->RegisterVariableFloat("day_Pmax", 		"DAY max. Power", 	 		"~Watt", 420); }
 			if($this->ReadPropertyBoolean ("cb_Day_AcVmax")) 	{ $this->RegisterVariableFloat("day_AcVmax", 	"DAY max. AC Voltage", 		"~Volt", 430); }
@@ -310,13 +308,15 @@ include_once("IFCard.php");
 			if($this->ReadPropertyBoolean ("cb_Day_DcVmax")) 	{ $this->RegisterVariableFloat("day_DcVmax", 	"DAY max. DC Voltage", 		"~Volt", 450); }
 			if($this->ReadPropertyBoolean ("cb_Day_oHours")) 	{ $this->RegisterVariableInteger("day_oHours", 	"DAY Operating Hours", 		"~UnixTimestampTime", 460); }
 
+			if($this->ReadPropertyBoolean ("cb_Year_Energy")) 	{ $this->RegisterVariableFloat("year_Energy", 	"YEAR Energy",				"~Electricity", 500); }			
 			if($this->ReadPropertyBoolean ("cb_Year_Yield")) 	{ $this->RegisterVariableFloat("year_Yield", 	"YEAR Yield", 	 			"", 	 510); }
 			if($this->ReadPropertyBoolean ("cb_Year_Pmax")) 	{ $this->RegisterVariableFloat("year_Pmax", 	"YEAR max. Power", 	 		"~Watt", 520); }
 			if($this->ReadPropertyBoolean ("cb_Year_AcVmax")) 	{ $this->RegisterVariableFloat("year_AcVmax", 	"YEAR max. AC Voltage", 	"~Volt", 530); }
 			if($this->ReadPropertyBoolean ("cb_Year_AcVMin")) 	{ $this->RegisterVariableFloat("year_AcVmin", 	"YEAR min. AC Voltage", 	"~Volt", 540); }
 			if($this->ReadPropertyBoolean ("cb_Year_DcVmax")) 	{ $this->RegisterVariableFloat("year_DcVmax", 	"YEAR max. DC Voltage", 	"~Volt", 550); }
 			if($this->ReadPropertyBoolean ("cb_Year_oHours")) 	{ $this->RegisterVariableInteger("year_oHours", "YEAR Operating Hours", 	"~UnixTimestampTime", 560); }
-
+			
+			if($this->ReadPropertyBoolean ("cb_Total_Energy")) 	{ $this->RegisterVariableFloat("total_Energy", 	"TOTAL Energy", 			"~Electricity", 600); }
 			if($this->ReadPropertyBoolean ("cb_Total_Yield")) 	{ $this->RegisterVariableFloat("total_Yield", 	"TOTAL Yield", 	 			"", 	 610); }
 			if($this->ReadPropertyBoolean ("cb_Total_Pmax")) 	{ $this->RegisterVariableFloat("total_Pmax", 	"TOTAL max. Power", 	 	"~Watt", 620); }
 			if($this->ReadPropertyBoolean ("cb_Total_AcVmax")) 	{ $this->RegisterVariableFloat("total_AcVmax", 	"TOTAL max. AC Voltage", 	"~Volt", 630); }
@@ -359,12 +359,6 @@ include_once("IFCard.php");
 			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variable Profiles registered", 0); }			
 		}
 
-
-
-		protected function SendPacketArr(array $packetArr) {
-			$packetStr = implode(array_map("chr", $packetArr));
-			$this->Send($packetStr);
-		}
 
 		public function Send(string $Text) {
 			if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->String2Hex($Text), 0); }
@@ -427,7 +421,8 @@ include_once("IFCard.php");
 		}
 
 
-		protected function HandleReceivedData(string  $receiveBuffer) {
+		/*
+		protected function HandleReceivedData(string $receiveBuffer) {
 
 			$rpacketsArr = explode("\x80\x80\x80", $receiveBuffer);
 			if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__ . "_rpacketsArr", print_r($rpacketsArr, true)); }
@@ -454,7 +449,7 @@ include_once("IFCard.php");
 				}
 			}
 		}
-
+		*/
 
 		/*
 		not used
@@ -545,6 +540,18 @@ include_once("IFCard.php");
 		  }
 
 		
+		protected function getUserDefinedConstantName($constantNumber) {
+			$constants = get_defined_constants(true);
+			if (isset($constants['user'])) {
+				foreach($constants['user'] as $key => $value) {
+					if($value==$constantNumber) {
+						return $key;
+					}
+				}
+			}
+			return "n.a.";
+		}
+
 		protected function CalcDuration_ms(float $timeStart) {
 			$duration =  microtime(true)- $timeStart;
 			return round($duration*1000, 2);

@@ -87,7 +87,27 @@
             "caption": "Reset Counter Variables",
             "confirm": "This sets the counter variables to 0. Are you sure?",
             "onClick": "IFC_ResetCounterVariables($id);"
-        }
+        },   
+        {
+            "type": "Button",
+            "caption": "Get InterfaceCard Info (ICF-Type & Version)",
+            "onClick": "IFC_Request_InterfaceCardInfo($id, $varIdent);"
+        },
+        {
+            "type": "Button",
+            "caption": "Request Activ Inverter Numbers",
+            "onClick": "IFC_Request_ActivInverters($id, $varIdent);"
+        },   
+        {
+            "type": "Button",
+            "caption": "Request Device Typ",
+            "onClick": "IFC_Request_DeviceTyp($id, $varIdent);"
+        },   
+        {
+            "type": "Button",
+            "caption": "Request InverterData",
+            "onClick": "IFC_RequestInverterData($id, $command, $varIdent, $deviceOption, $IGNr);"
+        }                          
     ],
     "status": []
 }
