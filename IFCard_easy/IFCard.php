@@ -78,7 +78,7 @@ trait IFCard {
     protected function RequestData(array $packetArr, int $command) {
         if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("[0x%02X] {%s}", $command, $this->ByteArr2HexStr($packetArr))); }
         $this->SendPacketArr($packetArr);  
-        IPS_Sleep(10);
+        //IPS_Sleep(10);
 
         if ($this->WaitForResponse(800)) { 
 
