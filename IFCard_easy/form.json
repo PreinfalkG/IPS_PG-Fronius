@@ -80,7 +80,7 @@
         {
             "type": "Button",
             "caption": "Manual Update",
-            "onClick": "IFC_Update($id);"
+            "onClick": "IFC_Update($id, 'ModulForm');"
         },    
         {
             "type": "Button",
