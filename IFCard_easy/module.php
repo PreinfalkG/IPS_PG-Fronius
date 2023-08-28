@@ -228,7 +228,7 @@ include_once("IFCard.php");
 				SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
 				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus), 0); }
 			}
-			$duration = $this->CalcDuration_ms($start_Time));
+			$duration = $this->CalcDuration_ms($start_Time);
 			SetValue($this->GetIDForIdent("lastProcessingTotalDuration"), $duration);
 		}
 
