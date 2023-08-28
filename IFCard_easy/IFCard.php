@@ -269,7 +269,8 @@ trait IFCard {
                 $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
                 break;
             case OPERATING_HOURS_YEAR:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 60, -3600 );
+                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 1 / (60*24*365) );
+                $returnValue = round($returnValue, 2);
                 break;
 
             case ENERGY_TOTAL:
@@ -291,7 +292,8 @@ trait IFCard {
                 $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
                 break;
             case OPERATING_HOURS_TOTAL:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 60, -3600 );
+                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 1 / (60*24*365) );
+                $returnValue = round($returnValue, 2);
                 break;					
 
             default:

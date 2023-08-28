@@ -158,6 +158,8 @@ include_once("IFCard.php");
 
 		public function Update() {
 
+			$start_Time = microtime(true);
+
 			$currentStatus = $this->GetStatus();
 			$connectionState = $this->GetConnectionState();
 			SetValue($this->GetIDForIdent("connectionState"), $connectionState);
@@ -226,7 +228,8 @@ include_once("IFCard.php");
 				SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
 				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus), 0); }
 			}
-		
+			$duration = $this->CalcDuration_ms($start_Time));
+			SetValue($this->GetIDForIdent("lastProcessingTotalDuration"), $duration);
 		}
 
 		public function ResetCounterVariables() {
@@ -314,7 +317,7 @@ include_once("IFCard.php");
 			if($this->ReadPropertyBoolean ("cb_Year_AcVmax")) 	{ $this->RegisterVariableFloat("year_AcVmax", 	"YEAR max. AC Voltage", 	"~Volt", 530); }
 			if($this->ReadPropertyBoolean ("cb_Year_AcVMin")) 	{ $this->RegisterVariableFloat("year_AcVmin", 	"YEAR min. AC Voltage", 	"~Volt", 540); }
 			if($this->ReadPropertyBoolean ("cb_Year_DcVmax")) 	{ $this->RegisterVariableFloat("year_DcVmax", 	"YEAR max. DC Voltage", 	"~Volt", 550); }
-			if($this->ReadPropertyBoolean ("cb_Year_oHours")) 	{ $this->RegisterVariableInteger("year_oHours", "YEAR Operating Hours", 	"~UnixTimestampTime", 560); }
+			if($this->ReadPropertyBoolean ("cb_Year_oHours")) 	{ $this->RegisterVariableFloat("year_oHours", 	"YEAR Operating Hours", 		"", 560); }
 			
 			if($this->ReadPropertyBoolean ("cb_Total_Energy")) 	{ $this->RegisterVariableFloat("total_Energy", 	"TOTAL Energy", 			"~Electricity", 600); }
 			if($this->ReadPropertyBoolean ("cb_Total_Yield")) 	{ $this->RegisterVariableFloat("total_Yield", 	"TOTAL Yield", 	 			"", 	 610); }
@@ -322,7 +325,7 @@ include_once("IFCard.php");
 			if($this->ReadPropertyBoolean ("cb_Total_AcVmax")) 	{ $this->RegisterVariableFloat("total_AcVmax", 	"TOTAL max. AC Voltage", 	"~Volt", 630); }
 			if($this->ReadPropertyBoolean ("cb_Total_AcVMin")) 	{ $this->RegisterVariableFloat("total_AcVmin", 	"TOTAL min. AC Voltage", 	"~Volt", 640); }
 			if($this->ReadPropertyBoolean ("cb_Total_DcVmax")) 	{ $this->RegisterVariableFloat("total_DcVmax", 	"TOTAL max. DC Voltage", 	"~Volt", 650); }
-			if($this->ReadPropertyBoolean ("cb_Total_oHours")) 	{ $this->RegisterVariableInteger("total_oHours","TOTAL Operating Hours", 	"~UnixTimestampTime", 660); }
+			if($this->ReadPropertyBoolean ("cb_Total_oHours")) 	{ $this->RegisterVariableFloat("total_oHours",	"TOTAL Operating Hours", 		"", 660); }
 
 			$this->RegisterVariableInteger("ERR_Nr", "Error Number", "", 680);
 			$this->RegisterVariableString("ERR_Info", "Error Info", "", 681);

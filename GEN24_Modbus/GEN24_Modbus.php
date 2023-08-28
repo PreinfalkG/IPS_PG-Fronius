@@ -509,7 +509,7 @@ trait GEN24_Modbus {
     }
 
 
-    public function GetConnectionState($instanceID) {
+    public function GetConnectionState(int $instanceID) {
         $connectionState = -1;
         $conID = IPS_GetInstance($instanceID)['ConnectionID'];
         if($conID > 0) {
