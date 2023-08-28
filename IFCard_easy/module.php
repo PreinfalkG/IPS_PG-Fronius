@@ -136,7 +136,7 @@ include_once("IFCard.php");
 			$masterOnOff = GetValue($this->GetIDForIdent("masterOnOff"));
 			if($masterOnOff) {
             	if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "called ...", 0); }
-				$this->Update(); 
+				$this->Update("Timer"); 
 			} else {
 				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("AutoUpate CANCELED > Master Swich is OFF > Connection State '%s' ...", $this->GetConnectionState()), 0); }
 			}			
@@ -156,7 +156,7 @@ include_once("IFCard.php");
 			return $connectionState;
 		}
 
-		public function Update() {
+		public function Update($source="") {
 
 			$start_Time = microtime(true);
 
@@ -192,21 +192,24 @@ include_once("IFCard.php");
 						if($this->ReadPropertyBoolean("cb_Day_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_DAY, "day_DcVmax"); }	
 						if($this->ReadPropertyBoolean("cb_Day_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_DAY, "day_oHours"); }
 
-						if($this->ReadPropertyBoolean("cb_Year_Energy")) 		{ $this->RequestInverterData(ENERGY_YEAR, "year_Energy"); }
-						if($this->ReadPropertyBoolean("cb_Year_Yield")) 		{ $this->RequestInverterData(YIELD_YEAR, "year_Yield"); }
-						if($this->ReadPropertyBoolean("cb_Year_Pmax")) 			{ $this->RequestInverterData(MAX_POWER_YEAR, "year_Pmax"); }								
-						if($this->ReadPropertyBoolean("cb_Year_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_YEAR, "year_AcVmax"); }
-						if($this->ReadPropertyBoolean("cb_Year_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_YEAR, "year_AcVmin"); }
-						if($this->ReadPropertyBoolean("cb_Year_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_YEAR, "year_DcVmax"); }	
-						if($this->ReadPropertyBoolean("cb_Year_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_YEAR, "year_oHours"); }
-						
-						if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ $this->RequestInverterData(ENERGY_TOTAL, "total_Energy"); }
-						if($this->ReadPropertyBoolean("cb_Total_Yield")) 		{ $this->RequestInverterData(YIELD_TOTAL, "total_Yield"); }
-						if($this->ReadPropertyBoolean("cb_Total_Pmax")) 		{ $this->RequestInverterData(MAX_POWER_TOTAL, "total_Pmax"); }								
-						if($this->ReadPropertyBoolean("cb_Total_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_TOTAL, "total_AcVmax"); }
-						if($this->ReadPropertyBoolean("cb_Total_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_TOTAL, "total_AcVmin"); }
-						if($this->ReadPropertyBoolean("cb_Total_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_TOTAL, "total_DcVmax"); }	
-						if($this->ReadPropertyBoolean("cb_Total_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_TOTAL, "total_oHours"); }						
+						$minuteNow = idate('i', time());
+						if(($minuteNow == 0) or ($source!="Timer")) {
+							if($this->ReadPropertyBoolean("cb_Year_Energy")) 		{ $this->RequestInverterData(ENERGY_YEAR, "year_Energy"); }
+							if($this->ReadPropertyBoolean("cb_Year_Yield")) 		{ $this->RequestInverterData(YIELD_YEAR, "year_Yield"); }
+							if($this->ReadPropertyBoolean("cb_Year_Pmax")) 			{ $this->RequestInverterData(MAX_POWER_YEAR, "year_Pmax"); }								
+							if($this->ReadPropertyBoolean("cb_Year_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_YEAR, "year_AcVmax"); }
+							if($this->ReadPropertyBoolean("cb_Year_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_YEAR, "year_AcVmin"); }
+							if($this->ReadPropertyBoolean("cb_Year_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_YEAR, "year_DcVmax"); }	
+							if($this->ReadPropertyBoolean("cb_Year_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_YEAR, "year_oHours"); }
+							
+							if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ $this->RequestInverterData(ENERGY_TOTAL, "total_Energy"); }
+							if($this->ReadPropertyBoolean("cb_Total_Yield")) 		{ $this->RequestInverterData(YIELD_TOTAL, "total_Yield"); }
+							if($this->ReadPropertyBoolean("cb_Total_Pmax")) 		{ $this->RequestInverterData(MAX_POWER_TOTAL, "total_Pmax"); }								
+							if($this->ReadPropertyBoolean("cb_Total_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_TOTAL, "total_AcVmax"); }
+							if($this->ReadPropertyBoolean("cb_Total_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_TOTAL, "total_AcVmin"); }
+							if($this->ReadPropertyBoolean("cb_Total_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_TOTAL, "total_DcVmax"); }	
+							if($this->ReadPropertyBoolean("cb_Total_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_TOTAL, "total_oHours"); }	
+						}					
 					
 					} else {
 
