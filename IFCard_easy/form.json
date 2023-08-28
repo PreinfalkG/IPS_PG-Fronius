@@ -68,7 +68,7 @@
         { "type": "ExpansionPanel", "caption": "TOTAL", "expanded": false, "visible": true, "items": [
             { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Energy",           "name": "cb_Total_Energy" },
             { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Yield",            "name": "cb_Total_Yield" },
-            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Power max",        "name": "cb_DTotal_Pmax"  },
+            { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Power max",        "name": "cb_Total_Pmax"  },
             { "type": "CheckBox", "enabled": true, "caption": "TOTAL - AC Voltage max",   "name": "cb_Total_AcVmax" },
             { "type": "CheckBox", "enabled": true, "caption": "TOTAL - AC Voltage min",   "name": "cb_Total_AcVMin" },
             { "type": "CheckBox", "enabled": true, "caption": "TOTAL - DC Voltage max",   "name": "cb_Total_DcVmax" },
