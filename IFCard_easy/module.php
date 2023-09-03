@@ -172,6 +172,7 @@ include_once("IFCard.php");
 					if($this->ReadPropertyBoolean("cb_IFC_Info")) 			{ $this->Request_InterfaceCardInfo("IFC_Info"); }
 					
 					$activInverters = $this->Request_ActivInverters("IFC_ActivInverters");
+					//if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Activ Inverters: %s", print_r($activInverters, true)), 0); }
 					if($activInverters > 0) {
 
 						if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) 		{ $this->Request_DeviceTyp("IFC_DeviceType"); }
@@ -212,6 +213,8 @@ include_once("IFCard.php");
 						}					
 					
 					} else {
+
+						$varId = @$this->GetIDForIdent("IFC_ActivInverters");   if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } };
 
 						$varId = @$this->GetIDForIdent("P");   if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
 						$varId = @$this->GetIDForIdent("DcV"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
