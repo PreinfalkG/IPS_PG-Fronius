@@ -245,10 +245,10 @@ include_once("IFCard.php");
 
 			$dataArr = explode("\x80\x80\x80", $data);
 			foreach($dataArr as $dataArrElem) {
-				$dataArrElem = "\x80\x80\x80" . $dataArrElem;
-				if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__,  sprintf("Parse Only2 {%s}", $this->String2Hex($dataArrElem))); }
-
+				$dataArrElem = sprintf("\x80\x80\x80%s", $dataArrElem);
 				$rpacketArr = unpack('C*', $dataArrElem);
+				//array_unshift($rpacketArr, 0x80, 0x80, 0x80);
+				if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__,  sprintf("Parse Only Elem {%s}", $this->ByteArr2HexStr($rpacketArr))); }
 				$this->ParsePacket($rpacketArr, -1);
 			}
 

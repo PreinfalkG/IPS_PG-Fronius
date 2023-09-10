@@ -148,8 +148,7 @@ trait IFCard {
     }
 
     protected function ParsePacket(array $rpacketArr, int $command) {
-        if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__,  sprintf("[0x%02X] Parse {%s}", $command, $this->ByteArr2HexStr($rpacketArr))); }
-
+        
         $returnValue = null;      
 
         if($command == -1) {
@@ -157,17 +156,20 @@ trait IFCard {
             $arrLen = count($rpacketArr);
             if($arrLen < 8) {
                 SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Data Arr Len only: %d]", $arrLen)); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Data Arr Len only: %d", $arrLen)); }
                 return $returnValue ;
             }
 
             $rpacketCommand = $rpacketArr[7];
             $command = $rpacketCommand;
 
+            if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__,  sprintf("[0x%02X] Parse Only {%s}", $command, $this->ByteArr2HexStr($rpacketArr))); }
+
         } else {
+            if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__,  sprintf("[0x%02X] Parse {%s}", $command, $this->ByteArr2HexStr($rpacketArr))); }
             $rpacketCommand = $rpacketArr[7];
         }
-
+        
         if($rpacketCommand != $command) {
             if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__."_WARN",  sprintf("Not expected Command [0x%02X <> 0x%02X]", $command, $rpacketCommand)); }
         }
