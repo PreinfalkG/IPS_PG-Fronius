@@ -144,20 +144,6 @@ include_once("IFCard.php");
 			}			
 		}
 
-
-		public function InstanceStateActiv(int $InstanceId) {
-			$connectionState = -1;
-			$conID = IPS_GetInstance($InstanceId)['ConnectionID'];
-			if($conID > 0) {
-				$connectionState = IPS_GetInstance($conID)['InstanceStatus'];
-			} else {
-				$connectionState = 0;
-				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s [%s]' has NO Gateway/Connection [ConnectionID=%s]", $InstanceId, IPS_GetName($InstanceId), $conID), 0); }
-			}
-			return $connectionState;
-
-		}
-
 		public function GetConnectionState() {
 			$connectionState = -1;
 			$conID = IPS_GetInstance($this->InstanceID)['ConnectionID'];

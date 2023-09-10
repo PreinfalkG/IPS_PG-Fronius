@@ -88,17 +88,17 @@ trait IFCard {
             SetValue($this->GetIDForIdent("receiveCnt"), GetValue($this->GetIDForIdent("receiveCnt")) + 1);  											
             SetValue($this->GetIDForIdent("LastDataReceived"), time()); 
 
-            $ClientSocket4Forwarding = $this->ReadPropertyInteger("ClientSocket4Forwarding");
-            if($ClientSocket4Forwarding > 0) {
-                if($this->InstanceStateActiv($ClientSocket4Forwarding) == 102) {
-
-                    if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Forward Received Data to Client Socket '%s' {%s}", $ClientSocket4Forwarding, $this->String2Hex($receiveBuffer))); }
-                    CSCK_SendText($ClientSocket4Forwarding, $receiveBuffer);
+            $clientSocket4Forwarding = $this->ReadPropertyInteger("ClientSocket4Forwarding");
+            if($clientSocket4Forwarding > 1) {
+                $instanceState = IPS_GetInstance($clientSocket4Forwarding)['InstanceStatus'];
+                if($instanceState == 102) {
+                    if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Forward Received Data to Client Socket '%s' {%s}", $clientSocket4Forwarding, $this->String2Hex($receiveBuffer))); }
+                    CSCK_SendText($clientSocket4Forwarding, $receiveBuffer);
                 } else {
-                    if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Client Socket '%s' for Data Forwarding NOT activ", $ClientSocket4Forwarding)); }
+                    if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Client Socket '%s' for Data Forwarding NOT activ", $clientSocket4Forwarding)); }
                 }
             } else {
-                if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Forwarding disabled (Client Socket Instanz = %s)", $ClientSocket4Forwarding)); }
+                if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Forwarding disabled (Client Socket Instanz = %s)", $clientSocket4Forwarding)); }
             }
 
             $rpacketArr = unpack('C*', $receiveBuffer);
