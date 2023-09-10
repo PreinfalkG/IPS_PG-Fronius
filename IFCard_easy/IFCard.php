@@ -139,13 +139,27 @@ trait IFCard {
         if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__,  sprintf("[0x%02X] Parse {%s}", $command, $this->ByteArr2HexStr($rpacketArr))); }
 
         $returnValue = null;      
-        $rpacketCommand = $rpacketArr[7];
+
+        if($command == -1) {
+
+            $arrLen = count($rpacketArr);
+            if($arrLen < 8) {
+                SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Data Arr Len only: %d]", $arrLen)); }
+                return $returnValue ;
+            }
+
+            $rpacketCommand = $rpacketArr[7];
+            $command = $rpacketCommand;
+
+        } else {
+            $rpacketCommand = $rpacketArr[7];
+        }
 
         if($rpacketCommand != $command) {
             if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__."_WARN",  sprintf("Not expected Command [0x%02X <> 0x%02X]", $command, $rpacketCommand)); }
         }
-
-        
+       
         $data4Check = array_slice($rpacketArr, 3, -1);
         $crcIST = $this->CalcCRC($data4Check);
         $crcSOLL = end($rpacketArr);

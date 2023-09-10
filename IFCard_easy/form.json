@@ -107,7 +107,12 @@
             "type": "Button",
             "caption": "Request InverterData",
             "onClick": "IFC_RequestInverterData($id, $command, $varIdent, $deviceOption, $IGNr);"
-        }                          
+        },   
+        {
+            "type": "Button",
+            "caption": "Parse Only (used for Remote Data)",
+            "onClick": "IFC_ParseOnly($id, $data);"
+        }                        
     ],
     "status": []
 }

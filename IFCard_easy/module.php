@@ -156,7 +156,7 @@ include_once("IFCard.php");
 			return $connectionState;
 		}
 
-		public function Update(strng $source) {
+		public function Update(string $source) {
 
 			$start_Time = microtime(true);
 
@@ -236,6 +236,14 @@ include_once("IFCard.php");
 			}
 			$duration = $this->CalcDuration_ms($start_Time);
 			SetValue($this->GetIDForIdent("lastProcessingTotalDuration"), $duration);
+		}
+
+		public function ParseOnly(string $data) {
+
+			if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__,  sprintf("Parse Only {%s}", $this->String2Hex($data))); }
+
+			$rpacketArr = unpack('C*', $data);
+			$this->ParsePacket($rpacketArr, -1);
 		}
 
 		public function ResetCounterVariables() {
