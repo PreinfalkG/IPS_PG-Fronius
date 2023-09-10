@@ -98,7 +98,7 @@ trait IFCard {
                     if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Client Socket '%s' for Data Forwarding NOT activ", $ClientSocket4Forwarding)); }
                 }
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Forwarding disabled (Client Socket Instanz = %s)", $ClientSocket4Forwarding)); }
+                if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Forwarding disabled (Client Socket Instanz = %s)", $ClientSocket4Forwarding)); }
             }
 
             $rpacketArr = unpack('C*', $receiveBuffer);
