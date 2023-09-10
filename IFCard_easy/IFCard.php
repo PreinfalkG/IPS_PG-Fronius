@@ -156,6 +156,9 @@ trait IFCard {
             SetValue($this->GetIDForIdent("CrcErrorCnt"), GetValue($this->GetIDForIdent("CrcErrorCnt")) + 1);
         } else {
 
+            if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__."_WARN",  sprintf("CRC OK [IST: 0x%02X == SOLL: 0x%02X] {%s}", $crcIST, $crcSOLL, $this->ByteArr2HexStr($data4Check))); }  
+
+
             switch( $rpacketCommand )  {
 
                 case 0x0E:
