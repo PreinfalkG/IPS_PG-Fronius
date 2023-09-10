@@ -53,6 +53,8 @@ include_once("IFCard.php");
 			$this->RegisterPropertyInteger('AutoUpdateInterval', 15);	
 			$this->RegisterPropertyInteger('IG_Nr', 			 1);	
 			$this->RegisterPropertyInteger('LogLevel', 			 3);
+			$this->RegisterPropertyInteger('ClientSocket4Forwarding', 0);
+
 
 			$this->RegisterPropertyBoolean('cb_IFC_Info', 			true);
 			$this->RegisterPropertyBoolean('cb_IFC_ActivInverters', true);
@@ -142,6 +144,19 @@ include_once("IFCard.php");
 			}			
 		}
 
+
+		public function InstanceStateActiv(int $InstanceId) {
+			$connectionState = -1;
+			$conID = IPS_GetInstance($InstanceId)['ConnectionID'];
+			if($conID > 0) {
+				$connectionState = IPS_GetInstance($conID)['InstanceStatus'];
+			} else {
+				$connectionState = 0;
+				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s [%s]' has NO Gateway/Connection [ConnectionID=%s]", $InstanceId, IPS_GetName($InstanceId), $conID), 0); }
+			}
+			return $connectionState;
+
+		}
 
 		public function GetConnectionState() {
 			$connectionState = -1;
