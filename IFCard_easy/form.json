@@ -26,8 +26,7 @@
                 { "label": "OFF", "value": 0 }
         ]},  
 
-        { "type": "SelectInstance", "name": "ClientSocket4Forwarding", "caption": "Client Socket for data forwarding" }
-
+        { "type": "SelectInstance", "name": "ClientSocket4Forwarding", "caption": "Client Socket for data forwarding" },
 
         { "type": "Label", "label": " " },        
         { "type": "Label", "label": "Request Data for:" },
