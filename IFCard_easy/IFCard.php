@@ -90,7 +90,7 @@ trait IFCard {
 
             $ClientSocket4Forwarding = $this->ReadPropertyInteger("ClientSocket4Forwarding");
             if($ClientSocket4Forwarding > 0) {
-                if(InstanceStateActiv($ClientSocket4Forwarding) == 102) {
+                if($this->InstanceStateActiv($ClientSocket4Forwarding) == 102) {
 
                     if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, sprintf("Forward Received Data to Client Socket '%s' {%s}", $ClientSocket4Forwarding, $this->String2Hex($receiveBuffer))); }
                     CSCK_SendText($ClientSocket4Forwarding, $receiveBuffer);
