@@ -156,7 +156,7 @@ include_once("IFCard.php");
 			return $connectionState;
 		}
 
-		public function Update($source) {
+		public function Update(strng $source) {
 
 			$start_Time = microtime(true);
 
