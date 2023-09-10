@@ -248,6 +248,7 @@ include_once("IFCard.php");
 			SetValue($this->GetIDForIdent("requestCnt"), 0);
 			SetValue($this->GetIDForIdent("receiveCnt"), 0);
 			SetValue($this->GetIDForIdent("updateSkipCnt"), 0);
+			SetValue($this->GetIDForIdent("CrcErrorCnt"), 0); 
 			SetValue($this->GetIDForIdent("ErrorCnt"), 0); 
 			SetValue($this->GetIDForIdent("LastError"), "-"); 
 			SetValue($this->GetIDForIdent("instanzInactivCnt"), 0); 

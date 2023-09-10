@@ -136,7 +136,7 @@ trait IFCard {
     }
 
     protected function ParsePacket(array $rpacketArr, int $command) {
-        if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__,  sprintf("[0x%02X] Parse {%s}", $command, $this->String2Hex($rpacketArr))); }
+        if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__,  sprintf("[0x%02X] Parse {%s}", $command, $this->ByteArr2HexStr($rpacketArr))); }
 
         $returnValue = null;      
         $rpacketCommand = $rpacketArr[7];
@@ -144,7 +144,6 @@ trait IFCard {
         if($rpacketCommand != $command) {
             if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__."_WARN",  sprintf("Not expected Command [0x%02X <> 0x%02X]", $command, $rpacketCommand)); }
         }
-
 
         
         $data4Check = array_slice($rpacketArr, 3, -1);
@@ -156,7 +155,7 @@ trait IFCard {
             SetValue($this->GetIDForIdent("CrcErrorCnt"), GetValue($this->GetIDForIdent("CrcErrorCnt")) + 1);
         } else {
 
-            if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__."_WARN",  sprintf("CRC OK [IST: 0x%02X == SOLL: 0x%02X] {%s}", $crcIST, $crcSOLL, $this->ByteArr2HexStr($data4Check))); }  
+            if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__,  sprintf("CRC OK [IST: 0x%02X == SOLL: 0x%02X] {%s}", $crcIST, $crcSOLL, $this->ByteArr2HexStr($data4Check))); }  
 
 
             switch( $rpacketCommand )  {
