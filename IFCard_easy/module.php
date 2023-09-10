@@ -341,11 +341,12 @@ include_once("IFCard.php");
 			$this->RegisterVariableInteger("requestCnt", "Request Cnt", "", 900);
 			$this->RegisterVariableInteger("receiveCnt", "Receive Cnt", "", 910);
 			$this->RegisterVariableInteger("updateSkipCnt", "Update Skip Cnt", "", 915);
-			$this->RegisterVariableInteger("ErrorCnt", "Error Cnt", "", 920);
-			$this->RegisterVariableString("LastError", "Last Error", "", 920);
-			$this->RegisterVariableInteger("instanzInactivCnt", "Instanz Inactiv Cnt", "", 930);
-			$this->RegisterVariableFloat("lastProcessingTotalDuration", "Last Processing Duration [ms]", "", 940);	
-			$this->RegisterVariableInteger("LastDataReceived", "Last Data Received", "~UnixTimestamp", 950);
+			$this->RegisterVariableInteger("CrcErrorCnt", "CRC Error Cnt", "", 920);
+			$this->RegisterVariableInteger("ErrorCnt", "Error Cnt", "", 930);
+			$this->RegisterVariableString("LastError", "Last Error", "", 931);
+			$this->RegisterVariableInteger("instanzInactivCnt", "Instanz Inactiv Cnt", "", 940);
+			$this->RegisterVariableFloat("lastProcessingTotalDuration", "Last Processing Duration [ms]", "", 950);	
+			$this->RegisterVariableInteger("LastDataReceived", "Last Data Received", "~UnixTimestamp", 960);
 
 			IPS_ApplyChanges($this->archivInstanzID);
 			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered", 0); }

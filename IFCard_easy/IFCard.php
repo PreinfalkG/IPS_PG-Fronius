@@ -145,166 +145,179 @@ trait IFCard {
             if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__."_WARN",  sprintf("Not expected Command [0x%02X <> 0x%02X]", $command, $rpacketCommand)); }
         }
 
-        switch( $rpacketCommand )  {
 
-            case 0x0E:
+        
+        $data4Check = array_slice($rpacketArr, 3, -1);
+        $crcIST = $this->CalcCRC($data4Check);
+        $crcSOLL = end($rpacketArr);
 
-                $errSource = $rpacketArr[8];
-                $errNr = $rpacketArr[9];
-                $errInfo = "n.a";
-                switch($errNr) {
-                    case 0x01:
-                        $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - unknown Command", $errSource, $errNr);
-                        break;
-                    case 0x03:
-                        $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - wrong data structure", $errSource, $errNr);
-                        break;							
-                    case 0x04:
-                        $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - queue full", $errSource, $errNr);							
-                        break;
-                    case 0x05:
-                        $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - device/option not available", $errSource, $errNr);
-                        break;
-                    case 0x09:
-                        $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - wrong command for device/option", $errSource, $errNr);
-                        break;							
-                    default:
-                        $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - unknown {case default}", $errSource, $errNr);
-                        break;
-                }
+        if($crcIST != $crcSOLL) {
+            if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__."_WARN",  sprintf("CRC Error [IST: 0x%02X <> SOLL: 0x%02X] {%s}", $crcIST, $crcSOLL, $this->ByteArr2HexStr($data4Check))); }  
+            SetValue($this->GetIDForIdent("CrcErrorCnt"), GetValue($this->GetIDForIdent("CrcErrorCnt")) + 1);
+        } else {
 
-                SetValue($this->GetIDForIdent("ERR_Nr"), $errNr);
-                SetValue($this->GetIDForIdent("ERR_Info"), $errInfo);
-                $varIdErrCnt = $this->GetIDForIdent("ERR_Cnt");
-                SetValueInteger($varIdErrCnt, GetValueInteger($varIdErrCnt) + 1);
+            switch( $rpacketCommand )  {
 
-                if($this->logLevel >= LogLevel::ERROR ) { $this->AddLog(__FUNCTION__ . "ERR", sprintf("Error Received :: %s", $errInfo)); }
-                $returnValue = $errInfo;
-                break;
+                case 0x0E:
 
-            case IFC_INFO:
-                $ifc_Type = $rpacketArr[8];
-                if($ifc_Type == 2) { $ifc_Type = "RS232 Interface Card easy"; } else { $ifc_Type = $this->byte2hex($ifc_Type); }
-                $ifc_version_major = $rpacketArr[9];
-                $ifc_version_minor = $rpacketArr[10];
-                $ifc_version_release = $rpacketArr[11];
-                $IFCinfo = sprintf("%s v%d.%d.%d", $ifc_Type, $ifc_version_major, $ifc_version_minor, $ifc_version_release); 
-                if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_INFO: %s {%s}", $IFCinfo, $this->ByteArr2HexStr($rpacketArr))); }
-                $returnValue = $IFCinfo;
-                break;
-            case IFC_DEVICETYPE:
-                $deviceType = $rpacketArr[8];
-                if($deviceType == 0xfd) { $deviceType = "Fronius IG 20"; } else { $deviceType = sprintf("unkown [0x%02X]", $deviceType ); }
-                 if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_DEVICETYPE: %s {%s}", $deviceType, $this->ByteArr2HexStr($rpacketArr))); }
-                $returnValue = $deviceType;
-                break;
-            case IFC_ACTIVINVERTERNUMBER:
-                    $activInvNumbers = 0;
-                    $dataLenIST = $rpacketArr[4];
-                    if ($dataLenIST == 1) {
-                        $activInvNumbers = $rpacketArr[8];
+                    $errSource = $rpacketArr[8];
+                    $errNr = $rpacketArr[9];
+                    $errInfo = "n.a";
+                    switch($errNr) {
+                        case 0x01:
+                            $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - unknown Command", $errSource, $errNr);
+                            break;
+                        case 0x03:
+                            $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - wrong data structure", $errSource, $errNr);
+                            break;							
+                        case 0x04:
+                            $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - queue full", $errSource, $errNr);							
+                            break;
+                        case 0x05:
+                            $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - device/option not available", $errSource, $errNr);
+                            break;
+                        case 0x09:
+                            $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - wrong command for device/option", $errSource, $errNr);
+                            break;							
+                        default:
+                            $errInfo = sprintf("SrcCommand: 0x%02X | Error: 0x%02X - unknown {case default}", $errSource, $errNr);
+                            break;
                     }
-                    if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_ACTIVINVERTERNUMBER: %d {%s}", $activInvNumbers, $this->ByteArr2HexStr($rpacketArr))); }						
-                    $returnValue = $activInvNumbers;
-                    break;															
-            
-            case WR_POWER:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case DC_VOLTAGE:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case DC_CURRENT:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
 
-            case AC_VOLTAGE:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case AC_CURRENT:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case AC_FREQUENCY:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
+                    SetValue($this->GetIDForIdent("ERR_Nr"), $errNr);
+                    SetValue($this->GetIDForIdent("ERR_Info"), $errInfo);
+                    $varIdErrCnt = $this->GetIDForIdent("ERR_Cnt");
+                    SetValueInteger($varIdErrCnt, GetValueInteger($varIdErrCnt) + 1);
 
-            case ENERGY_DAY:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 0.001 );
-                break;
-            case YIELD_DAY:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_POWER_DAY:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_AC_VOLTAGE_DAY:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MIN_AC_VOLTAGE_DAY:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_DC_VOLTAGE_DAY:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case OPERATING_HOURS_DAY:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 60, -3600 );
-                break;
+                    if($this->logLevel >= LogLevel::ERROR ) { $this->AddLog(__FUNCTION__ . "ERR", sprintf("Error Received :: %s", $errInfo)); }
+                    $returnValue = $errInfo;
+                    break;
 
-            case ENERGY_YEAR:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 0.001 );
-                break;
-            case YIELD_YEAR:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_POWER_YEAR:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_AC_VOLTAGE_YEAR:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MIN_AC_VOLTAGE_YEAR:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_DC_VOLTAGE_YEAR:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case OPERATING_HOURS_YEAR:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 1 / (60*24*365) );
-                $returnValue = round($returnValue, 2);
-                break;
+                case IFC_INFO:
+                    $ifc_Type = $rpacketArr[8];
+                    if($ifc_Type == 2) { $ifc_Type = "RS232 Interface Card easy"; } else { $ifc_Type = $this->byte2hex($ifc_Type); }
+                    $ifc_version_major = $rpacketArr[9];
+                    $ifc_version_minor = $rpacketArr[10];
+                    $ifc_version_release = $rpacketArr[11];
+                    $IFCinfo = sprintf("%s v%d.%d.%d", $ifc_Type, $ifc_version_major, $ifc_version_minor, $ifc_version_release); 
+                    if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_INFO: %s {%s}", $IFCinfo, $this->ByteArr2HexStr($rpacketArr))); }
+                    $returnValue = $IFCinfo;
+                    break;
+                case IFC_DEVICETYPE:
+                    $deviceType = $rpacketArr[8];
+                    if($deviceType == 0xfd) { $deviceType = "Fronius IG 20"; } else { $deviceType = sprintf("unkown [0x%02X]", $deviceType ); }
+                    if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_DEVICETYPE: %s {%s}", $deviceType, $this->ByteArr2HexStr($rpacketArr))); }
+                    $returnValue = $deviceType;
+                    break;
+                case IFC_ACTIVINVERTERNUMBER:
+                        $activInvNumbers = 0;
+                        $dataLenIST = $rpacketArr[4];
+                        if ($dataLenIST == 1) {
+                            $activInvNumbers = $rpacketArr[8];
+                        }
+                        if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__, sprintf("IFC_ACTIVINVERTERNUMBER: %d {%s}", $activInvNumbers, $this->ByteArr2HexStr($rpacketArr))); }						
+                        $returnValue = $activInvNumbers;
+                        break;															
+                
+                case WR_POWER:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case DC_VOLTAGE:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case DC_CURRENT:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
 
-            case ENERGY_TOTAL:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 0.001 );
-                break;
-            case YIELD_TOTAL:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_POWER_TOTAL:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_AC_VOLTAGE_TOTAL:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MIN_AC_VOLTAGE_TOTAL:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case MAX_DC_VOLTAGE_TOTAL:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
-                break;
-            case OPERATING_HOURS_TOTAL:
-                $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 1 / (60*24*365) );
-                $returnValue = round($returnValue, 2);
-                break;					
+                case AC_VOLTAGE:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case AC_CURRENT:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case AC_FREQUENCY:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
 
-            default:
-                $errInfo = sprintf("Received Packet not evaluated > Command BYTE: 0x%02X", $rpacketCommand);
-                SetValue($this->GetIDForIdent("ERR_Nr"), 98);
-                SetValue($this->GetIDForIdent("ERR_Info"), $errInfo);
-                $varIdErrCnt = $this->GetIDForIdent("ERR_Cnt");
-                SetValueInteger($varIdErrCnt, GetValueInteger($varIdErrCnt) + 1);
-                if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", $errInfo); }
-                $returnValue = null;
-                break;
+                case ENERGY_DAY:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 0.001 );
+                    break;
+                case YIELD_DAY:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_POWER_DAY:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_AC_VOLTAGE_DAY:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MIN_AC_VOLTAGE_DAY:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_DC_VOLTAGE_DAY:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case OPERATING_HOURS_DAY:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 60, -3600 );
+                    break;
+
+                case ENERGY_YEAR:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 0.001 );
+                    break;
+                case YIELD_YEAR:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_POWER_YEAR:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_AC_VOLTAGE_YEAR:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MIN_AC_VOLTAGE_YEAR:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_DC_VOLTAGE_YEAR:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case OPERATING_HOURS_YEAR:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 1 / (60*24*365) );
+                    $returnValue = round($returnValue, 2);
+                    break;
+
+                case ENERGY_TOTAL:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 0.001 );
+                    break;
+                case YIELD_TOTAL:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_POWER_TOTAL:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_AC_VOLTAGE_TOTAL:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MIN_AC_VOLTAGE_TOTAL:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case MAX_DC_VOLTAGE_TOTAL:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr );
+                    break;
+                case OPERATING_HOURS_TOTAL:
+                    $returnValue = $this->ExtractMeteringValue( $command, $rpacketArr, 1 / (60*24*365) );
+                    $returnValue = round($returnValue, 2);
+                    break;					
+
+                default:
+                    $errInfo = sprintf("Received Packet not evaluated > Command BYTE: 0x%02X", $rpacketCommand);
+                    SetValue($this->GetIDForIdent("ERR_Nr"), 98);
+                    SetValue($this->GetIDForIdent("ERR_Info"), $errInfo);
+                    $varIdErrCnt = $this->GetIDForIdent("ERR_Cnt");
+                    SetValueInteger($varIdErrCnt, GetValueInteger($varIdErrCnt) + 1);
+                    if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", $errInfo); }
+                    $returnValue = null;
+                    break;
+            }
+
         }
         return $returnValue;
     }
