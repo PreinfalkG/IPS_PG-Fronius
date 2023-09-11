@@ -239,17 +239,23 @@ include_once("IFCard.php");
 			SetValue($this->GetIDForIdent("lastProcessingTotalDuration"), $duration);
 		}
 
-		public function ParseOnly(string $data) {
+		public function ReceiveRawData(string $data) {
 
-			if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__,  sprintf("Parse Only {%s}", $this->String2Hex($data))); }
+			if($data == "IFCInfo") { $data = "\x80\x80\x80\x04\x00\x00\x01\x02\x01\x00\x00\x08"; }	//RawData for 'InterfaceCardInfo'
+
+			if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__,  sprintf("Received RawData: %s", $this->String2Hex($data))); }
 
 			$dataArr = explode("\x80\x80\x80", $data);
 			foreach($dataArr as $dataArrElem) {
-				$dataArrElem = sprintf("\x80\x80\x80%s", $dataArrElem);
-				$rpacketArr = unpack('C*', $dataArrElem);
-				//array_unshift($rpacketArr, 0x80, 0x80, 0x80);
-				if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__,  sprintf("Parse Only Elem {%s}", $this->ByteArr2HexStr($rpacketArr))); }
-				$this->ParsePacket($rpacketArr, -1);
+				$strLen = strlen($dataArrElem);
+				if ( $strLen > 0) {
+					$dataArrElem = sprintf("\x80\x80\x80%s", $dataArrElem);
+					$rpacketArr = unpack('C*', $dataArrElem);
+					if($this->logLevel >= LogLevel::DEBUG ) { $this->AddLog(__FUNCTION__,  sprintf("Proces RawData Record: %s", $this->ByteArr2HexStr($rpacketArr))); }
+					$this->ParsePacket($rpacketArr, -1);
+				} else {
+					if($this->logLevel >= LogLevel::TRACE ) { $this->AddLog(__FUNCTION__,  "RawData Record Len: 0  (skip Array Element)"); }
+				}
 			}
 
 		}
@@ -397,11 +403,7 @@ include_once("IFCard.php");
 			$this->SetBuffer(self::BUFFER_RECEIVED_DATA, "");
 			
 			$SendOk = $this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', "Buffer" => $Text]));
-
-			if ($SendOk) {
-				
-			}
-			
+			//if ($SendOk) {	}		
 		}
 
 

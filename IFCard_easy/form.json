@@ -93,17 +93,17 @@
         {
             "type": "Button",
             "caption": "Get InterfaceCard Info (ICF-Type & Version)",
-            "onClick": "IFC_Request_InterfaceCardInfo($id, $varIdent);"
+            "onClick": "IFC_Request_InterfaceCardInfo($id, 'IFC_Info');"
         },
         {
             "type": "Button",
             "caption": "Request Activ Inverter Numbers",
-            "onClick": "IFC_Request_ActivInverters($id, $varIdent);"
+            "onClick": "IFC_Request_ActivInverters($id, 'IFC_ActivInverters');"
         },   
         {
             "type": "Button",
             "caption": "Request Device Typ",
-            "onClick": "IFC_Request_DeviceTyp($id, $varIdent);"
+            "onClick": "IFC_Request_DeviceTyp($id, 'IFC_DeviceType');"
         },   
         {
             "type": "Button",
@@ -112,8 +112,8 @@
         },   
         {
             "type": "Button",
-            "caption": "Parse Only (used for Remote Data)",
-            "onClick": "IFC_ParseOnly($id, $data);"
+            "caption": "Receive RAW Data (used for Remote Data)",
+            "onClick": "IFC_ReceiveRawData($id, 'IFCInfo');"
         }                        
     ],
     "status": []
