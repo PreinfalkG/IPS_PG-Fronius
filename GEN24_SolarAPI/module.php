@@ -39,8 +39,7 @@ include_once("GEN24_PrivateAPI.php");
 		}
 
 
-		public function Create()
-		{
+		public function Create() {
 			//Never delete this line!
 			parent::Create();
             
@@ -64,14 +63,12 @@ include_once("GEN24_PrivateAPI.php");
 
 		}
 
-		public function Destroy()
-		{
+		public function Destroy() {
 			$this->SetUpdateInterval(0);		//Stop Auto-Update Timer
 			parent::Destroy();					//Never delete this line!
 		}
 
-		public function ApplyChanges()
-		{
+		public function ApplyChanges() {
 			//Never delete this line!
 			parent::ApplyChanges();
 
@@ -113,13 +110,16 @@ include_once("GEN24_PrivateAPI.php");
 
 			$skipUdateSec = 600;
 			$lastUpdate  = time() - round(IPS_GetVariable($this->GetIDForIdent("ErrorCnt"))["VariableUpdated"]);
-			if ($lastUpdate > $skipUdateSec) {
+			$errorCnt = GetValueInteger($this->GetIDForIdent("ErrorCnt"));
+			if (($lastUpdate > $skipUdateSec) || ($errorCnt == 0)) {
 
 				$this->GEN24_IP = $this->ReadPropertyString('GEN24_IP');
 				$currentStatus = $this->GetStatus();
 				if($currentStatus == 102) {		
 				
 					$start_Time = microtime(true);
+
+					if($this->ReadPropertyBoolean("cb_PowerFlowRealtimeData")) 	{ $this->RequestPowerFlowRealtimeData(); }
 
 					if($this->ReadPropertyBoolean("cb_Powerflow")) 	{ $this->RequestPowerFlow(); }
 					if($this->ReadPropertyBoolean("cb_PowerMeter")) { $this->RequesPowerMeters(); }

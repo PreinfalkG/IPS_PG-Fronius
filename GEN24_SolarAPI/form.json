@@ -71,7 +71,7 @@
         },
         {
             "type": "CheckBox",
-            "enabled": false,
+            "enabled": true,
             "caption": "PowerFlowRealtimeData [Solar API v1]",
             "name": "cb_PowerFlowRealtimeData"
         },          
@@ -119,7 +119,7 @@
         },
         {
             "type": "Label",
-            "label": "* = 'internal API' >> may be changed any time !"
+            "label": "* = 'internal GEN24 API' >> may be changed any time !"
         }
 
     ],
