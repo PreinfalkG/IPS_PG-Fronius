@@ -102,7 +102,7 @@
         },        
         {
             "type": "CheckBox",
-            "enabled": false,
+            "enabled": true,
             "caption": "IC160 Multiple MPPT Inverter Extension Modell *",
             "name": "cb_IC160"
         },

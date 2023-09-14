@@ -47,8 +47,7 @@ include_once("GEN24_ModbusConfig.php");
 		}
 
 
-		public function Create()
-		{
+		public function Create() {
 			//Never delete this line!
 			parent::Create();
             
@@ -72,14 +71,12 @@ include_once("GEN24_ModbusConfig.php");
 
 		}
 
-		public function Destroy()
-		{
+		public function Destroy() {
 			$this->SetUpdateInterval(0);		//Stop Auto-Update Timer
 			parent::Destroy();					//Never delete this line!
 		}
 
-		public function ApplyChanges()
-		{
+		public function ApplyChanges() {
 			//Never delete this line!
 			parent::ApplyChanges();
 
@@ -144,14 +141,9 @@ include_once("GEN24_ModbusConfig.php");
 								$start_Time = microtime(true);
 
 								if($this->ReadPropertyBoolean("cb_IC124")) { $this->UpdateModbusRegisterModel("IC124", true); }
-			
-								//if($this->ReadPropertyBoolean("cb_Powerflow")) 	{ $this->RequestPowerFlow(); }
-								//if($this->ReadPropertyBoolean("cb_PowerMeter")) { $this->RequesPowerMeters(); }
-								//if($this->ReadPropertyBoolean("cb_BatteryManagementSystem")) { $this->RequestBatteryManagementSystem(); }
-								//if($this->ReadPropertyBoolean("cb_Ohmpilot")) 	{ $this->RequestOhmpilot(); }
-								//if($this->ReadPropertyBoolean("cb_Devices")) 	{ $this->RequestDevices(); }
-								//if($this->ReadPropertyBoolean("cb_Cache"))		{ $this->RequestCache(); }
-			
+								if($this->ReadPropertyBoolean("cb_IC160")) { $this->UpdateModbusRegisterModel("IC160", true); }
+									
+
 								$duration = $this->CalcDuration_ms($start_Time);
 								SetValue($this->GetIDForIdent("lastProcessingTotalDuration"), $duration); 
 

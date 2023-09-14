@@ -4,13 +4,26 @@ trait GEN24_ModbusConfig {
 
     protected function GetInverterRegisterConfig($invererModelKey) {
 
-        if($invererModelKey == "IC124") {
-            return $this->GetConfigArr_IC124();
-        } else {
-            return array();
+
+        switch($invererModelKey) {
+
+            case "IC124":
+                return $this->GetConfigArr_IC124();
+                break;
+            case "IC160":
+                return $this->GetConfigArr_IC160();
+                break;  
+            default:
+                return array();
+                break;    
+
         }
 
-      
+        //if($invererModelKey == "IC124") {
+        //    return $this->GetConfigArr_IC124();
+        //} else {
+        //    return array();
+        //}     
     }	
 
     protected function GetConfigArr_IC124() {
@@ -20,7 +33,7 @@ trait GEN24_ModbusConfig {
         $IC124_ConfigArr[40356]     = array(1,  "R",    0x03, "WchaMax",          "uint16",     "W",           40372,  VARIABLE::TYPE_INTEGER,	 false,	 "GEN24.Watt",		    1,      3,		"Setpoint for maximum charge"								                     ,"");
         $IC124_ConfigArr[40357]     = array(1,  "R",    0x03, "WChaGra",          "uint16",     "%",           40373,  VARIABLE::TYPE_INTEGER,	 false,	 "GEN24.Percent",	    NULL,	NULL,	"Setpoint for maximum charging rate"						                     ,"");
         $IC124_ConfigArr[40358]     = array(1,  "R",    0x03, "WDisChaGra",       "uint16",     "%",           40373,  VARIABLE::TYPE_INTEGER,	 false,	 "GEN24.Percent",	    NULL,	NULL,	"Setpoint for maximum discharge rate"						                     ,"");
-        $IC124_ConfigArr[40359]     = array(1,  "RW",   0x03, "StorCtl_Mod",      "uint16",     "bitfield16",  NULL,   VARIABLE::TYPE_INTEGER,	 false,	 "GEN24.StorCtl_Mod",	NULL,	NULL,	"Activate hold/discharge/charge control mode"		                     ,"");
+        $IC124_ConfigArr[40359]     = array(1,  "RW",   0x03, "StorCtl_Mod",      "uint16",     "bitfield16",  NULL,   VARIABLE::TYPE_INTEGER,	 false,	 "GEN24.StorCtl_Mod",	NULL,	NULL,	"Activate hold/discharge/charge control mode"		                             ,"");
         //$IC124_ConfigArr[40360]   = array(1,  "R",    0x03, "VAChaMax",         "uint16",     "VA",          40374,  VARIABLE::TYPE_FLOAT,	 false,	 "",		            NULL,	NULL,	"Setpoint for maximum charging VA"							                     ,"");
         $IC124_ConfigArr[40361]     = array(1,  "RW",   0x03, "MinRsvPct",        "uint16",     "%",           40375,  VARIABLE::TYPE_FLOAT,	 false,	 "GEN24.Percent.1",	    NULL,	NULL,	"Setpoint for minimum reserve for storage"					                     ,"");
         $IC124_ConfigArr[40362]     = array(1,  "R",    0x03, "ChaState",         "uint16",     "%",           40376,  VARIABLE::TYPE_FLOAT,	 false,	 "GEN24.Percent.1",	    NULL,	NULL,	"Currently available energy as percent"						                     ,"");
@@ -32,7 +45,7 @@ trait GEN24_ModbusConfig {
         //$IC124_ConfigArr[40368]   = array(1,  "R",    0x03, "InOutWRte_WinTms", "uint16",     "Secs",        NULL,   VARIABLE::TYPE_FLOAT,	 false,	 "",		            NULL,	NULL,	"Time window for charge/discharge rate change"				                     ,"");
         $IC124_ConfigArr[40369]     = array(1,  "R",    0x03, "InOutWRte_RvrtTms","uint16",     "Secs",        NULL,   VARIABLE::TYPE_INTEGER,	 false,	 "GEN24.Seconds",	    NULL,	NULL,	"Charge status of storage device"							                     ,"");
         //$IC124_ConfigArr[40370]   = array(1,  "R",    0x03, "InOutWRte_RmpTms", "uint16",     "Secs",        NULL,   VARIABLE::TYPE_FLOAT,	 false,	 "",		            NULL,	NULL,	"Ramp time for moving from current setpoint to new setpoint"                     ,"");
-        $IC124_ConfigArr[40371]     = array(1,  "RW",   0x03, "ChaGriSet",        "uint16",     "enum16",      NULL,   VARIABLE::TYPE_INTEGER,	 false,	 "GEN24.ChaGriSet",	    NULL,	NULL,	"Charging from grid"                                           ,"0:PV (Charging from grid disabled) | 1:GRID (Charging from grid enabled)");
+        $IC124_ConfigArr[40371]     = array(1,  "RW",   0x03, "ChaGriSet",        "uint16",     "enum16",      NULL,   VARIABLE::TYPE_INTEGER,	 false,	 "GEN24.ChaGriSet",	    NULL,	NULL,	"Charging from grid"                                                             ,"0:PV (Charging from grid disabled) | 1:GRID (Charging from grid enabled)");
         $IC124_ConfigArr[40372]     = array(1,  "R",    0x03, "WChaMax_SF",       "sunssf",     "",            0,      VARIABLE::TYPE_INTEGER,	 false,	 "",		            NULL,	NULL,	"Scale factor for maximum charge"							                     ,"");
         $IC124_ConfigArr[40373]     = array(1,  "R",    0x03, "WChaDisChaGra_SF", "sunssf",     "",            0,      VARIABLE::TYPE_INTEGER,	 false,	 "",		            NULL,   NULL,	"Scale factor for maximum charge and discharge rate"		                     ,"");
         //$IC124_ConfigArr[40374]   = array(1,  "R",    0x03, "VAChaMax_SF",      "sunssf",     "",            NULL,   VARIABLE::TYPE_INTEGER,	 false,	 "",		            NULL,	NULL,	"Scale factor for maximum charging VA"						                     ,"");
@@ -45,6 +58,35 @@ trait GEN24_ModbusConfig {
         return $IC124_ConfigArr;
 
     }
+
+
+
+    protected function GetConfigArr_IC160() {
+        //                               0      1       2       3                 4             5              6       7						 8       9			            10 		11		12                      13
+        //              Adress           Size   R/W     fCode   NAME              TYPE          UNIT           SF	  IPS-VAR TYPE	 		     Archiv  Profile 	            MULTIP. Round   Description-Short	    Description-Long
+        $IC160_ConfigArr = array();	 
+
+        $IC160_ConfigArr[40266]     = array(1,  "R",    0x03, "DCA_SF",        "sunssf",     "",           -2,  VARIABLE::TYPE_INTEGER,	 false,	 "",        NULL,   NULL,   "Current Scale Factor"      ,"");
+        $IC160_ConfigArr[40267]     = array(1,  "R",    0x03, "DCV_SF",        "sunssf",     "",           -2,  VARIABLE::TYPE_INTEGER,	 false,	 "",        NULL,   NULL,	"Voltage Scale Factor"	    ,"");
+        $IC160_ConfigArr[40268]     = array(1,  "R",    0x03, "DCW_SF",        "sunssf",     "",           -2,  VARIABLE::TYPE_INTEGER,	 false,	 "",        NULL,   NULL,	"Power Scale Factor"        ,"");
+        $IC160_ConfigArr[40269]     = array(1,  "R",    0x03, "DCWH_SF",       "sunssf",     "",           0,   VARIABLE::TYPE_INTEGER,	 false,	 "",        NULL,   NULL,	"Energy Scale Factor"       ,"");
+        
+
+        $IC160_ConfigArr[40283]     = array(1,  "R",    0x03, "1_DCA",         "uint16",     "A",           40266,  VARIABLE::TYPE_FLOAT,	 false,	 "",        NULL,   NULL,   "String1 DC Current"      ,"");
+        $IC160_ConfigArr[40284]     = array(1,  "R",    0x03, "1_DCV",         "uint16",     "V",           40267,  VARIABLE::TYPE_FLOAT,	 false,	 "",        NULL,   NULL,   "String1 DC Voltage"      ,"");
+        $IC160_ConfigArr[40285]     = array(1,  "R",    0x03, "1_DCW",         "uint16",     "W",           40268,  VARIABLE::TYPE_FLOAT,	 false,	 "",        NULL,   NULL,   "String1 DC Power"        ,"");
+        $IC160_ConfigArr[40286]     = array(1,  "R",    0x03, "1_DCWH",        "uint16",     "Wh",          40269,  VARIABLE::TYPE_FLOAT,	 false,	 "",        NULL,   NULL,   "String1 Lifetime Energy" ,"");
+
+        $IC160_ConfigArr[40303]     = array(1,  "R",    0x03, "2_DCA",         "uint16",     "A",           40266,  VARIABLE::TYPE_FLOAT,	 false,	 "",        NULL,   NULL,   "String2 DC Current"      ,"");
+        $IC160_ConfigArr[40304]     = array(1,  "R",    0x03, "2_DCV",         "uint16",     "V",           40267,  VARIABLE::TYPE_FLOAT,	 false,	 "",        NULL,   NULL,   "String2 DC Voltage"      ,"");
+        $IC160_ConfigArr[40305]     = array(1,  "R",    0x03, "2_DCW",         "uint16",     "W",           40268,  VARIABLE::TYPE_FLOAT,	 false,	 "",        NULL,   NULL,   "String2 DC Power"        ,"");
+        $IC160_ConfigArr[40306]     = array(1,  "R",    0x03, "2_DCWH",        "uint16",     "Wh",          40269,  VARIABLE::TYPE_FLOAT,	 false,	 "",        NULL,   NULL,   "String2 Lifetime Energy" ,"");
+
+        return $IC160_ConfigArr;
+
+    }
+
+
 
 
     protected function GetConfigArr_IC124__OLD() {

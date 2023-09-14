@@ -307,16 +307,16 @@ trait GEN24_Modbus {
 
         /*    https://www.symcon.de/service/dokumentation/modulreferenz/modbus-rtu-tcp/
         DATENTYP	VORZEICHEN	BIT
-        Bit	        unsigned	1       ==  datanType > 0
-        Byte	    unsigned	8       ==  datanType > 1
-        Word	    unsigned	16      ==  datanType > 2
-        DWord	    unsigned	32      ==  datanType > 3
-        Char	    signed	    8       ==  datanType > 4
-        Short	    signed	    16      ==  datanType > 5
-        Integer	    signed	    32      ==  datanType > 6
-        Real	    signed	    32      ==  datanType > 7
-        Int64	    signed	    64      ==  datanType > 8
-        Real64	    signed	    64      ==  datanType > 9
+        Bit	        unsigned	1       ==  dataType > 0
+        Byte	    unsigned	8       ==  dataType > 1
+        Word	    unsigned	16      ==  dataType > 2
+        DWord	    unsigned	32      ==  dataType > 3
+        Char	    signed	    8       ==  dataType > 4
+        Short	    signed	    16      ==  dataType > 5
+        Integer	    signed	    32      ==  dataType > 6
+        Real	    signed	    32      ==  dataType > 7
+        Int64	    signed	    64      ==  dataType > 8
+        Real64	    signed	    64      ==  dataType > 9
         */
 
 
@@ -327,7 +327,7 @@ trait GEN24_Modbus {
         } elseif ("uint32" == strtolower($type) || "acc32" == strtolower($type)	|| "acc64" == strtolower($type)) {
             $datenTyp = 3;
         } elseif ("sunssf" == strtolower($type)) {
-            $datenTyp = 4;
+            $datenTyp = 5;      //4;
         } elseif ("int16" == strtolower($type)) {
             $datenTyp = 5;            
         } elseif ("int32" == strtolower($type))	{
@@ -376,9 +376,7 @@ trait GEN24_Modbus {
         }
 
     }
-
-
-    
+   
     protected function UpdateModbusRegisterModel($registerModelIdent, $updateVariables=true) {
 
         $start_Time = microtime(true);
@@ -451,14 +449,20 @@ trait GEN24_Modbus {
             
             $objInfo = IPS_GetObject($childID);
             $objType = $objInfo["ObjectType"];
+
+            
+
             if($objType == 2) {
                 $objIdent = $objInfo["ObjectIdent"];
                 $souceValue = $this->GetModebusDeviceSourceValue($objIdent, $modebusDevicesCategoryId);
-                if(!is_null($souceValue)) {
+                
+                if($souceValue == 65535) {
+                    // inverter sends a null value of 65535
+                } else if(!is_null($souceValue)) {
                     $scalFactorConfigEntry = $inverterRegisterConfig[$objIdent][IMR_SF];
                     $multiplierVal = $inverterRegisterConfig[$objIdent][IPS_VARMULTIPLIER];
-                    $roundVal = $inverterRegisterConfig[$objIdent][IPS_VARROUND];
-                    if(is_null($scalFactorConfigEntry) OR $scalFactorConfigEntry < 10000) {
+                    $roundVal = $inverterRegisterConfig[$objIdent][IPS_VARROUND];                    
+                    if(is_null($scalFactorConfigEntry) OR ($scalFactorConfigEntry < 10000)) {
 
                         if(!is_null($multiplierVal)) { $souceValue = $souceValue * $multiplierVal; }
                         if(!is_null($roundVal)) { $souceValue = round($souceValue, $roundVal); }
@@ -494,11 +498,11 @@ trait GEN24_Modbus {
             $varId = IPS_GetObjectIDByIdent("Value", $instanceId);
             if($varId !== false) {
                 $varLastUpdate  = time() - round(IPS_GetVariable($varId)['VariableUpdated']);
-                if($varLastUpdate < 5) {
+                if($varLastUpdate < 600) {
                     $sourceValue = GetValue($varId);
-                    if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Read Raw-Value '%s' for Modbus Instance '%s' (Ident: %s | ObjId: %s)", $sourceValue, IPS_GetName($instanceId), $objIdent, $instanceId), 0); }
+                    if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Read Raw-Value '%s' for Modbus Instance '%s' (Ident: %s | ObjId: %s | VarId: %s)", $sourceValue, IPS_GetName($instanceId), $objIdent, $instanceId, $varId), 0); }
                 } else {
-                    if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Outdated Value (%s sec) for Modbus Instance '%s' (Ident: %s | ObjId: %s) > Skip Variable Update...", $varLastUpdate, IPS_GetName($instanceId), $objIdent, $instanceId), 0); }
+                    if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Outdated Value (%s sec) for Modbus Instance '%s' (Ident: %s | ObjId: %s | VarId: %s) > Skip Variable Update...", $varLastUpdate, IPS_GetName($instanceId), $objIdent, $instanceId, $varId), 0); }
                 }
             }
         } else {
