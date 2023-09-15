@@ -121,7 +121,8 @@ include_once("GEN24_ModbusConfig.php");
 
 			$skipUdateSec = 600;
 			$lastUpdate  = time() - round(IPS_GetVariable($this->GetIDForIdent("ErrorCnt"))["VariableUpdated"]);
-			if ($lastUpdate > $skipUdateSec) {
+			$errorCnt = GetValueInteger($this->GetIDForIdent("ErrorCnt"));
+			if (($lastUpdate > $skipUdateSec) || ($errorCnt == 0)) {
 
 				$this->gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
 
