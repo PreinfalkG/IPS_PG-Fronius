@@ -36,20 +36,25 @@ include_once("GEN24_ModbusConfig.php");
 
 			$this->archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
 			$this->parentRootId = IPS_GetParent($this->InstanceID);
-	
-			$currentStatus = $this->GetStatus();
-			if($currentStatus == 102) {				//Instanz ist aktiv
-				$this->logLevel = $this->ReadPropertyInteger("LogLevel");
-				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
-			} else {
-				if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
-			}
 
-			$this->gatewayId = 0; // $this->ReadPropertyInteger("si_ModebusGatewayID");
-			if($this->gatewayId > 10000) {
-				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $this->gatewayId, IPS_GetLocation($this->gatewayId )), 0); }
-			} else {
-				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no Modbus-Gateway configured [%s]", $this->gatewayId), 0); }
+			$kernelRunlevel = IPS_GetKernelRunlevel(); 
+			if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("KernelRunlevel is: %s", $kernelRunlevel), 0); }
+			if($kernelRunlevel == 10103) {
+
+				$currentStatus = $this->GetStatus();
+				if($currentStatus == 102) {				//Instanz ist aktiv
+					$this->logLevel = $this->ReadPropertyInteger("LogLevel");
+					if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
+				} else {
+					if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
+				}
+
+				$this->gatewayId = 0; // $this->ReadPropertyInteger("si_ModebusGatewayID");
+				if($this->gatewayId > 10000) {
+					if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $this->gatewayId, IPS_GetLocation($this->gatewayId )), 0); }
+				} else {				
+					if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no Modbus-Gateway configured [%s]", $this->gatewayId), 0); }
+				}
 			}
 
 		}

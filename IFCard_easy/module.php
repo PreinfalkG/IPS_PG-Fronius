@@ -28,17 +28,21 @@ include_once("IFCard.php");
 			$this->archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
 			$this->parentRootId = IPS_GetParent($this->InstanceID);
 
-			$currentStatus = $this->GetStatus();
-			if($currentStatus == 102) {				//Instanz ist aktiv
-				$this->logLevel = $this->ReadPropertyInteger("LogLevel");
+			$kernelRunlevel = IPS_GetKernelRunlevel(); 
+			if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("KernelRunlevel is: %s", $kernelRunlevel), 0); }
+			if($kernelRunlevel == 10103) {
+				$currentStatus = $this->GetStatus();
+				if($currentStatus == 102) {				//Instanz ist aktiv
+					$this->logLevel = $this->ReadPropertyInteger("LogLevel");
 
-				$this->deviceOption = 1;
-				$this->IGNr = $this->ReadPropertyInteger("IG_Nr");
+					$this->deviceOption = 1;
+					$this->IGNr = $this->ReadPropertyInteger("IG_Nr");
 
-				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
+					if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
 
-			} else {		
-				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
+				} else {		
+					if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
+				}
 			}
 		}
 
