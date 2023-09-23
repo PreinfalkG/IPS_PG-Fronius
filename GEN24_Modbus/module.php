@@ -45,7 +45,7 @@ include_once("GEN24_ModbusConfig.php");
 				if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
 			}
 
-			$this->gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
+			$this->gatewayId = 0; // $this->ReadPropertyInteger("si_ModebusGatewayID");
 			if($this->gatewayId > 10000) {
 				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $this->gatewayId, IPS_GetLocation($this->gatewayId )), 0); }
 			} else {
