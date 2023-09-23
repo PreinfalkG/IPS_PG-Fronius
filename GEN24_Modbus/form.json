@@ -113,6 +113,12 @@
 
     ],
     "actions": [
+
+        {
+            "type": "Button",
+            "caption": "INIT InverterModel ",
+            "onClick": "GEN24MB_InitInverterModel($id);"
+        },   
         {
             "type": "Button",
             "caption": "Manual Update",
@@ -123,7 +129,17 @@
             "caption": "Reset Counter Variables",
             "confirm": "This sets the counter variables to 0. Are you sure?",
             "onClick": "GEN24MB_ResetCounterVariables($id);"
-        }  
+        },
+        {
+            "type": "Button",
+            "caption": "SetStatus 'aktiv'",
+            "onClick": "GEN24MB_SetStatusAktiv($id);"
+        },   
+        {
+            "type": "Button",
+            "caption": "SetStatus 'inaktiv'",
+            "onClick": "GEN24MB_SetStatusInaktiv($id);"
+        }                     
     ],
     "status": []
 }

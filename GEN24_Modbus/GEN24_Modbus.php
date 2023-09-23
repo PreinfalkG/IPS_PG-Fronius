@@ -72,7 +72,7 @@ trait GEN24_Modbus {
         
         foreach ($configArr as $modbusStartAddress => $configEntry) {       //inverterRegisterConfig > configEntry
 
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Create/Update Instance '%s - %s'", $modbusStartAddress, $configEntry[IMR_NAME]), 0); }	
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Create/Update Instance '%s - %s' [Gateway ID: %s]", $modbusStartAddress, $configEntry[IMR_NAME], $gatewayId), 0); }	
 
             $datenTyp = $this->getModbusDatatype($configEntry[IMR_TYPE]);
             if("continue" == $datenTyp) { continue; }
@@ -104,15 +104,18 @@ trait GEN24_Modbus {
                 if ( IPS_GetInstance($instanceId)['ConnectionID'] != 0) {
                     IPS_DisconnectInstance($instanceId);
                 }
-                // neues Gateway verbinden
 
-                IPS_LogMessage("SET ..", $instanceId . " to " . $gatewayId);
+                if($gatewayId > 10000) {
+                    // neues Gateway verbinden
+                    //IPS_LogMessage("SET ..", $instanceId . " to " . $gatewayId);
+                    if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, 
+                        sprintf("SET ConnectionID for InstanzId '%s' to '%s'", $instanceId, $gatewayId), 0); }
 
-                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, 
-                    sprintf("SET ConnectionID for InstanzId '%s' to '%s'", $instanceId, $gatewayId), 0); }
-
-                IPS_ConnectInstance($instanceId, $gatewayId);
-                $applyChanges = true;
+                    IPS_ConnectInstance($instanceId, $gatewayId);
+                    $applyChanges = true;
+                } else {
+                    if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no valid Modbus-Gateway configured [%s]", $gatewayId), 0); }
+                }
             }
 
 
@@ -450,14 +453,13 @@ trait GEN24_Modbus {
             $objInfo = IPS_GetObject($childID);
             $objType = $objInfo["ObjectType"];
 
-            
-
             if($objType == 2) {
                 $objIdent = $objInfo["ObjectIdent"];
                 $souceValue = $this->GetModebusDeviceSourceValue($objIdent, $modebusDevicesCategoryId);
                 
                 if($souceValue == 65535) {
                     // inverter sends a null value of 65535
+                    SetValue($childID, 0.001);
                 } else if(!is_null($souceValue)) {
                     $scalFactorConfigEntry = $inverterRegisterConfig[$objIdent][IMR_SF];
                     $multiplierVal = $inverterRegisterConfig[$objIdent][IPS_VARMULTIPLIER];
