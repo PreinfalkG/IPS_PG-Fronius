@@ -52,8 +52,9 @@ trait GEN24_Modbus {
             IPS_SetPosition($categoryId, preg_replace('~\D~', '', $key));
         }
 
+        $gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
         $inverterRegisterConfig = $this->GetInverterRegisterConfig($key);
-        $this->CreateModbusInstances($inverterRegisterConfig, $categoryId, $this->gatewayId, 0);
+        $this->CreateModbusInstances($inverterRegisterConfig, $categoryId, $gatewayId, 0);
         $this->CreateIpsVariables($inverterRegisterConfig, $categoryId);
 
     }

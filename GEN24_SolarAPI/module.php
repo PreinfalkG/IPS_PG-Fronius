@@ -17,7 +17,7 @@ include_once("GEN24_PrivateAPI.php");
 		const CATEGROY_NAME_Cache = "Cache";
 
 		
-		private $logLevel = 3;
+		private $logLevel = 3;		// WARN = 3;
 		private $parentRootId;
 		private $archivInstanzID;
 		private $GEN24_IP;
@@ -37,8 +37,10 @@ include_once("GEN24_PrivateAPI.php");
 					$this->logLevel = $this->ReadPropertyInteger("LogLevel");
 					if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
 				} else {
-					if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
+					if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s' | KernelRunlevel is '%s'", $currentStatus, $kernelRunlevel), 0); }	
 				}
+			} else {
+				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("WARN : KernelRunlevel is '%s'", $kernelRunlevel), 0); }
 			}
 		}
 

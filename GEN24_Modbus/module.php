@@ -23,9 +23,9 @@ include_once("GEN24_ModbusConfig.php");
 		);
 
 
-		private $logLevel = 3;
+		private $logLevel = 3;		// WARN = 3;
 		private $parentRootId;
-		private $gatewayId;
+		//private $gatewayId;
 		private $archivInstanzID;
 		private $GEN24_IP;
 		private $GEN24_PORT;
@@ -45,17 +45,21 @@ include_once("GEN24_ModbusConfig.php");
 				if($currentStatus == 102) {				//Instanz ist aktiv
 					$this->logLevel = $this->ReadPropertyInteger("LogLevel");
 					if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
+
+					$gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
+					if($gatewayId > 10000) {
+						if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $gatewayId, IPS_GetLocation($gatewayId )), 0); }
+					} else {				
+						if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no Modbus-Gateway configured [%s]", $gatewayId), 0); }
+					}
+
 				} else {
-					if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s'", $currentStatus), 0); }	
+					if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s' | KernelRunlevel is '%s'", $currentStatus, $kernelRunlevel), 0); }	
 				}
 
-				$this->gatewayId = 0; // $this->ReadPropertyInteger("si_ModebusGatewayID");
-				if($this->gatewayId > 10000) {
-					if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $this->gatewayId, IPS_GetLocation($this->gatewayId )), 0); }
-				} else {				
-					if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no Modbus-Gateway configured [%s]", $this->gatewayId), 0); }
-				}
-			}
+			} else {
+				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("WARN : KernelRunlevel is '%s'", $kernelRunlevel), 0); }
+			}			
 
 		}
 
@@ -96,8 +100,8 @@ include_once("GEN24_ModbusConfig.php");
 			$this->logLevel = $this->ReadPropertyInteger("LogLevel");
 			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Log-Level to %d", $this->logLevel), 0); }
 
-			$this->gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $this->gatewayId, IPS_GetLocation($this->gatewayId )), 0); }
+			$gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $gatewayId, IPS_GetLocation($gatewayId )), 0); }
 
 			$this->RegisterProfiles();
 			$this->RegisterVariables();  
@@ -137,18 +141,18 @@ include_once("GEN24_ModbusConfig.php");
 			$errorCnt = GetValueInteger($this->GetIDForIdent("ErrorCnt"));
 			if (($lastUpdate > $skipUdateSec) || ($errorCnt == 0)) {
 
-				$this->gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
+				$gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
 
 				$this->GEN24_IP = $this->ReadPropertyString('GEN24_IP');
 				$this->GEN24_PORT = $this->ReadPropertyString('GEN24_PORT');
 
-				if($this->gatewayId >= 10000) {
+				if($gatewayId >= 10000) {
 					$currentStatus = $this->GetStatus();
 					if($currentStatus == 102) {		
 					
-						$gatewayStatus = IPS_GetInstance($this->gatewayId)["InstanceStatus"];
+						$gatewayStatus = IPS_GetInstance($gatewayId)["InstanceStatus"];
 						if($gatewayStatus == 102) {	
-							$gatewayConnId = IPS_GetInstance($this->gatewayId)["ConnectionID"];
+							$gatewayConnId = IPS_GetInstance($gatewayId)["ConnectionID"];
 							if($gatewayConnId > 0) {
 								$ioStatus = IPS_GetInstance($gatewayConnId)["InstanceStatus"];
 								if($ioStatus == 102) {	
@@ -168,11 +172,11 @@ include_once("GEN24_ModbusConfig.php");
 								}
 							} else {
 								SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
-								if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modebus Gateway '%s - [%s]' has no Connection ID [Status=%s]", $this->gatewayId, IPS_GetName($this->gatewayId), $gatewayConnId), 0); }	
+								if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modebus Gateway '%s - [%s]' has no Connection ID [Status=%s]", $gatewayId, IPS_GetName($gatewayId), $gatewayConnId), 0); }	
 							}
 						} else {
 							SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
-							if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modebus Gateway '%s - [%s]' not activ [Status=%s]", $this->gatewayId, IPS_GetName($this->gatewayId), $gatewayStatus), 0); }
+							if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modebus Gateway '%s - [%s]' not activ [Status=%s]", $gatewayId, IPS_GetName($gatewayId), $gatewayStatus), 0); }
 						}
 
 					} else {
@@ -181,7 +185,7 @@ include_once("GEN24_ModbusConfig.php");
 					}
 				} else {
 					SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
-					if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR :: no valid Modbus-Gateway configured [%s]", $this->gatewayId), 0); }
+					if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR :: no valid Modbus-Gateway configured [%s]", $gatewayId), 0); }
 				}
 			} else {
 				SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
