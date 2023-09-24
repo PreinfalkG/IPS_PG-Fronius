@@ -103,7 +103,8 @@ include_once("IFCard.php");
 		}
 
 		public function Destroy() {
-			$this->SetUpdateInterval(0);		//Stop Auto-Update Timer
+			IPS_LogMessage("[" . __CLASS__ . "] - " . __FUNCTION__, sprintf("Destroy - IFCard_easy Modul Instance '%s'", $this->InstanceID));
+			//$this->SetUpdateInterval(0);		//Stop Auto-Update Timer
 			parent::Destroy();					//Never delete this line!
 		}
 

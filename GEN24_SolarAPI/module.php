@@ -70,7 +70,8 @@ include_once("GEN24_PrivateAPI.php");
 		}
 
 		public function Destroy() {
-			$this->SetUpdateInterval(0);		//Stop Auto-Update Timer
+			//$this->SetUpdateInterval(0);		//Stop Auto-Update Timer
+			IPS_LogMessage("[" . __CLASS__ . "] - " . __FUNCTION__, sprintf("Destroy - GEN24_SolarAPI Modul Instance '%s'", $this->InstanceID));
 			parent::Destroy();					//Never delete this line!
 		}
 

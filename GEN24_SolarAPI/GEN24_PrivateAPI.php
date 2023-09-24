@@ -141,7 +141,7 @@ trait GEN24_PrivateAPI {
                     }   
                 }
             } else {
-                if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("'jsonData->Body->Data->SecondaryMeters' not found in '%s'", self::CATEGORY_NAME_PowerFlowRealTimeData), 0); }
+                if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("'jsonData->Body->Data->SecondaryMeters' not found in '%s'", self::CATEGORY_NAME_PowerFlowRealTimeData), 0); }
             }
 
 
@@ -180,7 +180,7 @@ trait GEN24_PrivateAPI {
                     } 
                 }
             } else {
-                if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("'jsonData->Body->Data->Smartloads->Ohmpilots' not found in '%s'", self::CATEGORY_NAME_PowerFlowRealTimeData), 0); }
+                if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("'jsonData->Body->Data->Smartloads->Ohmpilots' not found in '%s'", self::CATEGORY_NAME_PowerFlowRealTimeData), 0); }
             }
            
         } else {
