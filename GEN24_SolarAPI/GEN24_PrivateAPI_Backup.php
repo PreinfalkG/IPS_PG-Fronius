@@ -656,8 +656,9 @@ trait GEN24_PrivateAPI {
                     }
 				}
 				if($enableLogging) { 
-					AC_SetLoggingStatus($this->archivInstanzID, $varId, true);
-					IPS_ApplyChanges($this->archivInstanzID);
+                    $archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
+					AC_SetLoggingStatus($archivInstanzID, $varId, true);
+					IPS_ApplyChanges($archivInstanzID);
 				}
 				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $propertyName), 0); }
 			} else {

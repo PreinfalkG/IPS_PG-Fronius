@@ -19,14 +19,12 @@ include_once("GEN24_PrivateAPI.php");
 		
 		private $logLevel = 3;		// WARN = 3;
 		private $parentRootId;
-		private $archivInstanzID;
 		private $GEN24_IP;
 
 		public function __construct($InstanceID) {
 		
 			parent::__construct($InstanceID);		// Diese Zeile nicht löschen
 
-			$this->archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
 			$this->parentRootId = IPS_GetParent($this->InstanceID);
 
 			$kernelRunlevel = IPS_GetKernelRunlevel(); 
@@ -65,7 +63,7 @@ include_once("GEN24_PrivateAPI.php");
 			$this->RegisterPropertyBoolean('cb_Events', false);
 			$this->RegisterPropertyBoolean('cb_ActiveEvents', false);
 
-			$this->RegisterTimer('Timer_AutoUpdate', 0, 'GEN24_Timer_AutoUpdate($_IPS[\'TARGET\']);');
+			$this->RegisterTimer('TimerAutoUpdate_GEN24', 0, 'GEN24_TimerAutoUpdate_GEN24($_IPS[\'TARGET\']);');
 
 		}
 
@@ -104,11 +102,11 @@ include_once("GEN24_PrivateAPI.php");
 			} else {
 				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval), 0); }
 			}
-			$this->SetTimerInterval("Timer_AutoUpdate", $updateInterval * 1000);	
+			$this->SetTimerInterval("TimerAutoUpdate_GEN24", $updateInterval * 1000);	
 		}
 
 
-		public function Timer_AutoUpdate() {
+		public function TimerAutoUpdate_GEN24() {
             if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "called ...", 0); }
 			$this->Update();
 		}
@@ -262,8 +260,8 @@ include_once("GEN24_PrivateAPI.php");
 			$scriptScr = sprintf("<?php GEN24_Update(%s); ?>",$this->InstanceID);
 			$this->RegisterScript("UpdateScript", "Update", $scriptScr, 990);
 
-
-			IPS_ApplyChanges($this->archivInstanzID);
+			$archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
+			IPS_ApplyChanges($archivInstanzID);
 			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered", 0); }
 
 		}

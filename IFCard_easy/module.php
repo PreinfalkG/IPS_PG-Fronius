@@ -14,7 +14,6 @@ include_once("IFCard.php");
 		private $logLevel = 3;		// WARN = 3;
 		private $logCnt = 0;
 		private $parentRootId;
-		private $archivInstanzID;	
 		private $deviceOption;			// 0=IFcard | 1=Wechselrichter
 		private $IGNr;					// laut Einstellung am Wechselrichter
 
@@ -25,7 +24,6 @@ include_once("IFCard.php");
 		
 			parent::__construct($InstanceID);		// Diese Zeile nicht löschen
 
-			$this->archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
 			$this->parentRootId = IPS_GetParent($this->InstanceID);
 
 			$kernelRunlevel = IPS_GetKernelRunlevel(); 
@@ -98,7 +96,7 @@ include_once("IFCard.php");
 			$this->RegisterPropertyBoolean('cb_Total_DcVmax', 	false);
 			$this->RegisterPropertyBoolean('cb_Total_oHours',	false);			
 	
-			$this->RegisterTimer('Timer_AutoUpdate', 0, 'IFC_Timer_AutoUpdate($_IPS[\'TARGET\']);');
+			$this->RegisterTimer('TimerAutoUpdate_IFC', 0, 'IFC_TimerAutoUpdate_IFC($_IPS[\'TARGET\']);');
 
 		}
 
@@ -137,10 +135,10 @@ include_once("IFCard.php");
 			} else {
 				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval), 0); }
 			}
-			$this->SetTimerInterval("Timer_AutoUpdate", $updateInterval * 1000);	
+			$this->SetTimerInterval("TimerAutoUpdate_IFC", $updateInterval * 1000);	
 		}
 
-		public function Timer_AutoUpdate() {
+		public function TimerAutoUpdate_IFC() {
 		
 			$masterOnOff = GetValue($this->GetIDForIdent("masterOnOff"));
 			if($masterOnOff) {
@@ -288,31 +286,7 @@ include_once("IFCard.php");
 
 		protected function RegisterVariables() {
 
-			/*
-				$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_Data, $this->parentRootId);
-				if($categoryId === false) {
-					$categoryId = IPS_CreateCategory();
-					IPS_SetIdent($categoryId, self::CATEGORY_Data);
-					IPS_SetName($categoryId, self::CATEGORY_Data);
-					IPS_SetParent($categoryId,  $this->parentRootId);
-					IPS_SetPosition($categoryId, 100);
-					if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' created with ID '%s'", self::CATEGORY_Data, $categoryId), 0); }
-				}
-
-				$instanceIdent_IFCard = "Devices";
-				$instanzName_IFCard = "Interface Card"
-                $instanzId_IFCard = @IPS_GetObjectIDByIdent($instanceIdent_IFCard, $categoryId);
-                if($instanzId_IFCard === false) {
-                    $instanzId_IFCard = IPS_CreateInstance("{485D0419-BE97-4548-AA9C-C083EB82E61E}");
-                    IPS_SetIdent($instanzId_IFCard, $instanceIdent_IFCard);
-                    IPS_SetName($instanzId_IFCard, $instanzName_IFCard);
-                    IPS_SetParent($instanzId_IFCard,  $categoryId);
-                    IPS_SetPosition($instanzId_IFCard, 100);
-                    if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanzName_IFCard, $instanzId_IFCard), 0); }
-                }
-			*/
-				
-
+			$archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
 
 			$varId = $this->RegisterVariableBoolean("masterOnOff", "MASTER ON / OFF", "~Switch", 10);
 
@@ -326,7 +300,7 @@ include_once("IFCard.php");
 			IPS_SetVariableCustomAction($varId, $scriptId);
 
 			$varId = $this->RegisterVariableInteger("connectionState", "Connection STATE", "IPS_ModulConnectionState", 20);
-			AC_SetLoggingStatus ($this->archivInstanzID, $varId, true);
+			AC_SetLoggingStatus ($archivInstanzID, $varId, true);
 
 			if($this->ReadPropertyBoolean("cb_IFC_Info")) { $this->RegisterVariableString("IFC_Info", "Interface", "", 100); }
 			$this->RegisterVariableInteger("IFC_ActivInverters", "Activ Inverters", "", 110);
@@ -378,7 +352,7 @@ include_once("IFCard.php");
 			$this->RegisterVariableFloat("lastProcessingTotalDuration", "Last Processing Duration [ms]", "", 950);	
 			$this->RegisterVariableInteger("LastDataReceived", "Last Data Received", "~UnixTimestamp", 960);
 
-			IPS_ApplyChanges($this->archivInstanzID);
+			IPS_ApplyChanges($archivInstanzID);
 			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered", 0); }
 		}
 
