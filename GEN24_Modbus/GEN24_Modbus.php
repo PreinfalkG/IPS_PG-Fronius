@@ -239,7 +239,8 @@ trait GEN24_Modbus {
                 }
                 // neues Gateway verbinden
 
-                IPS_LogMessage("SET ..", $instanceId . " to " . $gatewayId);
+                $logMsg = sprintf("SET Instance '%s' to Gateway '%s'", $instanceId, $gatewayId);
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, $logMsg , 0); }	
 
                 IPS_ConnectInstance($instanceId, $gatewayId);
                 $applyChanges = true;

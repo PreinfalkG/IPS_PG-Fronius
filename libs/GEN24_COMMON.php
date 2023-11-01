@@ -18,7 +18,6 @@ trait GEN24_COMMON {
 
             $logMsg =  sprintf("ERROR %s", $errorMsg);
             if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
-            IPS_LogMessage("GEN24", $logMsg);
 
             die();
         } else {
@@ -35,7 +34,6 @@ trait GEN24_COMMON {
 
 
     protected function RegisterProfiles() {
-
 
         if ( !IPS_VariableProfileExists('GEN24.Percent') ) {
             IPS_CreateVariableProfile('GEN24.Percent', VARIABLE::TYPE_INTEGER );

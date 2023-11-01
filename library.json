@@ -1,12 +1,12 @@
 {
     "id": "{A72B59B9-9DD1-4477-21C7-049D92C25A8E}",
-    "name": "Fronius",
+    "name": "Fronius Modul",
     "author": "PreinfalkG",
     "url": "",
     "compatibility": {
         "version": "6.4"
     },
-    "version": "1.28",
-    "build": 20231028,
-    "date": 1698472256
+    "version": "1.29",
+    "build": 20231101,
+    "date": 1698863091
 }
