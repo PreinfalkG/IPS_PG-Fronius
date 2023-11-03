@@ -14,9 +14,7 @@ class IFCard_easy extends IPSModule	{
 	private $logLevel = 3;		// WARN = 3;
 	private $logCnt = 0;
 	private $enableIPSLogOutput = false;
-	private $parentRootId;
 	private $deviceOption;			// 0=IFcard | 1=Wechselrichter
-	private $IGNr;					// laut Einstellung am Wechselrichter
 
 	const BUFFER_RECEIVE_EVENT = "receiveEvent";
 	const BUFFER_RECEIVED_DATA = "receiveBuffer";
@@ -25,16 +23,10 @@ class IFCard_easy extends IPSModule	{
 	
 		parent::__construct($InstanceID);		// Diese Zeile nicht löschen
 
-		$currentStatus = @$this->GetStatus();
-		if($currentStatus == 102) {				//Instanz ist aktiv
-			$this->parentRootId = IPS_GetParent($this->InstanceID);
-			$this->logLevel = $this->ReadPropertyInteger("LogLevel");
-			$this->deviceOption = 1;
-			$this->IGNr = $this->ReadPropertyInteger("IG_Nr");
-			if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
-		} else {		
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s' | KernelRunlevel is '%s'", $currentStatus, $kernelRunlevel), 0); }	
-		}
+		$this->deviceOption = 1;
+
+		$this->logLevel = @$this->ReadPropertyInteger("LogLevel") or $this->logLevel = LogLevel::TRACE; 
+		if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel)); }
 	}
 
 
@@ -43,11 +35,11 @@ class IFCard_easy extends IPSModule	{
 		parent::Create();		//Never delete this line!
 
 		$logMsg = sprintf("Create Modul '%s [%s]'...", IPS_GetName($this->InstanceID), $this->InstanceID);
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, $logMsg); }
 		IPS_LogMessage(__CLASS__."_".__FUNCTION__, $logMsg);
 
 		$logMsg = sprintf("KernelRunlevel '%s'", IPS_GetKernelRunlevel());
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg, 0); }			
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg); }			
 
 		$this->RequireParent('{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}');
 
@@ -108,7 +100,7 @@ class IFCard_easy extends IPSModule	{
 		parent::ApplyChanges();					//Never delete this line!
 
 		$this->logLevel = $this->ReadPropertyInteger("LogLevel");
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Log-Level to %d", $this->logLevel), 0); }
+		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Log-Level to %d", $this->logLevel)); }
 
 		$this->RegisterProfiles();
 		$this->RegisterVariables();  
@@ -124,18 +116,18 @@ class IFCard_easy extends IPSModule	{
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data)	{
 		$logMsg = sprintf("TimeStamp: %s | SenderID: %s | Message: %s | Data: %s", $TimeStamp, $SenderID, $Message, json_encode($Data));
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg); }
 		//IPS_LogMessage(__CLASS__."_".__FUNCTION__, $logMsg);
 	}
 
 	public function SetUpdateInterval(int $updateInterval) {
 		if ($updateInterval == 0) {  
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Auto-Update stopped [TimerIntervall = 0]", 0); }	
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Auto-Update stopped [TimerIntervall = 0]"); }	
 		} else if ($updateInterval < 5) { 
 			$updateInterval = 5; 
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval), 0); }	
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval)); }	
 		} else {
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval), 0); }
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval)); }
 		}
 		$this->SetTimerInterval("TimerAutoUpdate_IFC", $updateInterval * 1000);	
 	}
@@ -144,10 +136,10 @@ class IFCard_easy extends IPSModule	{
 	
 		$masterOnOff = GetValue($this->GetIDForIdent("masterOnOff"));
 		if($masterOnOff) {
-			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "called ...", 0); }
+			if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "called ..."); }
 			$this->Update("Timer"); 
 		} else {
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("AutoUpate CANCELED > Master Swich is OFF > Connection State '%s' ...", $this->GetConnectionState()), 0); }
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("AutoUpate CANCELED > Master Swich is OFF > Connection State '%s' ...", $this->GetConnectionState())); }
 		}			
 	}
 
@@ -158,7 +150,7 @@ class IFCard_easy extends IPSModule	{
 			$connectionState = IPS_GetInstance($conID)['InstanceStatus'];
 		} else {
 			$connectionState = 0;
-			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s [%s]' has NO Gateway/Connection [ConnectionID=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $conID), 0); }
+			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s [%s]' has NO Gateway/Connection [ConnectionID=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $conID)); }
 		}
 		SetValue($this->GetIDForIdent("connectionState"), $connectionState);
 		return $connectionState;
@@ -175,49 +167,52 @@ class IFCard_easy extends IPSModule	{
 		if($currentStatus == 102) {		
 			if($connectionState == 102) {
 
-				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Request/Update Inverter Data via Interface Card ...", 0); }
+				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Request/Update Inverter Data via Interface Card ..."); }
 
 				if($this->ReadPropertyBoolean("cb_IFC_Info")) 			{ $this->Request_InterfaceCardInfo("IFC_Info"); }
 				
 				$activInverters = $this->Request_ActivInverters("IFC_ActivInverters");
-				//if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Activ Inverters: %s", print_r($activInverters, true)), 0); }
+				//if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Activ Inverters: %s", print_r($activInverters, true))); }
 				if($activInverters > 0) {
+
+					$igNr = $this->ReadPropertyInteger("IG_Nr");
+					$deviceOption = $this->deviceOption;
 
 					if($this->ReadPropertyBoolean("cb_IFC_DeviceTyp")) 		{ $this->Request_DeviceTyp("IFC_DeviceType"); }
 
-					if($this->ReadPropertyBoolean("cb_Power")) 				{ $this->RequestInverterData(WR_POWER, "P"); }
-					if($this->ReadPropertyBoolean("cb_DcV")) 				{ $this->RequestInverterData(DC_VOLTAGE, "DcV"); }
-					if($this->ReadPropertyBoolean("cb_DcA")) 				{ $this->RequestInverterData(DC_CURRENT, "DcA"); }
+					if($this->ReadPropertyBoolean("cb_Power")) 				{ $this->RequestInverterData(WR_POWER, "P", 	$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_DcV")) 				{ $this->RequestInverterData(DC_VOLTAGE, "DcV", $deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_DcA")) 				{ $this->RequestInverterData(DC_CURRENT, "DcA", $deviceOption, $igNr); }
 					
-					if($this->ReadPropertyBoolean("cb_AcV")) 				{ $this->RequestInverterData(AC_VOLTAGE, "AcV"); }
-					if($this->ReadPropertyBoolean("cb_AcA")) 				{ $this->RequestInverterData(AC_CURRENT, "AcA"); }
-					if($this->ReadPropertyBoolean("cb_AcF")) 				{ $this->RequestInverterData(AC_FREQUENCY, "AcF"); }		
+					if($this->ReadPropertyBoolean("cb_AcV")) 				{ $this->RequestInverterData(AC_VOLTAGE, "AcV", 	$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_AcA")) 				{ $this->RequestInverterData(AC_CURRENT, "AcA", 	$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_AcF")) 				{ $this->RequestInverterData(AC_FREQUENCY, "AcF", 	$deviceOption, $igNr); }
 					
-					if($this->ReadPropertyBoolean("cb_Day_Energy")) 		{ $this->RequestInverterData(ENERGY_DAY, "day_Energy"); }
-					if($this->ReadPropertyBoolean("cb_Day_Yield")) 			{ $this->RequestInverterData(YIELD_DAY, "day_Yield"); }
-					if($this->ReadPropertyBoolean("cb_Day_Pmax")) 			{ $this->RequestInverterData(MAX_POWER_DAY, "day_Pmax"); }								
-					if($this->ReadPropertyBoolean("cb_Day_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_DAY, "day_AcVmax"); }
-					if($this->ReadPropertyBoolean("cb_Day_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_DAY, "day_AcVmin"); }
-					if($this->ReadPropertyBoolean("cb_Day_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_DAY, "day_DcVmax"); }	
-					if($this->ReadPropertyBoolean("cb_Day_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_DAY, "day_oHours"); }
+					if($this->ReadPropertyBoolean("cb_Day_Energy")) 		{ $this->RequestInverterData(ENERGY_DAY, "day_Energy", 			$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_Day_Yield")) 			{ $this->RequestInverterData(YIELD_DAY, "day_Yield", 			$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_Day_Pmax")) 			{ $this->RequestInverterData(MAX_POWER_DAY, "day_Pmax", 		$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_Day_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_DAY, "day_AcVmax", 	$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_Day_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_DAY, "day_AcVmin", 	$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_Day_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_DAY, "day_DcVmax", 	$deviceOption, $igNr); }
+					if($this->ReadPropertyBoolean("cb_Day_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_DAY, "day_oHours", $deviceOption, $igNr); }
 
 					$minuteNow = idate('i', time());
 					if(($minuteNow == 0) or ($source!="Timer")) {
-						if($this->ReadPropertyBoolean("cb_Year_Energy")) 		{ $this->RequestInverterData(ENERGY_YEAR, "year_Energy"); }
-						if($this->ReadPropertyBoolean("cb_Year_Yield")) 		{ $this->RequestInverterData(YIELD_YEAR, "year_Yield"); }
-						if($this->ReadPropertyBoolean("cb_Year_Pmax")) 			{ $this->RequestInverterData(MAX_POWER_YEAR, "year_Pmax"); }								
-						if($this->ReadPropertyBoolean("cb_Year_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_YEAR, "year_AcVmax"); }
-						if($this->ReadPropertyBoolean("cb_Year_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_YEAR, "year_AcVmin"); }
-						if($this->ReadPropertyBoolean("cb_Year_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_YEAR, "year_DcVmax"); }	
-						if($this->ReadPropertyBoolean("cb_Year_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_YEAR, "year_oHours"); }
+						if($this->ReadPropertyBoolean("cb_Year_Energy")) 		{ $this->RequestInverterData(ENERGY_YEAR, "year_Energy", 			$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Year_Yield")) 		{ $this->RequestInverterData(YIELD_YEAR, "year_Yield", 				$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Year_Pmax")) 			{ $this->RequestInverterData(MAX_POWER_YEAR, "year_Pmax", 			$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Year_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_YEAR, "year_AcVmax", 	$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Year_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_YEAR, "year_AcVmin", 	$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Year_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_YEAR, "year_DcVmax", 	$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Year_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_YEAR, "year_oHours",	$deviceOption, $igNr); }
 						
-						if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ $this->RequestInverterData(ENERGY_TOTAL, "total_Energy"); }
-						if($this->ReadPropertyBoolean("cb_Total_Yield")) 		{ $this->RequestInverterData(YIELD_TOTAL, "total_Yield"); }
-						if($this->ReadPropertyBoolean("cb_Total_Pmax")) 		{ $this->RequestInverterData(MAX_POWER_TOTAL, "total_Pmax"); }								
-						if($this->ReadPropertyBoolean("cb_Total_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_TOTAL, "total_AcVmax"); }
-						if($this->ReadPropertyBoolean("cb_Total_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_TOTAL, "total_AcVmin"); }
-						if($this->ReadPropertyBoolean("cb_Total_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_TOTAL, "total_DcVmax"); }	
-						if($this->ReadPropertyBoolean("cb_Total_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_TOTAL, "total_oHours"); }	
+						if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ $this->RequestInverterData(ENERGY_TOTAL, "total_Energy", 			$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Total_Yield")) 		{ $this->RequestInverterData(YIELD_TOTAL, "total_Yield", 			$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Total_Pmax")) 		{ $this->RequestInverterData(MAX_POWER_TOTAL, "total_Pmax", 		$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Total_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_TOTAL, "total_AcVmax", 	$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Total_AcVMin")) 		{ $this->RequestInverterData(MIN_AC_VOLTAGE_TOTAL, "total_AcVmin", 	$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Total_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_TOTAL, "total_DcVmax", 	$deviceOption, $igNr); }
+						if($this->ReadPropertyBoolean("cb_Total_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_TOTAL, "total_oHours", $deviceOption, $igNr); }
 					}					
 				
 				} else {
@@ -235,12 +230,12 @@ class IFCard_easy extends IPSModule	{
 
 			} else {
 				SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
-				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Connection NOT activ [Status=%s]", $connectionState), 0); }
+				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Connection NOT activ [Status=%s]", $connectionState)); }
 			}
 		} else {
 			SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
 			SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
-			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus), 0); }
+			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus)); }
 		}
 		$duration = $this->CalcDuration_ms($start_Time);
 		SetValue($this->GetIDForIdent("lastProcessingTotalDuration"), $duration);
@@ -355,7 +350,7 @@ class IFCard_easy extends IPSModule	{
 		$this->RegisterVariableInteger("LastDataReceived", "Last Data Received", "~UnixTimestamp", 960);
 
 		IPS_ApplyChanges($archivInstanzID);
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered", 0); }
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered"); }
 	}
 
 	protected function RegisterProfiles() {
@@ -373,12 +368,12 @@ class IFCard_easy extends IPSModule	{
 			IPS_SetVariableProfileAssociation ('IPS_ModulConnectionState', 200, "[%d] Unknown", "", -1);
 		} 
 	
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variable Profiles registered", 0); }			
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variable Profiles registered"); }			
 	}
 
 
 	public function Send(string $Text) {
-		if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->String2Hex($Text), 0); }
+		if($this->logLevel >= LogLevel::COMMUNICATION) { $this->AddLog(__FUNCTION__, $this->String2Hex($Text)); }
 		$Text = utf8_encode($Text);		
 		SetValue($this->GetIDForIdent("requestCnt"), GetValue($this->GetIDForIdent("requestCnt")) + 1);  
 
@@ -570,20 +565,19 @@ class IFCard_easy extends IPSModule	{
 		return round($duration*1000, 2);
 	}	
 
-	protected function AddLog($name, $daten, $format) {
+	protected function AddLog($name, $daten, $format=0) {
 		$this->logCnt++;
+		$logSender = "[".__CLASS__."] - " . $name;
 		if($this->logLevel >= LogLevel::DEBUG) {
-			$logsender = sprintf("%02d-T%2d [%s] - %s", $this->logCnt, $_IPS['THREAD'], __CLASS__, $name);
-			$this->SendDebug($logsender, $daten, $format); 	
-		} else {
-			$this->SendDebug("[".__CLASS__."] - " . $name, $daten, $format); 	
-		}
+			$logSender = sprintf("%02d-T%2d [%s] - %s", $this->logCnt, $_IPS['THREAD'], __CLASS__, $name);
+		} 
+		$this->SendDebug($logSender, $daten, $format); 	
 	
 		if($this->enableIPSLogOutput) {
 			if($format == 0) {
-				IPS_LogMessage("[".__CLASS__."] - " . $name, $daten);	
+				IPS_LogMessage($logSender, $daten);	
 			} else {
-				IPS_LogMessage("[".__CLASS__."] - " . $name, $this->String2Hex($daten));			
+				IPS_LogMessage($logSender, $this->String2Hex($daten));			
 			}
 		}
 	}

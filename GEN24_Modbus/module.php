@@ -23,7 +23,6 @@ class GEN24_Modebus extends IPSModule {
 	private $logLevel = 3;		// WARN = 3;
 	private $logCnt = 0;	
 	private $enableIPSLogOutput = false;	
-	private $parentRootId;
 	//private $gatewayId;
 	private $GEN24_IP;
 	private $GEN24_PORT;
@@ -32,21 +31,8 @@ class GEN24_Modebus extends IPSModule {
 	
 		parent::__construct($InstanceID);		// Diese Zeile nicht löschen
 
-		$currentStatus = @$this->GetStatus();
-		if($currentStatus == 102) {				//Instanz ist aktiv
-			$this->parentRootId = IPS_GetParent($this->InstanceID);
-			$this->logLevel = $this->ReadPropertyInteger("LogLevel");
-			if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
-
-			$gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
-			if($gatewayId > 10000) {
-				if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $gatewayId, IPS_GetLocation($gatewayId )), 0); }
-			} else {				
-				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no Modbus-Gateway configured [%s]", $gatewayId), 0); }
-			}
-		} else {
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s' | KernelRunlevel is '%s'", $currentStatus, $kernelRunlevel), 0); }	
-		}		
+		$this->logLevel = @$this->ReadPropertyInteger("LogLevel"); 
+		if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel)); }	
 	}
 
 
@@ -55,11 +41,11 @@ class GEN24_Modebus extends IPSModule {
 		parent::Create();				//Never delete this line!
 
 		$logMsg = sprintf("Create Modul '%s [%s]'...", IPS_GetName($this->InstanceID), $this->InstanceID);
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, $logMsg); }
 		IPS_LogMessage(__CLASS__."_".__FUNCTION__, $logMsg);
 
 		$logMsg = sprintf("KernelRunlevel '%s'", IPS_GetKernelRunlevel());
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg, 0); }			
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg); }			
 		
 		$this->RegisterPropertyString('GEN24_IP', "10.0.11.160");
 		$this->RegisterPropertyString('GEN24_PORT', "502");
@@ -91,10 +77,14 @@ class GEN24_Modebus extends IPSModule {
 		parent::ApplyChanges();			//Never delete this line!
 
 		$this->logLevel = $this->ReadPropertyInteger("LogLevel");
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Log-Level to %d", $this->logLevel), 0); }
+		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Log-Level to %d", $this->logLevel)); }
 
 		$gatewayId = $this->ReadPropertyInteger("si_ModebusGatewayID");
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $gatewayId, IPS_GetLocation($gatewayId )), 0); }
+		if($gatewayId > 10000) {
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Use Modbus-Gateway '%d - %s'", $gatewayId, IPS_GetLocation($gatewayId ))); }
+		} else {
+			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no Modbus-Gateway configured [%s]", $gatewayId)); }
+		}
 
 		$this->RegisterProfiles();
 		$this->RegisterVariables();  
@@ -110,25 +100,25 @@ class GEN24_Modebus extends IPSModule {
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data)	{
 		$logMsg = sprintf("TimeStamp: %s | SenderID: %s | Message: %s | Data: %s", $TimeStamp, $SenderID, $Message, json_encode($Data));
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg); }
 		//IPS_LogMessage(__CLASS__."_".__FUNCTION__, $logMsg);
 	}
 
 	public function SetUpdateInterval(int $updateInterval) {
 		if ($updateInterval == 0) {  
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Auto-Update stopped [TimerIntervall = 0]", 0); }	
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Auto-Update stopped [TimerIntervall = 0]"); }	
 		}else if ($updateInterval < 5) { 
 			$updateInterval = 5; 
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval), 0); }	
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval)); }	
 		} else {
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval), 0); }
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval)); }
 		}
 		$this->SetTimerInterval("TimerAutoUpdate_GEN24MB", $updateInterval * 1000);	
 	}
 
 
 	public function TimerAutoUpdate_GEN24MB() {
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "called ...", 0); }
+		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "called ..."); }
 		$this->Update();
 	}
 
@@ -166,29 +156,29 @@ class GEN24_Modebus extends IPSModule {
 
 							} else {
 								SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
-								if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modbus Client Socket '%s - [%s]' not activ [Status=%s]", $gatewayConnId, IPS_GetName($gatewayConnId), $ioStatus), 0); }	
+								if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modbus Client Socket '%s - [%s]' not activ [Status=%s]", $gatewayConnId, IPS_GetName($gatewayConnId), $ioStatus)); }	
 							}
 						} else {
 							SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
-							if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modebus Gateway '%s - [%s]' has no Connection ID [Status=%s]", $gatewayId, IPS_GetName($gatewayId), $gatewayConnId), 0); }	
+							if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modebus Gateway '%s - [%s]' has no Connection ID [Status=%s]", $gatewayId, IPS_GetName($gatewayId), $gatewayConnId)); }	
 						}
 					} else {
 						SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
-						if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modebus Gateway '%s - [%s]' not activ [Status=%s]", $gatewayId, IPS_GetName($gatewayId), $gatewayStatus), 0); }
+						if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modebus Gateway '%s - [%s]' not activ [Status=%s]", $gatewayId, IPS_GetName($gatewayId), $gatewayStatus)); }
 					}
 
 				} else {
 					SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
-					if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus), 0); }
+					if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus)); }
 				}
 			} else {
 				SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
-				if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR :: no valid Modbus-Gateway configured [%s]", $gatewayId), 0); }
+				if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR :: no valid Modbus-Gateway configured [%s]", $gatewayId)); }
 			}
 		} else {
 			SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
 			$logMsg =  sprintf("WARNING :: Skip Update for %d sec for Instance '%s' >> last error %d seconds ago...", $skipUdateSec, $this->InstanceID, $lastUpdate);
-			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, $logMsg); }
 		}
 	}
 
@@ -239,22 +229,22 @@ class GEN24_Modebus extends IPSModule {
 	public function InitInverterModel() {
 
 		$cnt = 0;
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "...", 0); }
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "..."); }
 		foreach(self::INVERTER_CategoryArr as $key => $value) {
 			$cb_value = $this->ReadPropertyBoolean("cb_".$key);	
 			if($cb_value) {
 				$cnt++;
-				if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Init '%s' ...", $value), 0); }
+				if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Init '%s' ...", $value)); }
 				$this->CreateInverterModel($key, $value);
 			}
 		}
 
 		if($cnt == 1) {
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("initialized %d InverterModel", $cnt), 0); }
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("initialized %d InverterModel", $cnt)); }
 		} else if($cnt > 1) {
-				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("initialized %d InverterModels", $cnt), 0); }			
+				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("initialized %d InverterModels", $cnt)); }			
 		} else {
-			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("WARN :: Kein InverterModel aktiviert", $cnt), 0); }
+			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("WARN :: Kein InverterModel aktiviert", $cnt)); }
 		}
 
 
@@ -286,24 +276,24 @@ class GEN24_Modebus extends IPSModule {
 
 		$archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
 		IPS_ApplyChanges($archivInstanzID);
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered", 0); }
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered"); }
 
 	}
 
-	protected function AddLog($name, $daten, $format) {
+
+	protected function AddLog($name, $daten, $format=0) {
 		$this->logCnt++;
+		$logSender = "[".__CLASS__."] - " . $name;
 		if($this->logLevel >= LogLevel::DEBUG) {
-			$logsender = sprintf("%02d-T%2d [%s] - %s", $this->logCnt, $_IPS['THREAD'], __CLASS__, $name);
-			$this->SendDebug($logsender, $daten, $format); 	
-		} else {
-			$this->SendDebug("[".__CLASS__."] - " . $name, $daten, $format); 	
-		}
+			$logSender = sprintf("%02d-T%2d [%s] - %s", $this->logCnt, $_IPS['THREAD'], __CLASS__, $name);
+		} 
+		$this->SendDebug($logSender, $daten, $format); 	
 	
 		if($this->enableIPSLogOutput) {
 			if($format == 0) {
-				IPS_LogMessage("[".__CLASS__."] - " . $name, $daten);	
+				IPS_LogMessage($logSender, $daten);	
 			} else {
-				IPS_LogMessage("[".__CLASS__."] - " . $name, $this->String2Hex($daten));			
+				IPS_LogMessage($logSender, $this->String2Hex($daten));			
 			}
 		}
 	}

@@ -7,9 +7,10 @@ trait GEN24_PrivateAPI {
        
         $url = "http://" . $this->GEN24_IP . "/status/powerflow";
 
-        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerFlow, $this->parentRootId);
+        $parentRootId = IPS_GetParent($this->InstanceID);
+        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerFlow, $parentRootId);
         if($categoryId !== false) {
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGORY_NAME_PowerFlow, $categoryId), 0); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGORY_NAME_PowerFlow, $categoryId)); }
 
             $jsonData = $this->RequestJsonData($url);
 
@@ -43,7 +44,7 @@ trait GEN24_PrivateAPI {
                     IPS_SetName($instanzId, $instanceName);
                     IPS_SetParent($instanzId,  $categoryId);
                     IPS_SetPosition($instanzId, 10);
-                    if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                    if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                 }
 
                 foreach($site as $key => $value) {
@@ -56,7 +57,7 @@ trait GEN24_PrivateAPI {
                     $this->SaveyPropertyValue($instanzId, $key, $value, $paramArrElem);
                 }
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->site' not found in '%s'", self::CATEGORY_NAME_PowerFlow), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->site' not found in '%s'", self::CATEGORY_NAME_PowerFlow)); }
             }
 
 
@@ -85,7 +86,7 @@ trait GEN24_PrivateAPI {
                         IPS_SetName($instanzId, $instanceName);
                         IPS_SetParent($instanzId,  $categoryId);
                         IPS_SetPosition($instanzId, 20 + $cnt);
-                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                     }
   
                     foreach($inverter as $key => $value) {
@@ -99,7 +100,7 @@ trait GEN24_PrivateAPI {
                     }
                 }
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->inverters' not found in '%s'", self::CATEGORY_NAME_PowerFlow), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->inverters' not found in '%s'", self::CATEGORY_NAME_PowerFlow)); }
             }
 
             if(isset($jsonData->SecondaryMeters)) {
@@ -124,7 +125,7 @@ trait GEN24_PrivateAPI {
                         IPS_SetName($instanzId, $instanceName);
                         IPS_SetParent($instanzId,  $categoryId);
                         IPS_SetPosition($instanzId, 30 + $cnt);
-                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                     }
 
                     foreach($SecondaryMeter as $key => $value) {
@@ -138,7 +139,7 @@ trait GEN24_PrivateAPI {
                     }   
                 }
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->SecondaryMeters' not found in '%s'", self::CATEGORY_NAME_PowerFlow), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->SecondaryMeters' not found in '%s'", self::CATEGORY_NAME_PowerFlow)); }
             }
 
 
@@ -163,7 +164,7 @@ trait GEN24_PrivateAPI {
                         IPS_SetName($instanzId, $instanceName);
                         IPS_SetParent($instanzId,  $categoryId);
                         IPS_SetPosition($instanzId, 40 + $cnt);
-                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                     }
 
                     foreach($Ohmpilot as $key => $value) {
@@ -177,20 +178,21 @@ trait GEN24_PrivateAPI {
                     } 
                 }
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Smartloads->Ohmpilots' not found in '%s'", self::CATEGORY_NAME_PowerFlow), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Smartloads->Ohmpilots' not found in '%s'", self::CATEGORY_NAME_PowerFlow)); }
             }
            
         } else {
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_PowerFlow), 0); }
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_PowerFlow)); }
         }
 
     }
 
     protected function RequesPowerMeters() {
        
-        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerMeters, $this->parentRootId);
+        $parentRootId = IPS_GetParent($this->InstanceID);
+        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerMeters, $parentRootId);
         if($categoryId !== false) {
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGORY_NAME_PowerMeters, $categoryId), 0); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGORY_NAME_PowerMeters, $categoryId)); }
 
             $url = "http://" . $this->GEN24_IP . "/components/PowerMeter/readable";
             $jsonData = $this->RequestJsonData($url);
@@ -209,7 +211,7 @@ trait GEN24_PrivateAPI {
                         IPS_SetName($instanzId, $instanceName);
                         IPS_SetParent($instanzId,  $categoryId);
                         IPS_SetPosition($instanzId, 10 + $cnt);
-                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                     }
 
                     foreach($meters->channels as $key => $value) {
@@ -217,10 +219,10 @@ trait GEN24_PrivateAPI {
                     }
                 }               
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Body->Data' not found in '%s'", self::CATEGORY_NAME_PowerMeters), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Body->Data' not found in '%s'", self::CATEGORY_NAME_PowerMeters)); }
             }
         } else {
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_PowerMeters), 0); }
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_PowerMeters)); }
         }
     }
 
@@ -228,9 +230,10 @@ trait GEN24_PrivateAPI {
        
         $url = "http://" . $this->GEN24_IP . "/components/BatteryManagementSystem/readable";
 
-        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_BatteryManagementSystem, $this->parentRootId);
+        $parentRootId = IPS_GetParent($this->InstanceID);
+        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_BatteryManagementSystem, $parentRootId);
         if($categoryId !== false) {
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGORY_NAME_BatteryManagementSystem, $categoryId), 0); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGORY_NAME_BatteryManagementSystem, $categoryId)); }
 
             $parmArr["BAT_CAPACITY_ESTIMATION_MAX_F64"]                 = array("varType" => 2, "multiplikator" => 0.001, 	"round" => 3, "profileName" => "Fronius.kWh");
             $parmArr["BAT_CAPACITY_ESTIMATION_REMAINING_F64"]           = array("varType" => 2, "multiplikator" => 0.001, 	"round" => 3, "profileName" => "Fronius.kWh");
@@ -279,7 +282,7 @@ trait GEN24_PrivateAPI {
                         IPS_SetName($instanzId, $instanceName);
                         IPS_SetParent($instanzId,  $categoryId);
                         IPS_SetPosition($instanzId, 10 + $cnt);
-                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                     }
 
                     foreach($meters->channels as $key => $value) {
@@ -294,11 +297,11 @@ trait GEN24_PrivateAPI {
                 }               
 
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Body->Data' not found in '%s'", self::CATEGORY_NAME_PowerMeters), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Body->Data' not found in '%s'", self::CATEGORY_NAME_PowerMeters)); }
             }
 
         } else {
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_PowerMeters), 0); }
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_PowerMeters)); }
         }
 
     }
@@ -307,9 +310,10 @@ trait GEN24_PrivateAPI {
        
         $url = "http://" . $this->GEN24_IP . "/components/Ohmpilot/readable";
 
-        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_Ohmpilot, $this->parentRootId);
+        $parentRootId = IPS_GetParent($this->InstanceID);
+        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_Ohmpilot, $parentRootId);
         if($categoryId !== false) {
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGORY_NAME_Ohmpilot, $categoryId), 0); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGORY_NAME_Ohmpilot, $categoryId)); }
 
             $parmArr["ACBRIDGE_POWERACTIVE_SUM_MEAN_F32"]               = array("varType" => 2, "multiplikator" => 1, 	    "round" => 2, "profileName" => "Fronius.PowerActive");
             $parmArr["COMPONENTS_MODE_ENABLE_U16"]                      = array("varType" => 1, "multiplikator" => 1, 	    "round" => 0, "profileName" => "");
@@ -339,7 +343,7 @@ trait GEN24_PrivateAPI {
                         IPS_SetName($instanzId, $instanceName);
                         IPS_SetParent($instanzId,  $categoryId);
                         IPS_SetPosition($instanzId, 10 + $cnt);
-                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                     }
 
                     foreach($meters->channels as $key => $value) {
@@ -354,11 +358,11 @@ trait GEN24_PrivateAPI {
                 }               
 
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Body->Data' not found in '%s'", self::CATEGORY_NAME_Ohmpilot), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Body->Data' not found in '%s'", self::CATEGORY_NAME_Ohmpilot)); }
             }
 
         } else {
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_Ohmpilot), 0); }
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_Ohmpilot)); }
         }
 
     }
@@ -367,9 +371,10 @@ trait GEN24_PrivateAPI {
        
         $url = "http://" . $this->GEN24_IP . "/status/devices";
 
-        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGROY_NAME_Devices, $this->parentRootId);
+        $parentRootId = IPS_GetParent($this->InstanceID);
+        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGROY_NAME_Devices, $parentRootId);
         if($categoryId !== false) {
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGROY_NAME_Devices, $categoryId), 0); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGROY_NAME_Devices, $categoryId)); }
 
 
             $parmArr["id"]               = array("varType" => 3, "multiplikator" => 1, 	    "round" => null, "profileName" => "");
@@ -401,7 +406,7 @@ trait GEN24_PrivateAPI {
                     IPS_SetName($instanzId, $instanceName);
                     IPS_SetParent($instanzId,  $categoryId);
                     IPS_SetPosition($instanzId, 10 + $cnt);
-                    if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                    if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                 }
 
                 foreach($device as $key => $value) {
@@ -416,7 +421,7 @@ trait GEN24_PrivateAPI {
                 $cnt++;
             }       
         } else {
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGROY_NAME_Devices), 0); }
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGROY_NAME_Devices)); }
         }                    
     }    
 
@@ -425,9 +430,10 @@ trait GEN24_PrivateAPI {
        
         $url = "http://" . $this->GEN24_IP . "/components/cache/readable";
 
-        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGROY_NAME_Cache, $this->parentRootId);
+        $parentRootId = IPS_GetParent($this->InstanceID);
+        $categoryId = @IPS_GetObjectIDByIdent(self::CATEGROY_NAME_Cache, $parentRootId);
         if($categoryId !== false) {
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGROY_NAME_Cache, $categoryId), 0); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' found with ID '%s'", self::CATEGROY_NAME_Cache, $categoryId)); }
 
             $parmArr["ACBRIDGE_CURRENT_ACTIVE_MEAN_01_F32"]                 = array("varType" => 2, "multiplikator" => 1, 	    "round" => 3, "profileName" => "Fronius.Current");
             $parmArr["ACBRIDGE_CURRENT_ACTIVE_MEAN_02_F32"]                 = array("varType" => 2, "multiplikator" => 1, 	    "round" => 3, "profileName" => "Fronius.Current");
@@ -517,12 +523,12 @@ trait GEN24_PrivateAPI {
                         IPS_SetName($instanzId, $instanceName);
                         IPS_SetParent($instanzId,  $categoryId);
                         IPS_SetPosition($instanzId, 10 + $cnt);
-                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId), 0); }
+                        if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Instance '%s' created with ID '%s'", $instanceName, $instanzId)); }
                     }
 
                     foreach($arr->channels as $key => $value) {
                         if(substr($key, 0, 1) == "<") {
-                            if($this->logLevel >= LogLevel::TEST) { $this->AddLog(__FUNCTION__, sprintf("Key '%s' with Value '%s' wird nicht gespeichert", $key, $value), 0); }
+                            if($this->logLevel >= LogLevel::TEST) { $this->AddLog(__FUNCTION__, sprintf("Key '%s' with Value '%s' wird nicht gespeichert", $key, $value)); }
                         } else {
                             if(array_key_exists($key, $parmArr)) {
                                 $paramArrElem = $parmArr[$key];
@@ -536,11 +542,11 @@ trait GEN24_PrivateAPI {
                 }               
 
             } else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Body->Data' not found in '%s'", self::CATEGROY_NAME_Cache), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("jsonData->Body->Data' not found in '%s'", self::CATEGROY_NAME_Cache)); }
             }
 
         } else {
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGROY_NAME_Cache), 0); }
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGROY_NAME_Cache)); }
         }
 
     }
@@ -562,12 +568,12 @@ trait GEN24_PrivateAPI {
             if($profileName != "") { 
                 $return = @IPS_SetVariableCustomProfile ($varId, $profileName); 
                 if(!$return) { 
-                    if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR setting Profile '%s' to varID %s", $profileName, $varId), 0); }
+                    if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR setting Profile '%s' to varID %s", $profileName, $varId)); }
                 }
             }
-            if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $key), 0); }
+            if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $key)); }
         } else {
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Found Variable '%s' for Property '%s' [Raw Value = %s]", $varId, $key, $value), 0); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Found Variable '%s' for Property '%s' [Raw Value = %s]", $varId, $key, $value)); }
         }
         if($multiplikator != 1) { $value = $value * $multiplikator; }
         if(!is_null($round)) { $value = round($value, $round); }
@@ -627,12 +633,12 @@ trait GEN24_PrivateAPI {
             if($varProfileName != "") { 
                 $return = @IPS_SetVariableCustomProfile ($varId, $varProfileName); 
                 if(!$return) { 
-                    if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR setting Profile '%s' to varID %s", $varProfileName, $varId), 0); }
+                    if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR setting Profile '%s' to varID %s", $varProfileName, $varId)); }
                 }
             }
-            if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $key), 0); }
+            if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $key)); }
         } else {
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Found Variable '%s' for Property '%s' [Raw Value = %s]", $varId, $key, $value), 0); }
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Found Variable '%s' for Property '%s' [Raw Value = %s]", $varId, $key, $value)); }
         }
         SetValue($varId, round($value, 3));
     
@@ -652,7 +658,7 @@ trait GEN24_PrivateAPI {
 				if($varProfileName != "") { 
 					$return = @IPS_SetVariableCustomProfile ($varId, $varProfileName); 
 					if(!$return) { 
-                        if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR setting Profile '%s' to varID %s", $varProfileName, $varId), 0); }
+                        if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("ERROR setting Profile '%s' to varID %s", $varProfileName, $varId)); }
                     }
 				}
 				if($enableLogging) { 
@@ -660,9 +666,9 @@ trait GEN24_PrivateAPI {
 					AC_SetLoggingStatus($archivInstanzID, $varId, true);
 					IPS_ApplyChanges($archivInstanzID);
 				}
-				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $propertyName), 0); }
+				if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $propertyName)); }
 			} else {
-				if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Found Variable '%s' for Property '%s' [Raw Value = %s]", $varId, $propertyName, $value), 0); }
+				if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Found Variable '%s' for Property '%s' [Raw Value = %s]", $varId, $propertyName, $value)); }
 			}
 			if($multiplikator != 1) { $value = $value * $multiplikator; }
 			if(is_null($round)) {
@@ -679,13 +685,13 @@ trait GEN24_PrivateAPI {
 					$varId = IPS_CreateVariable(3); //0 - Boolean | 1-Integer | 2 - Float | 3 - String
 					IPS_SetName($varId, $propertyName);
 					IPS_SetParent($varId, $rootId);
-					if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $propertyName), 0); }
+					if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Variable '%s' created for Property '%s'", $varId, $propertyName)); }
 				} else {
-					if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Found Variable '%s' for Property '%s' [Raw Value = %s]", $varId, $propertyName, $value), 0); }
+					if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Found Variable '%s' for Property '%s' [Raw Value = %s]", $varId, $propertyName, $value)); }
 				}
 				SetValue($varId, $value);
 			} else {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Property '%s' not found in JSON", $propertyName), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Property '%s' not found in JSON", $propertyName)); }
 			}
 		}	
 	}		

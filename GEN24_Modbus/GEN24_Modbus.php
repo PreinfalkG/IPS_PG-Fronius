@@ -43,12 +43,13 @@ trait GEN24_Modbus {
 
     protected function CreateInverterModel($key, $value) {
 
-        $categoryId = @IPS_GetObjectIDByIdent($key, $this->parentRootId);
+        $parentRootId = IPS_GetParent($this->InstanceID);
+        $categoryId = @IPS_GetObjectIDByIdent($key, $parentRootId);
         if($categoryId === false) {
             $categoryId = IPS_CreateCategory();
             IPS_SetIdent($categoryId, $key);
             IPS_SetName($categoryId, $value);
-            IPS_SetParent($categoryId,  $this->parentRootId);
+            IPS_SetParent($categoryId,  $parentRootId);
             IPS_SetPosition($categoryId, preg_replace('~\D~', '', $key));
         }
 
@@ -73,7 +74,7 @@ trait GEN24_Modbus {
         
         foreach ($configArr as $modbusStartAddress => $configEntry) {       //inverterRegisterConfig > configEntry
 
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Create/Update Instance '%s - %s' [Gateway ID: %s]", $modbusStartAddress, $configEntry[IMR_NAME], $gatewayId), 0); }	
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Create/Update Instance '%s - %s' [Gateway ID: %s]", $modbusStartAddress, $configEntry[IMR_NAME], $gatewayId)); }	
 
             $datenTyp = $this->getModbusDatatype($configEntry[IMR_TYPE]);
             if("continue" == $datenTyp) { continue; }
@@ -110,29 +111,29 @@ trait GEN24_Modbus {
                     // neues Gateway verbinden
                     //IPS_LogMessage("SET ..", $instanceId . " to " . $gatewayId);
                     if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, 
-                        sprintf("SET ConnectionID for InstanzId '%s' to '%s'", $instanceId, $gatewayId), 0); }
+                        sprintf("SET ConnectionID for InstanzId '%s' to '%s'", $instanceId, $gatewayId)); }
 
                     IPS_ConnectInstance($instanceId, $gatewayId);
                     $applyChanges = true;
                 } else {
-                    if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no valid Modbus-Gateway configured [%s]", $gatewayId), 0); }
+                    if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, sprintf("WARN :: no valid Modbus-Gateway configured [%s]", $gatewayId)); }
                 }
             }
 
 
             // Modbus-Instanz konfigurieren
             if ($datenTyp != IPS_GetProperty($instanceId, "DataType"))	{
-                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'DataType' for InstanzId '%s' to '%s'", $instanceId, $datenTyp), 0); }
+                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'DataType' for InstanzId '%s' to '%s'", $instanceId, $datenTyp)); }
                 IPS_SetProperty($instanceId, "DataType", $datenTyp);
                 $applyChanges = true;
             }
             if (false != IPS_GetProperty($instanceId, "EmulateStatus"))	{
-                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'EmulateStatus' for InstanzId '%s' to 'false'", $instanceId), 0); }
+                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'EmulateStatus' for InstanzId '%s' to 'false'", $instanceId)); }
                 IPS_SetProperty($instanceId, "EmulateStatus", false);
                 $applyChanges = true;
             }
             if ($pollCycle != IPS_GetProperty($instanceId, "Poller")) {
-                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'Poller' for InstanzId '%s' to '%s'", $instanceId, $pollCycle), 0); }
+                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'Poller' for InstanzId '%s' to '%s'", $instanceId, $pollCycle)); }
                 IPS_SetProperty($instanceId, "Poller", $pollCycle);
                 $applyChanges = true;
             }
@@ -145,14 +146,14 @@ trait GEN24_Modbus {
             if ($modbusStartAddress + MODBUS_REGISTER_TO_ADDRESS_OFFSET != IPS_GetProperty($instanceId, "ReadAddress")) {
 
                 $tartAddress = $modbusStartAddress + MODBUS_REGISTER_TO_ADDRESS_OFFSET;
-                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'ReadAddress' for InstanzId '%s' to '%s'", $instanceId, $tartAddress), 0); }
+                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'ReadAddress' for InstanzId '%s' to '%s'", $instanceId, $tartAddress)); }
                 IPS_SetProperty($instanceId, "ReadAddress", $tartAddress);
                 $applyChanges = true;
             }
 
             if ($configEntry[IMR_FUNCTION_CODE] != IPS_GetProperty($instanceId, "ReadFunctionCode"))	{
                 $readFunctionCode = $configEntry[IMR_FUNCTION_CODE];
-                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'ReadFunctionCode' for InstanzId '%s' to '%s'", $instanceId, $readFunctionCode), 0); }
+                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'ReadFunctionCode' for InstanzId '%s' to '%s'", $instanceId, $readFunctionCode)); }
                 IPS_SetProperty($instanceId, "ReadFunctionCode", $readFunctionCode);
                 $applyChanges = true;
             }
@@ -164,13 +165,13 @@ trait GEN24_Modbus {
 
             if (IPS_GetProperty($instanceId, "WriteFunctionCode") != 0)	{
                 $writeFunctionCode = 0;
-                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'WriteFunctionCode' for InstanzId '%s' to '%s'", $instanceId, $writeFunctionCode), 0); }
+                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("SET Property 'WriteFunctionCode' for InstanzId '%s' to '%s'", $instanceId, $writeFunctionCode)); }
                 IPS_SetProperty($instanceId, "WriteFunctionCode", $writeFunctionCode);
                 $applyChanges = true;
             }
 
             if ($applyChanges) {
-                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("ApplyChanges to InstanzId '%s'", $instanceId), 0); }
+                if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("ApplyChanges to InstanzId '%s'", $instanceId)); }
                 IPS_ApplyChanges($instanceId);
                 //IPS_Sleep(100);
             }
@@ -205,7 +206,7 @@ trait GEN24_Modbus {
         
         foreach ($inverterRegisterConfigArr as $inverterRegisterConfig) {
 
-            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("CREATE '%s - %s'", $inverterRegisterConfig[IMR_START_REGISTER],$inverterRegisterConfig[IMR_NAME]), 0); }	
+            if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("CREATE '%s - %s'", $inverterRegisterConfig[IMR_START_REGISTER],$inverterRegisterConfig[IMR_NAME])); }	
 
             $datenTyp = $this->getModbusDatatype($inverterRegisterConfig[IMR_TYPE]);
             if("continue" == $datenTyp) { continue; }
@@ -340,10 +341,10 @@ trait GEN24_Modbus {
         } elseif ("float32" == strtolower($type)) {
             $datenTyp = 7;
         } elseif ("string32" == strtolower($type) || "string16" == strtolower($type) || "string8" == strtolower($type) || "string" == strtolower($type)) {
-            if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Datentyp '%s' wird von Modbus in IPS nicht unterstützt -> skip", $type), 0); }	
+            if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Datentyp '%s' wird von Modbus in IPS nicht unterstützt -> skip", $type)); }	
             return "continue";
         } else {
-            if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Fehler: Unbekannter Datentyp '%s' -> skip", $type), 0); }	
+            if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Fehler: Unbekannter Datentyp '%s' -> skip", $type)); }	
             return "continue";
         }	
         return $datenTyp;
@@ -364,7 +365,7 @@ trait GEN24_Modbus {
                 $varName = sprintf("[%s] %s", $modbusStartAddress, $configEntry[IMR_NAME]);
 
                 if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, 
-                    sprintf("Create IPS-Variable :: Type: %d | Ident: %s | Profile: %s | Name: %s", $varType, $varIdent, $varProfile, $varName), 0); }	
+                    sprintf("Create IPS-Variable :: Type: %d | Ident: %s | Profile: %s | Name: %s", $varType, $varIdent, $varProfile, $varName)); }	
 
                 $varId = IPS_CreateVariable($varType);
                 IPS_SetParent($varId, $categoryRootId);
@@ -374,7 +375,7 @@ trait GEN24_Modbus {
                 IPS_SetVariableCustomProfile ($varId, $varProfile);
             } else {
                 if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, 
-                    sprintf("IPS-Variable exists :: ParentId: %s | Ident: %s | Name: %s'",$categoryRootId, $modbusStartAddress, IPS_GetName($varId)), 0); }	
+                    sprintf("IPS-Variable exists :: ParentId: %s | Ident: %s | Name: %s'",$categoryRootId, $modbusStartAddress, IPS_GetName($varId))); }	
             }
 
 
@@ -386,17 +387,17 @@ trait GEN24_Modbus {
 
         $start_Time = microtime(true);
 
-        $categoryRootId = @IPS_GetObjectIDByIdent($registerModelIdent, $this->parentRootId);
+        $categoryRootId = @IPS_GetObjectIDByIdent($registerModelIdent, IPS_GetParent($this->InstanceID));
         if($categoryRootId === false) {
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category for Register-Model '%s' does not exist -> Skip Update ...", $registerModelIdent), 0); }
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category for Register-Model '%s' does not exist -> Skip Update ...", $registerModelIdent)); }
         } else {
 
             $modebusDevicesCategoryId = @IPS_GetObjectIDByIdent("ModbusDevices", $categoryRootId);
             if($modebusDevicesCategoryId === false) {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category 'ModbusDevices' does not exist in '[%s] - %s'", $categoryRootId, IPS_GetLocation($categoryRootId)), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category 'ModbusDevices' does not exist in '[%s] - %s'", $categoryRootId, IPS_GetLocation($categoryRootId))); }
             } else {
 
-                if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Start Modbus Update for Register-Model '%s' in [%s] - %s' ...", $registerModelIdent, $modebusDevicesCategoryId, IPS_GetLocation($modebusDevicesCategoryId)), 0); }
+                if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("Start Modbus Update for Register-Model '%s' in [%s] - %s' ...", $registerModelIdent, $modebusDevicesCategoryId, IPS_GetLocation($modebusDevicesCategoryId))); }
 
                 $cnt = 0;
                 $instanzIDs = IPS_GetChildrenIDs($modebusDevicesCategoryId);
@@ -409,17 +410,17 @@ trait GEN24_Modbus {
                         if($result) { 
                             SetValue($this->GetIDForIdent("modbusReadOK"), GetValue($this->GetIDForIdent("modbusReadOK")) + 1);
                             if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, 
-                                sprintf("Modbus Device updated [%s ms] < '%s' ", $this->CalcDuration_ms($startTime_DeviceUpdate), IPS_GetLocation($instanzID)), 0); }
+                                sprintf("Modbus Device updated [%s ms] < '%s' ", $this->CalcDuration_ms($startTime_DeviceUpdate), IPS_GetLocation($instanzID))); }
                         } else {
                             SetValue($this->GetIDForIdent("modbusReadNotOK"), GetValue($this->GetIDForIdent("modbusReadNotOK")) + 1);
                             if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, 
-                                sprintf("Modbus Device Update FAILD > '%s' ", IPS_GetLocation($instanzID)), 0); }
+                                sprintf("Modbus Device Update FAILD > '%s' ", IPS_GetLocation($instanzID))); }
                         }
                     }
                     IPS_Sleep(10);
                 }
                 if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, 
-                    sprintf("%d Modbus Devices updated in '%s' [%s ms]", $cnt, $registerModelIdent, $this->CalcDuration_ms($start_Time)), 0); }
+                    sprintf("%d Modbus Devices updated in '%s' [%s ms]", $cnt, $registerModelIdent, $this->CalcDuration_ms($start_Time))); }
 
                 if($updateVariables) {
                     $this->UpdateRegisterModelVariables($registerModelIdent, $categoryRootId, $modebusDevicesCategoryId);
@@ -432,9 +433,9 @@ trait GEN24_Modbus {
     protected function UpdateRegisterModelVariables($registerModelIdent, $categoryRootId=NULL, $modebusDevicesCategoryId=NULL) {
 
         if(is_null($categoryRootId)) {
-            $categoryRootId = @IPS_GetObjectIDByIdent($registerModelIdent, $this->parentRootId);
+            $categoryRootId = @IPS_GetObjectIDByIdent($registerModelIdent, IPS_GetParent($this->InstanceID));
             if($categoryRootId === false) {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category for Register-Model '%s' does not exist -> Skip Update ...", $registerModelIdent), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category for Register-Model '%s' does not exist -> Skip Update ...", $registerModelIdent)); }
                 return false;
             }
         }
@@ -442,7 +443,7 @@ trait GEN24_Modbus {
         if(is_null($categoryRootId)) {
             $modebusDevicesCategoryId = @IPS_GetObjectIDByIdent("ModbusDevices", $categoryRootId);
             if($modebusDevicesCategoryId === false) {
-                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category 'ModbusDevices' does not exist in '[%s] - %s'", $categoryRootId, IPS_GetLocation($categoryRootId)), 0); }
+                if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category 'ModbusDevices' does not exist in '[%s] - %s'", $categoryRootId, IPS_GetLocation($categoryRootId))); }
                 return false;
             } 
         }
@@ -472,7 +473,7 @@ trait GEN24_Modbus {
                         if(!is_null($roundVal)) { $souceValue = round($souceValue, $roundVal); }
 
                         if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, 
-                            sprintf("SetValue '%s' to Variable [%s] - %s", $souceValue, $childID, IPS_GetLocation($childID)), 0); }
+                            sprintf("SetValue '%s' to Variable [%s] - %s", $souceValue, $childID, IPS_GetLocation($childID))); }
                         SetValue($childID, $souceValue);
                     } else {
                         $scaleFactorValue = $this->GetModebusDeviceSourceValue($scalFactorConfigEntry, $modebusDevicesCategoryId);
@@ -481,11 +482,11 @@ trait GEN24_Modbus {
                             if(!is_null($multiplierVal)) { $value = $value * $multiplierVal; }
                             if(!is_null($roundVal)) { $value = round($value, $roundVal); }
                             if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, 
-                                sprintf("SetValue '%s' [Raw-Value: %s | SF-Config: %s | SF-Value: %s] to Variable [%s] - %s", $value, $souceValue, $scalFactorConfigEntry, $scaleFactorValue, $childID, IPS_GetLocation($childID)), 0); }
+                                sprintf("SetValue '%s' [Raw-Value: %s | SF-Config: %s | SF-Value: %s] to Variable [%s] - %s", $value, $souceValue, $scalFactorConfigEntry, $scaleFactorValue, $childID, IPS_GetLocation($childID))); }
                             SetValue($childID, $value);
                         } else {
                             if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, 
-                                sprintf("Scale-Fator-Value Outdated > Skip Update  [varID: %s | Raw-Value: %s | SF-Config: %s | SF Value: %s | varName: %s]", $childID, $souceValue, $scalFactorConfigEntry, $scaleFactorValue, IPS_GetLocation($childID)), 0); }
+                                sprintf("Scale-Fator-Value Outdated > Skip Update  [varID: %s | Raw-Value: %s | SF-Config: %s | SF Value: %s | varName: %s]", $childID, $souceValue, $scalFactorConfigEntry, $scaleFactorValue, IPS_GetLocation($childID))); }
                         }
                     }
                 }
@@ -504,13 +505,13 @@ trait GEN24_Modbus {
                 $varLastUpdate  = time() - round(IPS_GetVariable($varId)['VariableUpdated']);
                 if($varLastUpdate < 600) {
                     $sourceValue = GetValue($varId);
-                    if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Read Raw-Value '%s' for Modbus Instance '%s' (Ident: %s | ObjId: %s | VarId: %s)", $sourceValue, IPS_GetName($instanceId), $objIdent, $instanceId, $varId), 0); }
+                    if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Read Raw-Value '%s' for Modbus Instance '%s' (Ident: %s | ObjId: %s | VarId: %s)", $sourceValue, IPS_GetName($instanceId), $objIdent, $instanceId, $varId)); }
                 } else {
-                    if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Outdated Value (%s sec) for Modbus Instance '%s' (Ident: %s | ObjId: %s | VarId: %s) > Skip Variable Update...", $varLastUpdate, IPS_GetName($instanceId), $objIdent, $instanceId, $varId), 0); }
+                    if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Outdated Value (%s sec) for Modbus Instance '%s' (Ident: %s | ObjId: %s | VarId: %s) > Skip Variable Update...", $varLastUpdate, IPS_GetName($instanceId), $objIdent, $instanceId, $varId)); }
                 }
             }
         } else {
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modbus Instance not found (Ident: %s | Categorie: %s)", $objIdent, $modebusDevicesCategoryId), 0); } 
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Modbus Instance not found (Ident: %s | Categorie: %s)", $objIdent, $modebusDevicesCategoryId)); } 
         }
         return $sourceValue;
 
@@ -524,7 +525,7 @@ trait GEN24_Modbus {
             $connectionState = IPS_GetInstance($conID)['InstanceStatus'];
         } else {
             $connectionState = 0;
-            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s [%s]' has NO Gateway/Connection [ConnectionID=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $conID), 0); }
+            if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s [%s]' has NO Gateway/Connection [ConnectionID=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $conID)); }
         }
         //SetValue($this->GetIDForIdent("connectionState"), $connectionState);
         return $connectionState;

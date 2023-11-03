@@ -20,21 +20,14 @@ class GEN24_SolarAPI extends IPSModule {
 	private $logLevel = 3;		// WARN = 3;
 	private $logCnt = 0;
 	private $enableIPSLogOutput = false;		
-	private $parentRootId;
 	private $GEN24_IP;
 
 	public function __construct($InstanceID) {
 	
 		parent::__construct($InstanceID);		// Diese Zeile nicht löschen
 
-		$currentStatus = @$this->GetStatus();
-		if($currentStatus == 102) {				//Instanz ist aktiv
-			$this->parentRootId = IPS_GetParent($this->InstanceID);
-			$this->logLevel = $this->ReadPropertyInteger("LogLevel");
-			if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel), 0); }
-		} else {
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Current Status is '%s' | KernelRunlevel is '%s'", $currentStatus, $kernelRunlevel), 0); }	
-		}
+		$this->logLevel = @$this->ReadPropertyInteger("LogLevel"); 
+		if($this->logLevel >= LogLevel::TRACE) { $this->AddLog(__FUNCTION__, sprintf("Log-Level is %d", $this->logLevel)); }	
 	}
 
 
@@ -43,11 +36,11 @@ class GEN24_SolarAPI extends IPSModule {
 		parent::Create();				//Never delete this line!
 
 		$logMsg = sprintf("Create Modul '%s [%s]'...", IPS_GetName($this->InstanceID), $this->InstanceID);
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, $logMsg); }
 		IPS_LogMessage(__CLASS__."_".__FUNCTION__, $logMsg);
 
 		$logMsg = sprintf("KernelRunlevel '%s'", IPS_GetKernelRunlevel());
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg, 0); }	
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg); }	
 		
 		$this->RegisterPropertyString('GEN24_IP', "10.0.11.160");
 
@@ -79,7 +72,7 @@ class GEN24_SolarAPI extends IPSModule {
 		parent::ApplyChanges();					//Never delete this line!
 
 		$this->logLevel = $this->ReadPropertyInteger("LogLevel");
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Log-Level to %d", $this->logLevel), 0); }
+		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Log-Level to %d", $this->logLevel)); }
 
 		$this->RegisterProfiles();
 		$this->RegisterVariables();  
@@ -95,25 +88,25 @@ class GEN24_SolarAPI extends IPSModule {
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data)	{
 		$logMsg = sprintf("TimeStamp: %s | SenderID: %s | Message: %s | Data: %s", $TimeStamp, $SenderID, $Message, json_encode($Data));
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, $logMsg); }
 		//IPS_LogMessage(__CLASS__."_".__FUNCTION__, $logMsg);
 	}	
 
 	public function SetUpdateInterval(int $updateInterval) {
 		if ($updateInterval == 0) {  
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Auto-Update stopped [TimerIntervall = 0]", 0); }	
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "Auto-Update stopped [TimerIntervall = 0]"); }	
 		}else if ($updateInterval < 5) { 
 			$updateInterval = 5; 
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval), 0); }	
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval)); }	
 		} else {
-			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval), 0); }
+			if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("Set Auto-Update Timer Intervall to %ss", $updateInterval)); }
 		}
 		$this->SetTimerInterval("TimerAutoUpdate_GEN24", $updateInterval * 1000);	
 	}
 
 
 	public function TimerAutoUpdate_GEN24() {
-		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "called ...", 0); }
+		if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, "called ..."); }
 		$this->Update();
 	}
 
@@ -144,12 +137,12 @@ class GEN24_SolarAPI extends IPSModule {
 
 			} else {
 				SetValue($this->GetIDForIdent("instanzInactivCnt"), GetValue($this->GetIDForIdent("instanzInactivCnt")) + 1);
-				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus), 0); }
+				if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Instanz '%s - [%s]' not activ [Status=%s]", $this->InstanceID, IPS_GetName($this->InstanceID), $currentStatus)); }
 			}
 		} else {
 			SetValue($this->GetIDForIdent("updateSkipCnt"), GetValue($this->GetIDForIdent("updateSkipCnt")) + 1);
 			$logMsg =  sprintf("WARNING :: Skip Update for %d sec for Instance '%s' >> last error %d seconds ago...", $skipUdateSec, $this->InstanceID, $lastUpdate);
-			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+			if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, $logMsg); }
 		}
 	}
 
@@ -168,87 +161,88 @@ class GEN24_SolarAPI extends IPSModule {
 
 	protected function RegisterVariables() {
 
+		$parentRootId = IPS_GetParent($this->InstanceID);
 
 		$cb_PowerFlowRealtimeData = $this->ReadPropertyBoolean("cb_PowerFlowRealtimeData");	
 		if($cb_PowerFlowRealtimeData) {
-			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerFlowRealTimeData, $this->parentRootId);
+			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerFlowRealTimeData, $parentRootId);
 			if($categoryId === false) {
 				$categoryId = IPS_CreateCategory();
 				IPS_SetIdent($categoryId, self::CATEGORY_NAME_PowerFlowRealTimeData);
 				IPS_SetName($categoryId, self::CATEGORY_NAME_PowerFlowRealTimeData);
-				IPS_SetParent($categoryId,  $this->parentRootId);
+				IPS_SetParent($categoryId,  $parentRootId);
 				IPS_SetPosition($categoryId, 100);
 			}
 		}
 
 		$cb_Powerflow = $this->ReadPropertyBoolean("cb_Powerflow");	
 		if($cb_Powerflow) {
-			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerFlow, $this->parentRootId);
+			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerFlow, $parentRootId);
 			if($categoryId === false) {
 				$categoryId = IPS_CreateCategory();
 				IPS_SetIdent($categoryId, self::CATEGORY_NAME_PowerFlow);
 				IPS_SetName($categoryId, self::CATEGORY_NAME_PowerFlow);
-				IPS_SetParent($categoryId,  $this->parentRootId);
+				IPS_SetParent($categoryId,  $parentRootId);
 				IPS_SetPosition($categoryId, 110);
 			}
 		}
 
 		$cb_PowerMeter = $this->ReadPropertyBoolean("cb_PowerMeter");	
 		if($cb_PowerMeter) {
-			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerMeters, $this->parentRootId);
+			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerMeters, $parentRootId);
 			if($categoryId === false) {
 				$categoryId = IPS_CreateCategory();
 				IPS_SetIdent($categoryId, self::CATEGORY_NAME_PowerMeters);
 				IPS_SetName($categoryId, self::CATEGORY_NAME_PowerMeters);
-				IPS_SetParent($categoryId,  $this->parentRootId);
+				IPS_SetParent($categoryId,  $parentRootId);
 				IPS_SetPosition($categoryId, 120);
 			}
 		}
 
 		$cb_BatteryManagementSystem = $this->ReadPropertyBoolean("cb_BatteryManagementSystem");	
 		if($cb_BatteryManagementSystem) {
-			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_BatteryManagementSystem, $this->parentRootId);
+			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_BatteryManagementSystem, $parentRootId);
 			if($categoryId === false) {
 				$categoryId = IPS_CreateCategory();
 				IPS_SetIdent($categoryId, self::CATEGORY_NAME_BatteryManagementSystem);
 				IPS_SetName($categoryId, self::CATEGORY_NAME_BatteryManagementSystem);
-				IPS_SetParent($categoryId,  $this->parentRootId);
+				IPS_SetParent($categoryId,  $parentRootId);
 				IPS_SetPosition($categoryId, 130);
 			}
 		}
 
 		$cb_Ohmpilot = $this->ReadPropertyBoolean("cb_Ohmpilot");	
 		if($cb_Ohmpilot) {
-			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_Ohmpilot, $this->parentRootId);
+			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_Ohmpilot, $parentRootId);
 			if($categoryId === false) {
 				$categoryId = IPS_CreateCategory();
 				IPS_SetIdent($categoryId, self::CATEGORY_NAME_Ohmpilot);
 				IPS_SetName($categoryId, self::CATEGORY_NAME_Ohmpilot);
-				IPS_SetParent($categoryId,  $this->parentRootId);
+				IPS_SetParent($categoryId,  $parentRootId);
 				IPS_SetPosition($categoryId, 140);
 			}
 		}
 
 		$cb_Devices = $this->ReadPropertyBoolean("cb_Devices");	
 		if($cb_Devices) {
-			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGROY_NAME_Devices, $this->parentRootId);
+			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGROY_NAME_Devices, $parentRootId);
 			if($categoryId === false) {
 				$categoryId = IPS_CreateCategory();
 				IPS_SetIdent($categoryId, self::CATEGROY_NAME_Devices);
 				IPS_SetName($categoryId, self::CATEGROY_NAME_Devices);
-				IPS_SetParent($categoryId,  $this->parentRootId);
+				IPS_SetParent($categoryId,  $parentRootId);
 				IPS_SetPosition($categoryId, 150);
 			}
 		}			
 		
 		$cb_Cache = $this->ReadPropertyBoolean("cb_Cache");	
 		if($cb_Cache) {
-			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGROY_NAME_Cache, $this->parentRootId);
+			$categoryId = @IPS_GetObjectIDByIdent(self::CATEGROY_NAME_Cache, $parentRootId);
 			if($categoryId === false) {
 				$categoryId = IPS_CreateCategory();
 				IPS_SetIdent($categoryId, self::CATEGROY_NAME_Cache);
 				IPS_SetName($categoryId, self::CATEGROY_NAME_Cache);
-				IPS_SetParent($categoryId,  $this->parentRootId);
+				IPS_SetParent($categoryId,  $parentRootId);
 				IPS_SetPosition($categoryId, 160);
 			}
 		}				
@@ -267,24 +261,24 @@ class GEN24_SolarAPI extends IPSModule {
 
 		$archivInstanzID = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}")[0];
 		IPS_ApplyChanges($archivInstanzID);
-		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered", 0); }
+		if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variables registered"); }
 
 	}
 
-	protected function AddLog($name, $daten, $format) {
+
+	protected function AddLog($name, $daten, $format=0) {
 		$this->logCnt++;
+		$logSender = "[".__CLASS__."] - " . $name;
 		if($this->logLevel >= LogLevel::DEBUG) {
-			$logsender = sprintf("%02d-T%2d [%s] - %s", $this->logCnt, $_IPS['THREAD'], __CLASS__, $name);
-			$this->SendDebug($logsender, $daten, $format); 	
-		} else {
-			$this->SendDebug("[".__CLASS__."] - " . $name, $daten, $format); 	
-		}
+			$logSender = sprintf("%02d-T%2d [%s] - %s", $this->logCnt, $_IPS['THREAD'], __CLASS__, $name);
+		} 
+		$this->SendDebug($logSender, $daten, $format); 	
 	
 		if($this->enableIPSLogOutput) {
 			if($format == 0) {
-				IPS_LogMessage("[".__CLASS__."] - " . $name, $daten);	
+				IPS_LogMessage($logSender, $daten);	
 			} else {
-				IPS_LogMessage("[".__CLASS__."] - " . $name, $this->String2Hex($daten));			
+				IPS_LogMessage($logSender, $this->String2Hex($daten));			
 			}
 		}
 	}

@@ -17,7 +17,7 @@ trait GEN24_COMMON {
             SetValue($this->GetIDForIdent("LastError"), $errorMsg);
 
             $logMsg =  sprintf("ERROR %s", $errorMsg);
-            if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, $logMsg, 0); }
+            if($this->logLevel >= LogLevel::ERROR) { $this->AddLog(__FUNCTION__, $logMsg); }
 
             die();
         } else {
@@ -235,7 +235,7 @@ trait GEN24_COMMON {
             //IPS_SetVariableProfileValues('GEN24.PowerReactive', 0, 0, 0);
         } 
           
-        if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variable Profiles registered", 0); }
+        if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, "Variable Profiles registered"); }
     }
 
 

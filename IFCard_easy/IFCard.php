@@ -66,8 +66,8 @@ trait IFCard {
     } 
 
 
-    public function RequestInverterData(int $command, string $varIdent="", int $deviceOption=1, int $IGNr=1) {
-        $packetArr = $this->BuildPacket( $command, $this->deviceOption, $this->IGNr  );
+    public function RequestInverterData(int $command, string $varIdent="", int $deviceOption, int $igNr) {       
+        $packetArr = $this->BuildPacket( $command, $deviceOption, $igNr );
         $value = $this->RequestData($packetArr, $command);
         if($varIdent != "") { $this->SaveVariable($varIdent, $value); }
         return $value;          
