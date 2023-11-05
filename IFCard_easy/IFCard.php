@@ -370,7 +370,8 @@ trait IFCard {
                 $this->AddLog(__FUNCTION__, $logMsg);
             }
          } else {
-            $value = $valueRaw * -1;
+            //$value = $valueRaw * -1;
+            $value = 99887766.0;
             if($this->logLevel >= LogLevel::WARN ) {
                 $logMsg = sprintf("[0x%02X] !Over- or underflow of exponent Value! : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
                 $this->AddLog(__FUNCTION__ . "_WARN", $logMsg); 
@@ -382,11 +383,16 @@ trait IFCard {
 
     protected function SaveVariable(string $varIdent, $value) {
         if(!is_null($value)) {
-            $varId = @$this->GetIDForIdent($varIdent);
-            if($varId !== false) {
-                SetValue($varId, $value); 
+
+            if($value == 99887766.0) {
+                if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Value for VarIdent '%s' not valid! > check Over- or underflow of exponent", $varIdent), 0, true); }
             } else {
-                if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("VarIdent '%s' not found!", $varIdent), 0, true); }
+                $varId = @$this->GetIDForIdent($varIdent);
+                if($varId !== false) {
+                    SetValue($varId, $value); 
+                } else {
+                    if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("VarIdent '%s' not found!", $varIdent), 0, true); }
+                }
             }
         } else {
             if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Value for VarIdent '%s' is NULL!", $varIdent), 0, true); }
