@@ -384,16 +384,18 @@ trait IFCard {
     protected function SaveVariable(string $varIdent, $value) {
         if(!is_null($value)) {
 
-            if($value == 99887766.0) {
-                if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Value for VarIdent '%s' not valid! > check Over- or underflow of exponent", $varIdent), 0, true); }
-            } else {
-                $varId = @$this->GetIDForIdent($varIdent);
-                if($varId !== false) {
+            $varId = @$this->GetIDForIdent($varIdent);
+            if($varId !== false) {
+                if($value != 99887766.0) {
                     SetValue($varId, $value); 
                 } else {
-                    if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("VarIdent '%s' not found!", $varIdent), 0, true); }
+                    //SetValue($varId, 0); 
+                    if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Value for VarIdent '%s' not valid! > check Over- or underflow of exponent", $varIdent), 0, true); }
                 }
+            } else {
+                if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("VarIdent '%s' not found!", $varIdent), 0, true); }
             }
+           
         } else {
             if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Value for VarIdent '%s' is NULL!", $varIdent), 0, true); }
         }
