@@ -565,7 +565,8 @@ class IFCard_easy extends IPSModule	{
 		return round($duration*1000, 2);
 	}	
 
-	protected function AddLog($name, $daten, $format=0) {
+
+	protected function AddLog($name, $daten, $format=0, $ipsLogOutput=false) {
 		$this->logCnt++;
 		$logSender = "[".__CLASS__."] - " . $name;
 		if($this->logLevel >= LogLevel::DEBUG) {
@@ -573,7 +574,7 @@ class IFCard_easy extends IPSModule	{
 		} 
 		$this->SendDebug($logSender, $daten, $format); 	
 	
-		if($this->enableIPSLogOutput) {
+		if($ipsLogOutput or $this->enableIPSLogOutput) {
 			if($format == 0) {
 				IPS_LogMessage($logSender, $daten);	
 			} else {

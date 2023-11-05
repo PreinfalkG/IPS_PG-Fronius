@@ -281,7 +281,7 @@ class GEN24_Modebus extends IPSModule {
 	}
 
 
-	protected function AddLog($name, $daten, $format=0) {
+	protected function AddLog($name, $daten, $format=0, $ipsLogOutput=false) {
 		$this->logCnt++;
 		$logSender = "[".__CLASS__."] - " . $name;
 		if($this->logLevel >= LogLevel::DEBUG) {
@@ -289,7 +289,7 @@ class GEN24_Modebus extends IPSModule {
 		} 
 		$this->SendDebug($logSender, $daten, $format); 	
 	
-		if($this->enableIPSLogOutput) {
+		if($ipsLogOutput or $this->enableIPSLogOutput) {
 			if($format == 0) {
 				IPS_LogMessage($logSender, $daten);	
 			} else {
