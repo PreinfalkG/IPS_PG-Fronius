@@ -389,7 +389,7 @@ trait IFCard {
                 if($value != 99887766.0) {
                     SetValue($varId, $value); 
                 } else {
-                    //SetValue($varId, 0); 
+                    SetValue($varId, 0); 
                     if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Value for VarIdent '%s' not valid! > check Over- or underflow of exponent", $varIdent), 0, true); }
                 }
             } else {
