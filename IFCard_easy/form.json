@@ -75,8 +75,18 @@
             { "type": "CheckBox", "enabled": true, "caption": "TOTAL - AC Voltage min",   "name": "cb_Total_AcVMin" },
             { "type": "CheckBox", "enabled": true, "caption": "TOTAL - DC Voltage max",   "name": "cb_Total_DcVmax" },
             { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Operating Hours",  "name": "cb_Total_oHours" }
+        ]},
+        { "type": "ExpansionPanel", "caption": "CUSTOM", "expanded": false, "visible": true, "items": [
+            
+            { 
+                "type": "RowLayout",
+                "items": [
+                    { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Energy Custom Wh",  "name": "cb_Total_EnergyCustWh" },
+                    { "name": "Total_EnergyCustWh_Offset", "type": "NumberSpinner", "caption": "Offset", "suffix": "Wh", "width": "180px"}
+                ]
+            }
+          
         ]}   
-
     ],
     "actions": [
         {
