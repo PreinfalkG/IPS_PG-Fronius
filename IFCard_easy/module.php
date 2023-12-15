@@ -199,6 +199,19 @@ class IFCard_easy extends IPSModule	{
 					if($this->ReadPropertyBoolean("cb_Day_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_DAY, "day_DcVmax", 	$deviceOption, $igNr); }
 					if($this->ReadPropertyBoolean("cb_Day_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_DAY, "day_oHours", $deviceOption, $igNr); }
 
+					if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ 
+						$total_Energy = $this->RequestInverterData(ENERGY_TOTAL, "total_Energy", $deviceOption, $igNr); 
+
+						if($this->ReadPropertyBoolean("cb_Total_EnergyCustWh")) 		{
+							$varId = @$this->GetIDForIdent("total_Energy_CustWh");
+							if($varId !== false) {
+								$total_EnergyCustWh_Offset = $this->ReadPropertyInteger("Total_EnergyCustWh_Offset");
+								SetValueFloat($varId, $total_Energy + $total_EnergyCustWh_Offset);
+							}
+						}
+					}
+
+
 					$minuteNow = idate('i', time());
 					if(($minuteNow == 0) or ($source!="Timer")) {
 						if($this->ReadPropertyBoolean("cb_Year_Energy")) 		{ $this->RequestInverterData(ENERGY_YEAR, "year_Energy", 			$deviceOption, $igNr); }
@@ -209,19 +222,8 @@ class IFCard_easy extends IPSModule	{
 						if($this->ReadPropertyBoolean("cb_Year_DcVmax")) 		{ $this->RequestInverterData(MAX_DC_VOLTAGE_YEAR, "year_DcVmax", 	$deviceOption, $igNr); }
 						if($this->ReadPropertyBoolean("cb_Year_oHours")) 		{ $this->RequestInverterData(OPERATING_HOURS_YEAR, "year_oHours",	$deviceOption, $igNr); }
 						
-						if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ 
-							$total_Energy = $this->RequestInverterData(ENERGY_TOTAL, "total_Energy", $deviceOption, $igNr); 
 
-							if($this->ReadPropertyBoolean("cb_Total_EnergyCustWh")) 		{
-								$varId = @$this->GetIDForIdent("total_Energy_CustWh");
-								if($varId !== false) {
-									$total_EnergyCustWh_Offset = $this->ReadPropertyInteger("Total_EnergyCustWh_Offset");
-									SetValueFloat($varId, $total_Energy + $total_EnergyCustWh_Offset);
-								}
-							}
-						
-						}
-
+						if($this->ReadPropertyBoolean("cb_Total_Energy")) 		{ $this->RequestInverterData(ENERGY_TOTAL, "total_Energy", 			$deviceOption, $igNr); }
 						if($this->ReadPropertyBoolean("cb_Total_Yield")) 		{ $this->RequestInverterData(YIELD_TOTAL, "total_Yield", 			$deviceOption, $igNr); }
 						if($this->ReadPropertyBoolean("cb_Total_Pmax")) 		{ $this->RequestInverterData(MAX_POWER_TOTAL, "total_Pmax", 		$deviceOption, $igNr); }
 						if($this->ReadPropertyBoolean("cb_Total_AcVmax")) 		{ $this->RequestInverterData(MAX_AC_VOLTAGE_TOTAL, "total_AcVmax", 	$deviceOption, $igNr); }
