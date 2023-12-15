@@ -82,7 +82,7 @@
                 "type": "RowLayout",
                 "items": [
                     { "type": "CheckBox", "enabled": true, "caption": "TOTAL - Energy Custom Wh",  "name": "cb_Total_EnergyCustWh" },
-                    { "name": "Total_EnergyCustWh_Offset", "type": "NumberSpinner", "caption": "Offset", "suffix": "Wh", "width": "180px"}
+                    { "name": "Total_EnergyCustWh_Offset", "type": "NumberSpinner", "caption": "Offset", "suffix": "kWh", "width": "180px"}
                 ]
             }
           

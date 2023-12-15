@@ -206,7 +206,7 @@ class IFCard_easy extends IPSModule	{
 							$varId = @$this->GetIDForIdent("total_Energy_CustWh");
 							if($varId !== false) {
 								$total_EnergyCustWh_Offset = $this->ReadPropertyInteger("Total_EnergyCustWh_Offset");
-								SetValueFloat($varId, $total_Energy + $total_EnergyCustWh_Offset);
+								SetValueFloat($varId, ($total_Energy + $total_EnergyCustWh_Offset) * 1000);
 							}
 						}
 					}
