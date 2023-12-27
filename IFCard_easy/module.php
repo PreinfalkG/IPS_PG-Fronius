@@ -327,7 +327,7 @@ class IFCard_easy extends IPSModule	{
 
 		if($this->ReadPropertyBoolean("cb_AcV")) 			{ $this->RegisterVariableFloat("AcV", 			"AC Voltage", 				"~Volt", 300); }
 		if($this->ReadPropertyBoolean("cb_AcA")) 			{ $this->RegisterVariableFloat("AcA",			"AC Current", 				"~Ampere", 310); }
-		if($this->ReadPropertyBoolean("cb_AcF")) 			{ $this->RegisterVariableFloat("AcF", 			"AC Frequency", 			"~Hertz.50", 320); }
+		if($this->ReadPropertyBoolean("cb_AcF")) 			{ $this->RegisterVariableFloat("AcF", 			"AC Frequency", 			"~Hertz", 320); }
 		
 		if($this->ReadPropertyBoolean("cb_Day_Energy")) 	{ $this->RegisterVariableFloat("day_Energy", 	"DAY Energy", 				"~Electricity", 400); }
 		if($this->ReadPropertyBoolean("cb_Day_Yield")) 	{ $this->RegisterVariableFloat("day_Yield", 	"DAY Yield", 	 			"~Euro", 410); }
