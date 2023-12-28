@@ -243,6 +243,20 @@ class IFCard_easy extends IPSModule	{
 					$varId = @$this->GetIDForIdent("AcV"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
 					$varId = @$this->GetIDForIdent("AcA"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
 					$varId = @$this->GetIDForIdent("AcF"); if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+
+
+					$nowHour = idate('H', time());
+					if($nowHour == 0) {
+						// at midnight set the daily values to 0
+						$varId = @$this->GetIDForIdent("day_Energy");   if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("day_Yield"); 	if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("day_Pmax"); 	if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("day_AcVmax"); 	if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("day_AcVmin"); 	if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("day_DcVmax"); 	if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+						$varId = @$this->GetIDForIdent("day_oHours"); 	if($varId !== false) { if(GetValue($varId) != 0 ) { SetValue($varId, 0); } }; 
+					}
+
 				}
 
 
