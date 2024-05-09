@@ -365,13 +365,24 @@ trait IFCard {
             $value =  $valueRaw * pow( 10, $exp );           
             $value = $value * $faktor;
             $value = $value + $offset;
-            if($this->logLevel >= LogLevel::DEBUG ) { 
+            if($this->logLevel >= LogLevel::WARN ) { 
                 $logMsg = sprintf("[0x%02X] %.02f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-                $this->AddLog(__FUNCTION__, $logMsg);
+                $this->AddLog(__FUNCTION__ . "_WARN", $logMsg);
             }
+
+            if(abs($value) > 10000000) {
+                if($this->logLevel >= LogLevel::WARN ) { 
+                    $logMsg = sprintf("Value to high and will not be saved! : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
+                    $this->AddLog(__FUNCTION__ . "_WARN", $logMsg);             
+                }
+                $value = null;
+                SetValue($this->GetIDForIdent("InconsistentDataCnt"), GetValue($this->GetIDForIdent("InconsistentDataCnt")) + 1);
+             }
+
+
          } else {
-            //$value = $valueRaw * -1;
-            $value = 99887766.0;
+            $value = null;
+            SetValue($this->GetIDForIdent("InconsistentDataCnt"), GetValue($this->GetIDForIdent("InconsistentDataCnt")) + 1);
             if($this->logLevel >= LogLevel::WARN ) {
                 $logMsg = sprintf("[0x%02X] !Over- or underflow of exponent Value! : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
                 $this->AddLog(__FUNCTION__ . "_WARN", $logMsg); 
@@ -386,12 +397,10 @@ trait IFCard {
 
             $varId = @$this->GetIDForIdent($varIdent);
             if($varId !== false) {
-                if($value != 99887766.0) {
-                    SetValue($varId, $value); 
-                } else {
-                    SetValue($varId, 0); 
-                    if($this->logLevel >= LogLevel::INFO ) { $this->AddLog(__FUNCTION__ . "_INFO", sprintf("Value for VarIdent '%s' not valid! > check Over- or underflow of exponent", $varIdent), 0, true); }
-                }
+
+                SetValue($varId, $value); 
+                if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("SetValue '%s' for VarIdent '%s'",  $value, $varIdent), 0, true); }
+
             } else {
                 if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("VarIdent '%s' not found!", $varIdent), 0, true); }
             }

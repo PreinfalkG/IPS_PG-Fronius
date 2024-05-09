@@ -303,8 +303,9 @@ class IFCard_easy extends IPSModule	{
 		SetValue($this->GetIDForIdent("connectionState"), 0); 
 		SetValue($this->GetIDForIdent("requestCnt"), 0);
 		SetValue($this->GetIDForIdent("receiveCnt"), 0);
-		SetValue($this->GetIDForIdent("updateSkipCnt"), 0);
+		SetValue($this->GetIDForIdent("updateSkipCnt"), 0);	
 		SetValue($this->GetIDForIdent("CrcErrorCnt"), 0); 
+		SetValue($this->GetIDForIdent("InconsistentDataCnt"), 0); 		
 		SetValue($this->GetIDForIdent("ErrorCnt"), 0); 
 		SetValue($this->GetIDForIdent("LastError"), "-"); 
 		SetValue($this->GetIDForIdent("instanzInactivCnt"), 0); 
@@ -377,6 +378,7 @@ class IFCard_easy extends IPSModule	{
 		$this->RegisterVariableInteger("receiveCnt", "Receive Cnt", "", 910);
 		$this->RegisterVariableInteger("updateSkipCnt", "Update Skip Cnt", "", 915);
 		$this->RegisterVariableInteger("CrcErrorCnt", "CRC Error Cnt", "", 920);
+		$this->RegisterVariableInteger("InconsistentDataCnt", "Inconsistent Data Cnt", "", 921);		
 		$this->RegisterVariableInteger("ErrorCnt", "Error Cnt", "", 930);
 		$this->RegisterVariableString("LastError", "Last Error", "", 931);
 		$this->RegisterVariableInteger("instanzInactivCnt", "Instanz Inactiv Cnt", "", 940);
