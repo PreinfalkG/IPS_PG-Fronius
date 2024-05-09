@@ -354,7 +354,7 @@ trait IFCard {
 
     protected function ExtractMeteringValue(int $command, array $rpacketArr, float $faktor=1, float $offset=0) {	 
 
-        $value = 0;
+        $value = null;
         $byte1 = $rpacketArr[8];
         $byte2 = $rpacketArr[9];
         $exp = $rpacketArr[10];
@@ -367,13 +367,13 @@ trait IFCard {
             $value = $value + $offset;
             if($this->logLevel >= LogLevel::WARN ) { 
                 $logMsg = sprintf("[0x%02X] %.02f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-                $this->AddLog(__FUNCTION__ . "_WARN", $logMsg);
+                $this->AddLog(__FUNCTION__ . "_WARN1", $logMsg);
             }
 
             if(abs($value) > 10000000) {
                 if($this->logLevel >= LogLevel::WARN ) { 
                     $logMsg = sprintf("Value to high and will not be saved! : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-                    $this->AddLog(__FUNCTION__ . "_WARN", $logMsg);             
+                    $this->AddLog(__FUNCTION__ . "_WARN2", $logMsg);             
                 }
                 $value = null;
                 SetValue($this->GetIDForIdent("InconsistentDataCnt"), GetValue($this->GetIDForIdent("InconsistentDataCnt")) + 1);
@@ -385,7 +385,7 @@ trait IFCard {
             SetValue($this->GetIDForIdent("InconsistentDataCnt"), GetValue($this->GetIDForIdent("InconsistentDataCnt")) + 1);
             if($this->logLevel >= LogLevel::WARN ) {
                 $logMsg = sprintf("[0x%02X] !Over- or underflow of exponent Value! : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-                $this->AddLog(__FUNCTION__ . "_WARN", $logMsg); 
+                $this->AddLog(__FUNCTION__ . "_WARN3", $logMsg); 
             }				
          }
          return $value;
