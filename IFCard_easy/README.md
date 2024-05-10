@@ -1,6 +1,38 @@
 # IFCard_easy
 Beschreibung des Moduls.
 
+Update ()
+		
+	-> Request_InterfaceCardInfo							// STRING
+			-> BuildPacket
+			-> RequestData
+					-> ParsePacket
+			-> SaveVariableString	
+
+
+	-> Request_DeviceTyp									// STRING
+			-> BuildPacket
+			-> RequestData
+					-> ParsePacket
+			-> SaveVariableString	
+
+										
+	-> Request_ActivInverters								// INTEGER
+			-> BuildPacket
+			-> RequestData
+					-> ParsePacket
+			-> SaveVariable	
+
+
+	-> RequestInverterData									//INTEGER or FLOAT
+			-> BuildPacket
+			-> RequestData
+					-> ParsePacket
+						-> ExtractMeteringValue
+			-> SaveVariable	
+
+
+
 ### Inhaltsverzeichnis
 
 1. [Funktionsumfang](#1-funktionsumfang)

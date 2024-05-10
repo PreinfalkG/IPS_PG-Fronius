@@ -375,7 +375,7 @@ trait IFCard {
                     $logMsg = sprintf("Value very high : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
                     $this->AddLog(__FUNCTION__ . "_WARN", $logMsg, 0, true);             
                 }
-             }
+            }
              
          } else {
             $value = -9999999;
@@ -413,7 +413,7 @@ trait IFCard {
                         $logMsg = sprintf("Value '%s' for VarIdent '%s' is to high and is not saved", $value, $varIdent);
                         $this->AddLog(__FUNCTION__ . "_WARN", $logMsg);             
                     }
-                } elseif ($value = -9999999)  { 
+                } elseif ($value == -9999999)  { 
                     if($this->logLevel >= LogLevel::WARN ) { 
                         $logMsg = sprintf("Value '%s' for VarIdent '%s' has 'Over- or underflow of exponent' and is not saved", $value, $varIdent);
                         $this->AddLog(__FUNCTION__ . "_WARN", $logMsg);             
