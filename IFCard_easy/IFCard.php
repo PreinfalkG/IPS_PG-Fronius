@@ -47,14 +47,14 @@ trait IFCard {
     public function Request_InterfaceCardInfo(string $varIdent="") {
         $packetArr = $this->BuildPacket( IFC_INFO, 0, 0 );
         $ifc_Info = $this->RequestData($packetArr, IFC_INFO);
-        if($varIdent != "") { $this->SaveVariable($varIdent, $ifc_Info); }
+        if($varIdent != "") { $this->SaveVariableString($varIdent, $ifc_Info); }
         return $ifc_Info;
     }
  
     public function Request_DeviceTyp(string $varIdent="") {
         $packetArr = $this->BuildPacket( IFC_DEVICETYPE, 1, 1 );
         $deviceTyp =  $this->RequestData($packetArr, IFC_DEVICETYPE);
-        if($varIdent != "") { $this->SaveVariable($varIdent, $deviceTyp); }
+        if($varIdent != "") { $this->SaveVariableString($varIdent, $deviceTyp); }
         return $deviceTyp;        
     } 
 
@@ -367,13 +367,13 @@ trait IFCard {
             $value = $value + $offset;
             if($this->logLevel >= LogLevel::DEBUG ) { 
                 $logMsg = sprintf("[0x%02X] %.02f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-                $this->AddLog(__FUNCTION__, $logMsg);
+                $this->AddLog(__FUNCTION__, $logMsg, 0, true);
             }
 
             if(abs($value) > 10000000) {
                 if($this->logLevel >= LogLevel::WARN ) { 
                     $logMsg = sprintf("Value very high : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-                    $this->AddLog(__FUNCTION__ . "_WARN", $logMsg);             
+                    $this->AddLog(__FUNCTION__ . "_WARN", $logMsg, 0, true);             
                 }
              }
              
@@ -381,12 +381,25 @@ trait IFCard {
             $value = -9999999;
             if($this->logLevel >= LogLevel::WARN ) {
                 $logMsg = sprintf("[0x%02X] !Over- or underflow of exponent Value! : %f [Byte_1: %d | Byte_2: %d | ValueRaw: %d | Exp: %d] {%s}", $command, $value, $byte1, $byte2, $valueRaw, $exp, $this->ByteArr2HexStr($rpacketArr));
-                $this->AddLog(__FUNCTION__ . "_WARN", $logMsg); 
+                $this->AddLog(__FUNCTION__ . "_WARN", $logMsg, 0, true); 
             }				
          }
          return $value;
     }
 
+    protected function SaveVariableString(string $varIdent, $value) {
+        if(!is_null($value)) {
+            $varId = @$this->GetIDForIdent($varIdent);
+            if($varId !== false) {
+                SetValue($varId, $value); 
+                if($this->logLevel >= LogLevel::DEBUG) { $this->AddLog(__FUNCTION__, sprintf("SetValue '%s' for VarIdent '%s'",  $value, $varIdent), 0, true); } 
+            } else {
+                if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("VarIdent '%s' not found!", $varIdent), 0, true); }
+            }          
+        } else {
+            if($this->logLevel >= LogLevel::WARN ) { $this->AddLog(__FUNCTION__ . "_WARN", sprintf("Value for VarIdent '%s' is NULL!", $varIdent), 0, true); }
+        }
+    }
 
     protected function SaveVariable(string $varIdent, $value) {
         if(!is_null($value)) {
