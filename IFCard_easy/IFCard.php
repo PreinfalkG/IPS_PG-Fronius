@@ -361,7 +361,7 @@ trait IFCard {
 
         if ($exp >= 0b10000000) { $exp = $exp - 0xFF - 1; }
         $valueRaw =  $byte1 * 256 + $byte2;
-        if ( $exp <= 10 && $exp >= -3 ) {
+        if ( $exp <= 11 && $exp >= -3 ) {
             $value =  $valueRaw * pow( 10, $exp );           
             $value = $value * $faktor;
             $value = $value + $offset;
