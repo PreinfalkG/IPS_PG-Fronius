@@ -156,6 +156,8 @@ trait GEN24_COMMON {
             IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 10, "[%d] non operable (temperature)", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 11, "[%d] preheating", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 12, "[%d] startup", "", -1);
+            IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 13, "[%d] stopped (temperature)", "", -1);
+            IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 14, "[%d] battery full", "", -1);
         } 
 
 
