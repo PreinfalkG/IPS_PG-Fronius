@@ -116,6 +116,7 @@ trait GEN24_COMMON {
             IPS_SetVariableProfileAssociation ('GEN24.StorCtl_Mod', 1, "[%d] CHARGE", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.StorCtl_Mod', 2, "[%d] DISCHARGE", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.StorCtl_Mod', 3, "[%d] CHARGE & DISCHARGE", "", -1);
+            IPS_SetVariableProfileAssociation ('GEN24.StorCtl_Mod', 4, "[%d] unknown 'StorCtl_Mod'", "", -1);
         }
 
         if ( !IPS_VariableProfileExists('GEN24.ChaGriSet') ) {
@@ -123,6 +124,7 @@ trait GEN24_COMMON {
             IPS_SetVariableProfileText('GEN24.ChaGriSet', "", "" );
             IPS_SetVariableProfileAssociation ('GEN24.ChaGriSet', 0, "[%d] DISABLED", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.ChaGriSet', 1, "[%d] ENABLED", "", -1);
+            IPS_SetVariableProfileAssociation ('GEN24.ChaGriSet', 2, "[%d] unknown", "", -1);
         }
 
         if ( !IPS_VariableProfileExists('GEN24.ChaSt') ) {
@@ -136,7 +138,7 @@ trait GEN24_COMMON {
             IPS_SetVariableProfileAssociation ('GEN24.ChaSt', 5, "[%d] FULL", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.ChaSt', 6, "[%d] HOLDING", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.ChaSt', 7, "[%d] TESTING", "", -1);
-            IPS_SetVariableProfileAssociation ('GEN24.ChaSt', 8, "[%d] Unbekannter Status", "", -1);
+            IPS_SetVariableProfileAssociation ('GEN24.ChaSt', 8, "[%d] unknown 'ChaSt'", "", -1);
         }        
 
 
@@ -158,6 +160,7 @@ trait GEN24_COMMON {
             IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 12, "[%d] startup", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 13, "[%d] stopped (temperature)", "", -1);
             IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 14, "[%d] battery full", "", -1);
+            IPS_SetVariableProfileAssociation ('GEN24.BatteryMode', 15, "[%d] unknwon 'BatteryMode'", "", -1);
         } 
 
 
