@@ -118,6 +118,12 @@
             "name": "cb_ActiveEvents"
         },
         {
+            "type": "CheckBox",
+            "enabled": true,
+            "caption": "'PowerFlowRealtimeData' Save RawData",
+            "name": "cb_PowerFlowRealtimeData_SetRaw"
+        },        
+        {
             "type": "Label",
             "label": "* = 'internal GEN24 API' >> may be changed any time !"
         }

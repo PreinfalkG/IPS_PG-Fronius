@@ -183,6 +183,11 @@ trait GEN24_PrivateAPI {
             } else {
                 if($this->logLevel >= LogLevel::INFO) { $this->AddLog(__FUNCTION__, sprintf("'jsonData->Body->Data->Smartloads->Ohmpilots' not found in '%s'", self::CATEGORY_NAME_PowerFlowRealTimeData)); }
             }
+
+            if($this->ReadPropertyBoolean("cb_PowerFlowRealtimeData_SetRaw")) { 
+                $paramArrElem = array("varType" => VARIABLETYPE_STRING, "multiplikator" => 1, "round" => null, "profileName" => "");
+                $this->SaveyPropertyValue($categoryId, "PowerFlowRealtimeData_RAW", json_encode($jsonData), $paramArrElem);
+            }
            
         } else {
             if($this->logLevel >= LogLevel::WARN) { $this->AddLog(__FUNCTION__, sprintf("Category '%s' not found", self::CATEGORY_NAME_PowerFlowRealTimeData)); }

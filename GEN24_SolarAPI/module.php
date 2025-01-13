@@ -57,6 +57,7 @@ class GEN24_SolarAPI extends IPSModule {
 		$this->RegisterPropertyBoolean('cb_Cache', false);
 		$this->RegisterPropertyBoolean('cb_Events', false);
 		$this->RegisterPropertyBoolean('cb_ActiveEvents', false);
+		$this->RegisterPropertyBoolean('cb_PowerFlowRealtimeData_SetRaw', false);
 
 		$this->RegisterTimer('TimerAutoUpdate_GEN24', 0, 'GEN24_TimerAutoUpdate_GEN24($_IPS[\'TARGET\']);');
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
@@ -255,7 +256,7 @@ class GEN24_SolarAPI extends IPSModule {
 		$this->RegisterVariableInteger("instanzInactivCnt", "Instanz Inactiv Cnt", "", 930);
 		$this->RegisterVariableFloat("lastProcessingTotalDuration", "Last Processing Duration [ms]", "", 940);	
 		$this->RegisterVariableInteger("LastDataReceived", "Last Data Received", "~UnixTimestamp", 950);
-
+	
 		$scriptScr = sprintf("<?php GEN24_Update(%s); ?>",$this->InstanceID);
 		$this->RegisterScript("UpdateScript", "Update", $scriptScr, 990);
 
