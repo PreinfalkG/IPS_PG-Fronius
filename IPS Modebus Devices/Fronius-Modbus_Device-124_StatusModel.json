@@ -7,9 +7,9 @@
             "Factor": 0,
             "Ident": "SunSpecModel",
             "Length": 0,
-            "Name": "[40192] Sunspec Model 'Status'",
+            "Name": "[40354] Sunspec Model 'Storage'",
             "Profile": "",
-            "ReadAddress": 40191,
+            "ReadAddress": 40353,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -20,11 +20,11 @@
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40194_PVConn",
+            "Ident": "40356_WChaMax",
             "Length": 0,
-            "Name": "[40194] PV Inverter Status (bitfield)",
-            "Profile": "Fronius.PvInverterStatus",
-            "ReadAddress": 40193,
+            "Name": "[40356] WChaMax - Maximum Charge and Discharge Power",
+            "Profile": "Fronius.Watt",
+            "ReadAddress": 40355,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -35,11 +35,11 @@
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40195_StorConn",
+            "Ident": "40357_WChaGra",
             "Length": 0,
-            "Name": "[40195] Storage Inverter Status (bitfield)",
-            "Profile": "Fronius.StorageInverterStatus",
-            "ReadAddress": 40194,
+            "Name": "[40357] WChaGra - Maximum Charging Rate",
+            "Profile": "Fronius.Percent",
+            "ReadAddress": 40356,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -50,11 +50,11 @@
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40196_ECPConn",
+            "Ident": "40358_WDisChaGra",
             "Length": 0,
-            "Name": "[40196] ECP connection status (bitfield)",
-            "Profile": "Fronius.ECPConnectionStatus",
-            "ReadAddress": 40195,
+            "Name": "[40358] WDisChaGra - Maximum Discharge Rate",
+            "Profile": "Fronius.Percent",
+            "ReadAddress": 40357,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -63,73 +63,58 @@
         {
             "Active": true,
             "ByteOrder": -1,
-            "DataType": 11,
-            "Factor": 0.001,
-            "Ident": "40197_ActWh",
-            "Length": 0,
-            "Name": "[40197] AC Lifetime Active Energy",
-            "Profile": "~Electricity",
-            "ReadAddress": 40196,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 3,
+            "DataType": 5,
             "Factor": 0,
-            "Ident": "40227_StActCtl",
+            "Ident": "40359_StorCtl_Mod",
             "Length": 0,
-            "Name": "[40227] Activ Inverter Controls (bitfield)",
-            "Profile": "Fronius.InverterControls",
-            "ReadAddress": 40226,
+            "Name": "[40359] StorCtl_Mod RW (bitfield16)",
+            "Profile": "Fronius.StorCtl_Mod",
+            "ReadAddress": 40358,
             "ReadFunctionCode": 3,
             "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 10,
-            "Factor": 0,
-            "Ident": "40229_TmSrc",
-            "Length": 4,
-            "Name": "[40229] Time synchronization",
-            "Profile": "",
-            "ReadAddress": 40228,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 3,
-            "Factor": 0,
-            "Ident": "40233_Tms",
-            "Length": 0,
-            "Name": "[40233] Seconds since 01-01-2000 00:00 UTC",
-            "Profile": "",
-            "ReadAddress": 40232,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
+            "WriteAddress": 40358,
+            "WriteFunctionCode": 6
         },
         {
             "Active": true,
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40236_Ris",
+            "Ident": "40360_VAChaMax",
             "Length": 0,
-            "Name": "[40236] Isolation resistance",
-            "Profile": "",
-            "ReadAddress": 40235,
+            "Name": "[40360] VAChaMax RW - Maximum Charging VA",
+            "Profile": "Fronius.VAChaMax",
+            "ReadAddress": 40359,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40359,
+            "WriteFunctionCode": 6
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0.01,
+            "Ident": "40361_MinRsvPct",
+            "Length": 0,
+            "Name": "[40361] MinRsvPct RW - Minimum Reserve for Storage",
+            "Profile": "Fronius.Percent.1",
+            "ReadAddress": 40360,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40360,
+            "WriteFunctionCode": 6
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0.01,
+            "Ident": "40362_ChaState",
+            "Length": 0,
+            "Name": "[40362] ChaState - SOC",
+            "Profile": "GEN24.Percent.1",
+            "ReadAddress": 40361,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -138,13 +123,148 @@
         {
             "Active": true,
             "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40365_ChaSt",
+            "Length": 0,
+            "Name": "[40365] ChaSt (enum16)",
+            "Profile": "Fronius.ChaSt",
+            "ReadAddress": 40364,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0.01,
+            "Ident": "40366_OutWRte",
+            "Length": 0,
+            "Name": "[40366] OutWRte RW - Max Discharge Rate",
+            "Profile": "Fronius.InWRte_OutWRte",
+            "ReadAddress": 40365,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40365,
+            "WriteFunctionCode": 6
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0.01,
+            "Ident": "40367_InWRte",
+            "Length": 0,
+            "Name": "[40367] InWRte RW - Max Charging Rate",
+            "Profile": "Fronius.InWRte_OutWRte",
+            "ReadAddress": 40366,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40366,
+            "WriteFunctionCode": 6
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40237_Ris_SF",
+            "Ident": "40369_InOutWRte_RvrtTms",
             "Length": 0,
-            "Name": "[40237] Isolation Resistance_SF",
+            "Name": "[40369] InOutWRte_RvrtTms RW - Timeout Period for Charge/Discharge Rate",
+            "Profile": "Fronius.Seconds",
+            "ReadAddress": 40368,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40368,
+            "WriteFunctionCode": 6
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40371_ChaGriSet",
+            "Length": 0,
+            "Name": "[40371] ChaGriSet RW (enum16)",
+            "Profile": "Fronius.ChaGriSet",
+            "ReadAddress": 40370,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40370,
+            "WriteFunctionCode": 6
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40372_WChaMax_SF",
+            "Length": 0,
+            "Name": "[40372] WChaMax_SF",
             "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40236,
+            "ReadAddress": 40371,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40373_WChaDisChaGra_SF",
+            "Length": 0,
+            "Name": "[40373] WChaDisChaGra_SF",
+            "Profile": "Fronius.ScaleFactor",
+            "ReadAddress": 40372,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40375_MinRsvPct_SF",
+            "Length": 0,
+            "Name": "[40375] MinRsvPct_SF",
+            "Profile": "Fronius.ScaleFactor",
+            "ReadAddress": 40374,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40376_ChaState_SF",
+            "Length": 0,
+            "Name": "[40376] ChaState_SF",
+            "Profile": "Fronius.ScaleFactor",
+            "ReadAddress": 40375,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40379_InOutWRte_SF",
+            "Length": 0,
+            "Name": "[40379] InOutWRte_SF",
+            "Profile": "Fronius.ScaleFactor",
+            "ReadAddress": 40378,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -153,31 +273,25 @@
     ],
     "ByteOrder": 0,
     "Profiles": {
-        "Fronius.ECPConnectionStatus": {
+        "Fronius.ChaGriSet": {
             "Associations": [
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] disconnected",
+                    "Name": "[%d] PV - Charging from Grid Disabled",
                     "Value": 0.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] connected",
+                    "Name": "[%d] GRID - Charging from Grid ENABLED",
                     "Value": 1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
-                    "Value": 2.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
                     "Name": "[%d] n.a.",
-                    "Value": 65535.0
+                    "Value": 2.0
                 }
             ],
             "Digits": 0,
@@ -189,67 +303,61 @@
             "Suffix": "",
             "Type": 1
         },
-        "Fronius.InverterControls": {
+        "Fronius.ChaSt": {
             "Associations": [
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] - No Control Active",
+                    "Name": "[%d] n.a.",
                     "Value": 0.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] - WixedW",
+                    "Name": "[%d] OFF",
                     "Value": 1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] - FixedVAR",
+                    "Name": "[%d] EMPTY",
                     "Value": 2.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] - FixedW & FixedVAR",
+                    "Name": "[%d] DISCHAGING",
                     "Value": 3.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] - FixedPF",
+                    "Name": "[%d] CHARGING",
                     "Value": 4.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] - FixedW & FixedPF",
+                    "Name": "[%d] FULL",
                     "Value": 5.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] - FixedVAR & FixedPF",
+                    "Name": "[%d] HOLDING",
                     "Value": 6.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] - FixedW & FixedVAR & FixedPF",
+                    "Name": "[%d] TESTING",
                     "Value": 7.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
-                    "Value": 8.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
                     "Name": "[%d] n.a.",
-                    "Value": 65535.0
+                    "Value": 8.0
                 }
             ],
             "Digits": 0,
@@ -261,77 +369,38 @@
             "Suffix": "",
             "Type": 1
         },
-        "Fronius.PvInverterStatus": {
-            "Associations": [
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] -",
-                    "Value": 0.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Connected",
-                    "Value": 1.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Available",
-                    "Value": 2.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Connected | Available",
-                    "Value": 3.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Operating",
-                    "Value": 4.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Connected | Available",
-                    "Value": 5.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Available | Operating",
-                    "Value": 6.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Connected | Available | Operating",
-                    "Value": 7.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] OutOfRange",
-                    "Value": 8.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] n.a.",
-                    "Value": 65535.0
-                }
-            ],
+        "Fronius.InWRte_OutWRte": {
+            "Associations": [],
+            "Digits": 2,
+            "Icon": "",
+            "MaxValue": 100.0,
+            "MinValue": -100.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": " %",
+            "Type": 2
+        },
+        "Fronius.Percent": {
+            "Associations": [],
             "Digits": 0,
             "Icon": "",
-            "MaxValue": 7.0,
+            "MaxValue": 100.0,
             "MinValue": 0.0,
             "Prefix": "",
             "StepSize": 1.0,
-            "Suffix": "",
+            "Suffix": " %",
             "Type": 1
+        },
+        "Fronius.Percent.1": {
+            "Associations": [],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 100.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": " %",
+            "Type": 2
         },
         "Fronius.ScaleFactor": {
             "Associations": [
@@ -375,61 +444,66 @@
             "Suffix": "",
             "Type": 1
         },
-        "Fronius.StorageInverterStatus": {
+        "Fronius.Seconds": {
+            "Associations": [],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 0.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 10.0,
+            "Suffix": " sec",
+            "Type": 1
+        },
+        "Fronius.StorCtl_Mod": {
             "Associations": [
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] n.a.",
+                    "Name": "[%d] CHARGE",
                     "Value": 0.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] Connected",
+                    "Name": "[%d] DiSCHARGE",
                     "Value": 1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] Available",
+                    "Name": "[%d] CHARGE & DiSCHARGE",
                     "Value": 2.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] Connected | Available",
+                    "Name": "[%d] n.a.",
                     "Value": 3.0
+                }
+            ],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 3.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": "",
+            "Type": 1
+        },
+        "Fronius.VAChaMax": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%d VA",
+                    "Value": 0.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] Operating",
-                    "Value": 4.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Connected | Operating",
-                    "Value": 5.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Available | Operating",
-                    "Value": 6.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] Connected | Available | Operating",
-                    "Value": 7.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] OutOfRange",
-                    "Value": 8.0
+                    "Name": "%d VA",
+                    "Value": 65534.0
                 },
                 {
                     "Color": -1,
@@ -440,12 +514,34 @@
             ],
             "Digits": 0,
             "Icon": "",
-            "MaxValue": 7.0,
+            "MaxValue": 0.0,
             "MinValue": 0.0,
             "Prefix": "",
-            "StepSize": 1.0,
+            "StepSize": 250.0,
             "Suffix": "",
             "Type": 1
+        },
+        "Fronius.Watt": {
+            "Associations": [],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 0.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 200.0,
+            "Suffix": " W",
+            "Type": 1
+        },
+        "GEN24.Percent.1": {
+            "Associations": [],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 0.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 0.0,
+            "Suffix": " %",
+            "Type": 2
         }
     },
     "Requests": {
