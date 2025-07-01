@@ -94,7 +94,7 @@
     "ByteOrder": 0,
     "Profiles": {},
     "Requests": {
-        "Interval": 30000
+        "Interval": 0
     },
     "VirtualAddresses": [
         {

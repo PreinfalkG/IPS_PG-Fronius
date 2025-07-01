@@ -113,7 +113,7 @@
             "Ident": "40362_ChaState",
             "Length": 0,
             "Name": "[40362] ChaState - SOC",
-            "Profile": "GEN24.Percent.1",
+            "Profile": "Fronius.Percent.1",
             "ReadAddress": 40361,
             "ReadFunctionCode": 3,
             "Translation": [],
@@ -173,7 +173,7 @@
             "Ident": "40369_InOutWRte_RvrtTms",
             "Length": 0,
             "Name": "[40369] InOutWRte_RvrtTms RW - Timeout Period for Charge/Discharge Rate",
-            "Profile": "Fronius.Seconds",
+            "Profile": "Fronius.RvrtTms",
             "ReadAddress": 40368,
             "ReadFunctionCode": 3,
             "Translation": [],
@@ -393,7 +393,7 @@
         },
         "Fronius.Percent.1": {
             "Associations": [],
-            "Digits": 1,
+            "Digits": 2,
             "Icon": "",
             "MaxValue": 100.0,
             "MinValue": 0.0,
@@ -402,12 +402,35 @@
             "Suffix": " %",
             "Type": 2
         },
+        "Fronius.RvrtTms": {
+            "Associations": [],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 28800.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": " sec",
+            "Type": 1
+        },
         "Fronius.ScaleFactor": {
             "Associations": [
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
+                    "Name": "NaN",
+                    "Value": -32768.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "n.a. [%d]",
+                    "Value": -32767.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "OutOfRange [%d]",
                     "Value": -11.0
                 },
                 {
@@ -425,13 +448,19 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
+                    "Name": "OutOfRange [%d]",
                     "Value": 11.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] n.a.",
+                    "Name": "n.a. [%d]",
+                    "Value": 32767.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
                     "Value": 32768.0
                 }
             ],
@@ -442,17 +471,6 @@
             "Prefix": "",
             "StepSize": 1.0,
             "Suffix": "",
-            "Type": 1
-        },
-        "Fronius.Seconds": {
-            "Associations": [],
-            "Digits": 0,
-            "Icon": "",
-            "MaxValue": 0.0,
-            "MinValue": 0.0,
-            "Prefix": "",
-            "StepSize": 10.0,
-            "Suffix": " sec",
             "Type": 1
         },
         "Fronius.StorCtl_Mod": {
@@ -508,7 +526,7 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] n.a.",
+                    "Name": "NaN",
                     "Value": 65535.0
                 }
             ],
@@ -531,21 +549,10 @@
             "StepSize": 200.0,
             "Suffix": " W",
             "Type": 1
-        },
-        "GEN24.Percent.1": {
-            "Associations": [],
-            "Digits": 1,
-            "Icon": "",
-            "MaxValue": 0.0,
-            "MinValue": 0.0,
-            "Prefix": "",
-            "StepSize": 0.0,
-            "Suffix": " %",
-            "Type": 2
         }
     },
     "Requests": {
-        "Interval": 5000
+        "Interval": 0
     },
     "VirtualAddresses": [
         {

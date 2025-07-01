@@ -7,9 +7,9 @@
             "Factor": 0,
             "Ident": "SunSpecModel",
             "Length": 0,
-            "Name": "[40132] Sunspec Model 'Nameplate'",
+            "Name": "[40238] Sunspec Model 'Controls'",
             "Profile": "",
-            "ReadAddress": 40131,
+            "ReadAddress": 40237,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -20,29 +20,14 @@
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40134_DERTyp",
+            "Ident": "40240_Conn_WinTms",
             "Length": 0,
-            "Name": "[40134] DERTyp",
-            "Profile": "Fronius.DERTyp",
-            "ReadAddress": 40133,
+            "Name": "[40240] Conn_WinTms - Time window for connect/disconnect",
+            "Profile": "Fronius.WinTms",
+            "ReadAddress": 40239,
             "ReadFunctionCode": 3,
             "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 10,
-            "Ident": "40135_WRtg",
-            "Length": 0,
-            "Name": "[40135] WRtg - Continuous Power Output Capability",
-            "Profile": "Fronius.Power.1",
-            "ReadAddress": 40134,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
+            "WriteAddress": 40239,
             "WriteFunctionCode": 0
         },
         {
@@ -50,29 +35,14 @@
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40136_WRtg_SF",
+            "Ident": "40241_Conn_RvrtTms",
             "Length": 0,
-            "Name": "[40136] WRtg_SF",
-            "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40135,
+            "Name": "[40241] Conn_RvrtTms - Timeout period for connect/disconnect",
+            "Profile": "Fronius.RvrtTms",
+            "ReadAddress": 40240,
             "ReadFunctionCode": 3,
             "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 10,
-            "Ident": "40137_VARtg",
-            "Length": 0,
-            "Name": "[40137] VARtg - Continuous Volt-Ampere Capability",
-            "Profile": "Fronius.VA.1",
-            "ReadAddress": 40136,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
+            "WriteAddress": 40240,
             "WriteFunctionCode": 0
         },
         {
@@ -80,89 +50,14 @@
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40138_VARtg_SF",
+            "Ident": "40242_Conn",
             "Length": 0,
-            "Name": "[40138] VARtg_SF",
-            "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40137,
+            "Name": "[40242] Conn - Connection control",
+            "Profile": "Fronius.Conn",
+            "ReadAddress": 40241,
             "ReadFunctionCode": 3,
             "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 5,
-            "Factor": 10,
-            "Ident": "40139_VArRtgQ1",
-            "Length": 0,
-            "Name": "[40139] VArRtgQ1 - Continuous VAR Capability Q1",
-            "Profile": "Fronius.Var.1",
-            "ReadAddress": 40138,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 5,
-            "Factor": 10,
-            "Ident": "40140_VArRtgQ2",
-            "Length": 0,
-            "Name": "[40140] VArRtgQ2 - Continuous VAR Capability Q2",
-            "Profile": "Fronius.Var.1",
-            "ReadAddress": 40139,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 5,
-            "Factor": 10,
-            "Ident": "40141_VArRtgQ3",
-            "Length": 0,
-            "Name": "[40141] VArRtgQ3 - Continuous VAR Capability Q3",
-            "Profile": "Fronius.Var.1",
-            "ReadAddress": 40140,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 5,
-            "Factor": 10,
-            "Ident": "40142_VArRtgQ4",
-            "Length": 0,
-            "Name": "[40142] VArRtgQ4 - Continuous VAR Capability Q4",
-            "Profile": "Fronius.Var.1",
-            "ReadAddress": 40141,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 0,
-            "Ident": "40143_VArRtg_SF",
-            "Length": 0,
-            "Name": "[40143] VArRtg_SF",
-            "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40142,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
+            "WriteAddress": 40241,
             "WriteFunctionCode": 0
         },
         {
@@ -170,11 +65,221 @@
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0.01,
-            "Ident": "40144_ARtg",
+            "Ident": "40243_WMaxLimPct",
             "Length": 0,
-            "Name": "[40144] ARtg - Maximum RMS AC Current Capability",
-            "Profile": "Fronius.Current.2",
-            "ReadAddress": 40143,
+            "Name": "[40243] WMaxLimPct - Set power output to specified level",
+            "Profile": "Fronius.Percent.1",
+            "ReadAddress": 40242,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40242,
+            "WriteFunctionCode": 6
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40244_WMaxLimPct_WinTms",
+            "Length": 0,
+            "Name": "[40244] WMaxLimPct_WinTms - Time window for power limit change",
+            "Profile": "Fronius.WinTms",
+            "ReadAddress": 40243,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40243,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40245_WMaxLimPct_RvrtTms",
+            "Length": 0,
+            "Name": "[40245] WMaxLimPct_RvrtTms - Timeout period for power limit",
+            "Profile": "Fronius.RvrtTms",
+            "ReadAddress": 40244,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40244,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40246_WMaxLimPct_RmpTms",
+            "Length": 0,
+            "Name": "[40246] WMaxLimPct_RmpTms - Ramp time for moving from current setpoint to new setpoint",
+            "Profile": "Fronius.RmpTms",
+            "ReadAddress": 40245,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40245,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40247_WMaxLim_Ena",
+            "Length": 0,
+            "Name": "[40247] WMaxLim_Ena - Throttle enable/disable control",
+            "Profile": "Fronius.Enabled_Disabled",
+            "ReadAddress": 40246,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40246,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0.001,
+            "Ident": "40248_OutPFSet",
+            "Length": 0,
+            "Name": "[40248] OutPFSet - Set power factor to specific value",
+            "Profile": "Fronius.CosPhi",
+            "ReadAddress": 40247,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40247,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40249_OutPFSet_WinTms",
+            "Length": 0,
+            "Name": "[40249] OutPFSet_WinTms - Time window for power factor change",
+            "Profile": "Fronius.WinTms",
+            "ReadAddress": 40248,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40248,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40250_OutPFSet_RvrtTms",
+            "Length": 0,
+            "Name": "[40250] OutPFSet_RvrtTms - Timeout period for power factor",
+            "Profile": "Fronius.RvrtTms",
+            "ReadAddress": 40249,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40249,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40251_OutPFSet_RmpTms",
+            "Length": 0,
+            "Name": "[40251] OutPFSet_RmpTms - Ramp time for moving from current setpoint to new setpoint",
+            "Profile": "Fronius.RmpTms",
+            "ReadAddress": 40250,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40250,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40252_OutPFSet_Ena",
+            "Length": 0,
+            "Name": "[40252] OutPFSet_Ena - Fixed power factor enable/disable control",
+            "Profile": "Fronius.Enabled_Disabled",
+            "ReadAddress": 40251,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40251,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40254_VArMaxPct",
+            "Length": 0,
+            "Name": "[40254] VArMaxPct - Reactive power in percent of VArMax",
+            "Profile": "Fronius.Percent_PlusMinus",
+            "ReadAddress": 40253,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40253,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40256_VArPct_WinTms",
+            "Length": 0,
+            "Name": "[40256] VArPct_WinTms - Time window for VAR limit change",
+            "Profile": "Fronius.WinTms",
+            "ReadAddress": 40255,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40255,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40257_VArPct_RvrtTms",
+            "Length": 0,
+            "Name": "[40257] VArPct_RvrtTms - Timeout period for VAR limit",
+            "Profile": "Fronius.RvrtTms",
+            "ReadAddress": 40256,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40256,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40258_VArPct_RmpTms",
+            "Length": 0,
+            "Name": "[40258] VArPct_RmpTms - Ramp time for moving from current setpoint to new setpoint",
+            "Profile": "Fronius.RmpTms",
+            "ReadAddress": 40257,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40257,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40259_VArPct_Mod",
+            "Length": 0,
+            "Name": "[40259] VArPct_Mod - VAR percent limit mode",
+            "Profile": "Fronius.VArPct_Mod",
+            "ReadAddress": 40258,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -185,11 +290,26 @@
             "ByteOrder": -1,
             "DataType": 2,
             "Factor": 0,
-            "Ident": "40145_ARtg_SF",
+            "Ident": "40260_VArPct_Ena",
             "Length": 0,
-            "Name": "[40145] ARtg_SF",
+            "Name": "[40260] VArPct_Ena - Enumerated valued.  Percent limit VAr enable/disable control",
+            "Profile": "Fronius.Enabled_Disabled",
+            "ReadAddress": 40259,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 40259,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 5,
+            "Factor": 0,
+            "Ident": "40261_WMaxLimPct_SF",
+            "Length": 0,
+            "Name": "[40261] WMaxLimPct_SF - Scale factor for power output percent",
             "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40144,
+            "ReadAddress": 40260,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -199,12 +319,12 @@
             "Active": true,
             "ByteOrder": -1,
             "DataType": 5,
-            "Factor": 0.001,
-            "Ident": "40146_PFRtgQ1",
+            "Factor": 0,
+            "Ident": "40262_WMaxLimPct_SF",
             "Length": 0,
-            "Name": "[40146] PFRtgQ1 - Minimum Power Factor Capability Q1",
-            "Profile": "Fronius.CosPhi",
-            "ReadAddress": 40145,
+            "Name": "[40262] WMaxLimPct_SF - SF for power factor",
+            "Profile": "Fronius.ScaleFactor",
+            "ReadAddress": 40261,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -214,162 +334,12 @@
             "Active": true,
             "ByteOrder": -1,
             "DataType": 5,
-            "Factor": 0.001,
-            "Ident": "40147_PFRtgQ2",
-            "Length": 0,
-            "Name": "[40147] PFRtgQ2 - Minimum Power Factor Capability Q2",
-            "Profile": "Fronius.CosPhi",
-            "ReadAddress": 40146,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 5,
-            "Factor": 0.001,
-            "Ident": "40148_PFRtgQ3",
-            "Length": 0,
-            "Name": "[40148] PFRtgQ3 - Minimum Power Factor Capability Q3",
-            "Profile": "Fronius.CosPhi",
-            "ReadAddress": 40147,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 5,
-            "Factor": 0.001,
-            "Ident": "40149_PFRtgQ4",
-            "Length": 0,
-            "Name": "[40149] PFRtgQ4 - Minimum Power Factor Capability Q4",
-            "Profile": "Fronius.CosPhi",
-            "ReadAddress": 40148,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
             "Factor": 0,
-            "Ident": "40150_PFRtg_SF",
+            "Ident": "40263_VArPct_SF",
             "Length": 0,
-            "Name": "[40150] PFRtg_SF",
+            "Name": "[40263] VArPct_SF - SF for reactive power percent",
             "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40149,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 0.001,
-            "Ident": "40151_WHRtg",
-            "Length": 0,
-            "Name": "[40151] WHRtg - Nominal Energy Rating of Storage Device",
-            "Profile": "Fronius.kWh.3",
-            "ReadAddress": 40150,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 0,
-            "Ident": "40152_WHRtg_SF",
-            "Length": 0,
-            "Name": "[40152] WHRtg_SF",
-            "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40151,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 0,
-            "Ident": "40155_MaxChaRte",
-            "Length": 0,
-            "Name": "[40155] MaxChaRte - Max Energy Transfer into Storage Device",
-            "Profile": "Fronius.Power.1",
-            "ReadAddress": 40154,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 0,
-            "Ident": "40156_MaxChaRte_SF",
-            "Length": 0,
-            "Name": "[40156] MaxChaRte_SF",
-            "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40155,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 0,
-            "Ident": "40157_MaxDisChaRte",
-            "Length": 0,
-            "Name": "[40157] MaxDisChaRte - Max Energy Transfer out of Storage Device",
-            "Profile": "Fronius.Power.1",
-            "ReadAddress": 40156,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 0,
-            "Ident": "40158_MaxDisChaRte_SF",
-            "Length": 0,
-            "Name": "[40158] MaxDisChaRte_SF",
-            "Profile": "Fronius.ScaleFactor",
-            "ReadAddress": 40157,
-            "ReadFunctionCode": 3,
-            "Translation": [],
-            "WriteAddress": 0,
-            "WriteFunctionCode": 0
-        },
-        {
-            "Active": true,
-            "ByteOrder": -1,
-            "DataType": 2,
-            "Factor": 0,
-            "Ident": "40159_Pad",
-            "Length": 0,
-            "Name": "[40159] Pad - Pad register",
-            "Profile": "",
-            "ReadAddress": 40158,
+            "ReadAddress": 40262,
             "ReadFunctionCode": 3,
             "Translation": [],
             "WriteAddress": 0,
@@ -378,30 +348,72 @@
     ],
     "ByteOrder": 0,
     "Profiles": {
-        "Fronius.CosPhi": {
+        "Fronius.Conn": {
             "Associations": [
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "n.a. [%f]",
-                    "Value": -32768.0
+                    "Name": "[%d] Disconnected",
+                    "Value": 0.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "%f",
-                    "Value": -1.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "%f",
+                    "Name": "[%d] Connected",
                     "Value": 1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "n.a. [%f]",
+                    "Name": "[%d] n.a.",
+                    "Value": 2.0
+                }
+            ],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 1.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": "",
+            "Type": 1
+        },
+        "Fronius.CosPhi": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
+                    "Value": -32768.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%f] Out of Range",
+                    "Value": -1.01
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%.3f",
+                    "Value": -1.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%.3f",
+                    "Value": 1.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%f] Out of Range",
+                    "Value": 1.01
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
                     "Value": 32768.0
                 }
             ],
@@ -414,82 +426,98 @@
             "Suffix": "",
             "Type": 2
         },
-        "Fronius.Current.2": {
-            "Associations": [],
-            "Digits": 2,
-            "Icon": "",
-            "MaxValue": 0.0,
-            "MinValue": 0.0,
-            "Prefix": "",
-            "StepSize": 0.0,
-            "Suffix": " A",
-            "Type": 2
-        },
-        "Fronius.DERTyp": {
+        "Fronius.Enabled_Disabled": {
             "Associations": [
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] unknown",
-                    "Value": 3.0
+                    "Name": "[%s] Disabled",
+                    "Value": 0.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] PV",
-                    "Value": 4.0
+                    "Name": "[%s] Enabled",
+                    "Value": 1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] unknown",
-                    "Value": 5.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] unknown",
-                    "Value": 81.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] PV_STOR",
-                    "Value": 82.0
-                },
-                {
-                    "Color": -1,
-                    "Icon": "",
-                    "Name": "[%d] unknown",
-                    "Value": 83.0
+                    "Name": "[%s] n.a.",
+                    "Value": 2.0
                 }
             ],
             "Digits": 0,
             "Icon": "",
-            "MaxValue": 0.0,
+            "MaxValue": 1.0,
             "MinValue": 0.0,
             "Prefix": "",
             "StepSize": 1.0,
             "Suffix": "",
             "Type": 1
         },
-        "Fronius.Power.1": {
+        "Fronius.Percent.1": {
             "Associations": [],
-            "Digits": 1,
+            "Digits": 2,
             "Icon": "",
-            "MaxValue": 0.0,
+            "MaxValue": 100.0,
             "MinValue": 0.0,
             "Prefix": "",
-            "StepSize": 0.0,
-            "Suffix": " W",
+            "StepSize": 1.0,
+            "Suffix": " %",
             "Type": 2
+        },
+        "Fronius.Percent_PlusMinus": {
+            "Associations": [],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 100.0,
+            "MinValue": -100.0,
+            "Prefix": "% ",
+            "StepSize": 1.0,
+            "Suffix": "",
+            "Type": 1
+        },
+        "Fronius.RmpTms": {
+            "Associations": [],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 65534.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": " sec",
+            "Type": 1
+        },
+        "Fronius.RvrtTms": {
+            "Associations": [],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 28800.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": " sec",
+            "Type": 1
         },
         "Fronius.ScaleFactor": {
             "Associations": [
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
+                    "Name": "NaN",
+                    "Value": -32768.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "n.a. [%d]",
+                    "Value": -32767.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "OutOfRange [%d]",
                     "Value": -11.0
                 },
                 {
@@ -507,13 +535,19 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
+                    "Name": "OutOfRange [%d]",
                     "Value": 11.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] n.a.",
+                    "Name": "n.a. [%d]",
+                    "Value": 32767.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
                     "Value": 32768.0
                 }
             ],
@@ -526,67 +560,56 @@
             "Suffix": "",
             "Type": 1
         },
-        "Fronius.VA.1": {
-            "Associations": [],
-            "Digits": 1,
-            "Icon": "",
-            "MaxValue": 10000.0,
-            "MinValue": 0.0,
-            "Prefix": "",
-            "StepSize": 100.0,
-            "Suffix": " VA",
-            "Type": 2
-        },
-        "Fronius.Var.1": {
+        "Fronius.VArPct_Mod": {
             "Associations": [
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "n.a. [%f]",
-                    "Value": -327680.0
+                    "Name": "[%d] n.a.",
+                    "Value": 0.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "%f",
-                    "Value": -32867.9
+                    "Name": "[%d] n.a.",
+                    "Value": 1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "%f",
-                    "Value": 32867.9
+                    "Name": "[%d] VAR limit as %% of VArMax",
+                    "Value": 2.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "n.a. [%f]",
-                    "Value": 327680.0
+                    "Name": "[%d] n.a.",
+                    "Value": 3.0
                 }
             ],
-            "Digits": 1,
+            "Digits": 0,
             "Icon": "",
-            "MaxValue": 0.0,
+            "MaxValue": 2.0,
             "MinValue": 0.0,
             "Prefix": "",
-            "StepSize": 100.0,
-            "Suffix": " Var",
-            "Type": 2
+            "StepSize": 1.0,
+            "Suffix": "",
+            "Type": 1
         },
-        "Fronius.kWh.3": {
+        "Fronius.WinTms": {
             "Associations": [],
-            "Digits": 3,
+            "Digits": 0,
             "Icon": "",
-            "MaxValue": 0.0,
+            "MaxValue": 300.0,
             "MinValue": 0.0,
             "Prefix": "",
-            "StepSize": 0.0,
-            "Suffix": " kWh",
-            "Type": 2
+            "StepSize": 1.0,
+            "Suffix": " sec",
+            "Type": 1
         }
     },
     "Requests": {
-        "Interval": 15000
+        "Interval": 0
     },
     "VirtualAddresses": [
         {

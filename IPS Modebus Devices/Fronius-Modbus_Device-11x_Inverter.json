@@ -1,0 +1,673 @@
+{
+    "Addresses": [
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "SunSpecModel",
+            "Length": 0,
+            "Name": "[40070] - Sunspec Model 'Inverter'",
+            "Profile": "",
+            "ReadAddress": 40069,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40072_AC_Current",
+            "Length": 0,
+            "Name": "[40072] AC Current",
+            "Profile": "~Ampere",
+            "ReadAddress": 40071,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40074_PhaseB_Current",
+            "Length": 0,
+            "Name": "[40074] Phase A Current",
+            "Profile": "~Ampere",
+            "ReadAddress": 40073,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40076_PhaseB_Current",
+            "Length": 0,
+            "Name": "[40076] Phase B Current",
+            "Profile": "~Ampere",
+            "ReadAddress": 40075,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40078_PhaseC_Current",
+            "Length": 0,
+            "Name": "[40078] Phase C Current",
+            "Profile": "~Ampere",
+            "ReadAddress": 40077,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40080_PhaseVoltageAB",
+            "Length": 0,
+            "Name": "[40080] Phase Voltage AB",
+            "Profile": "~Volt",
+            "ReadAddress": 40079,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40082_PhaseVoltageBC",
+            "Length": 0,
+            "Name": "[40082] Phase Voltage BC",
+            "Profile": "~Volt",
+            "ReadAddress": 40081,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40084_PhaseVoltageCA",
+            "Length": 0,
+            "Name": "[40084] Phase Voltage CA",
+            "Profile": "~Volt",
+            "ReadAddress": 40083,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40086_PhaseVoltageA",
+            "Length": 0,
+            "Name": "[40086] Phase Voltage AN",
+            "Profile": "~Volt.230",
+            "ReadAddress": 40085,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40088_PhaseVoltageB",
+            "Length": 0,
+            "Name": "[40088] Phase Voltage BN",
+            "Profile": "~Volt.230",
+            "ReadAddress": 40087,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40090_PhaseVoltageC",
+            "Length": 0,
+            "Name": "[40090] Phase Voltage CN",
+            "Profile": "~Volt.230",
+            "ReadAddress": 40089,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40092_AC_Power",
+            "Length": 0,
+            "Name": "[40092] AC Power",
+            "Profile": "~Watt",
+            "ReadAddress": 40091,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40094_LineFrequency",
+            "Length": 0,
+            "Name": "[40094] Line Frequency",
+            "Profile": "~Hertz.50",
+            "ReadAddress": 40093,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40096_AC_VA",
+            "Length": 0,
+            "Name": "[40096] AC Apparent Power",
+            "Profile": "Fronius.VA.1",
+            "ReadAddress": 40095,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40098_AC_Var",
+            "Length": 0,
+            "Name": "[40098] AC Reative Power",
+            "Profile": "Fronius.Var.1",
+            "ReadAddress": 40097,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0.01,
+            "Ident": "40100_AC_PF",
+            "Length": 0,
+            "Name": "[40100] AC Power Factor",
+            "Profile": "Fronius.CosPhi",
+            "ReadAddress": 40099,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0.001,
+            "Ident": "40102_AC_Energy",
+            "Length": 0,
+            "Name": "[40102] AC Energy",
+            "Profile": "~Electricity",
+            "ReadAddress": 40101,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40108_DC_Power",
+            "Length": 0,
+            "Name": "[40108] DC Power",
+            "Profile": "~Watt",
+            "ReadAddress": 40107,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 7,
+            "Factor": 0,
+            "Ident": "40110_CabinetTemp",
+            "Length": 0,
+            "Name": "[40110] Cabinet Temperature",
+            "Profile": "~Temperature",
+            "ReadAddress": 40109,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40118_OperatingState",
+            "Length": 0,
+            "Name": "[40118] Operating state (Enum)",
+            "Profile": "Fronius.OperatingState",
+            "ReadAddress": 40117,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 2,
+            "Factor": 0,
+            "Ident": "40120_OperatingStateCode",
+            "Length": 0,
+            "Name": "[40119] Operating state code (Enum)",
+            "Profile": "",
+            "ReadAddress": 40118,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 3,
+            "Factor": 0,
+            "Ident": "40120_EventFields",
+            "Length": 0,
+            "Name": "[40120] Event fields (bitfield)",
+            "Profile": "",
+            "ReadAddress": 40119,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 3,
+            "Factor": 0,
+            "Ident": "40122_Reserved",
+            "Length": 0,
+            "Name": "[40122] Reserved for Future use",
+            "Profile": "",
+            "ReadAddress": 40121,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 3,
+            "Factor": 0,
+            "Ident": "40124_CustomerEvents",
+            "Length": 0,
+            "Name": "[40124] Customer events (bitfield)",
+            "Profile": "Fronius.EventBitField",
+            "ReadAddress": 40123,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        },
+        {
+            "Active": true,
+            "ByteOrder": -1,
+            "DataType": 3,
+            "Factor": 0,
+            "Ident": "40126_TechnicianEvents",
+            "Length": 0,
+            "Name": "[40126] Technician events (bitfield)",
+            "Profile": "Fronius.EventBitField",
+            "ReadAddress": 40125,
+            "ReadFunctionCode": 3,
+            "Translation": [],
+            "WriteAddress": 0,
+            "WriteFunctionCode": 0
+        }
+    ],
+    "ByteOrder": 0,
+    "Profiles": {
+        "Fronius.CosPhi": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
+                    "Value": -32768.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%f] Out of Range",
+                    "Value": -1.01
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%.3f",
+                    "Value": -1.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%.3f",
+                    "Value": 1.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%f] Out of Range",
+                    "Value": 1.01
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
+                    "Value": 32768.0
+                }
+            ],
+            "Digits": 3,
+            "Icon": "",
+            "MaxValue": 1.0,
+            "MinValue": -1.0,
+            "Prefix": "",
+            "StepSize": 0.1,
+            "Suffix": "",
+            "Type": 2
+        },
+        "Fronius.EventBitField": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] No Events",
+                    "Value": 0.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] Error",
+                    "Value": 1.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] Warning",
+                    "Value": 2.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] Error & Warning",
+                    "Value": 3.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] Info",
+                    "Value": 4.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] Error & Info",
+                    "Value": 5.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] Warning & Info",
+                    "Value": 6.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] Error & Warning & Info",
+                    "Value": 7.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] OutOfRange",
+                    "Value": 8.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] n.a.",
+                    "Value": 9.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] n.a.",
+                    "Value": 65536.0
+                }
+            ],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 7.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": "",
+            "Type": 1
+        },
+        "Fronius.OperatingState": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] OFF - Inverter is off",
+                    "Value": 1.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] SLEEPING - Auto shutdown",
+                    "Value": 2.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] STARTING - Inverter starting",
+                    "Value": 3.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] MPPT - Inverter working normally",
+                    "Value": 4.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] THROTTLED - Power reduction active",
+                    "Value": 5.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] SHUTTING_ DOWN - Inverter shutting down",
+                    "Value": 6.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] FAULT - Faults present",
+                    "Value": 7.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] STANDBY - Standby",
+                    "Value": 8.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] n.a.",
+                    "Value": 9.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] n.a.",
+                    "Value": 65535.0
+                }
+            ],
+            "Digits": 0,
+            "Icon": "",
+            "MaxValue": 8.0,
+            "MinValue": 1.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": "",
+            "Type": 1
+        },
+        "Fronius.Percent.1": {
+            "Associations": [],
+            "Digits": 2,
+            "Icon": "",
+            "MaxValue": 100.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 1.0,
+            "Suffix": " %",
+            "Type": 2
+        },
+        "Fronius.VA.1": {
+            "Associations": [],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 10000.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 100.0,
+            "Suffix": " VA",
+            "Type": 2
+        },
+        "Fronius.Var.1": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
+                    "Value": -327680.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%f  Var",
+                    "Value": -32867.9
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%f Var",
+                    "Value": 32867.9
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
+                    "Value": 327680.0
+                }
+            ],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 0.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 100.0,
+            "Suffix": "",
+            "Type": 2
+        }
+    },
+    "Requests": {
+        "Interval": 0
+    },
+    "VirtualAddresses": [
+        {
+            "Active": true,
+            "Ident": "VA_Efficiency",
+            "Name": "Efficiency (AC | DC)",
+            "Profile": "Fronius.Percent.1",
+            "ReadAction": "$varId_ACP = IPS_GetObjectIDByIdent(\"40092_AC_Power\", $_IPS['TARGET']);\r\n$varId_DCP = IPS_GetObjectIDByIdent(\"40108_DC_Power\", $_IPS['TARGET']);\r\n$ac_power = GetValueFloat($varId_ACP);\r\n$dc_power = GetValueFloat($varId_DCP);\r\nif ($dc_power > 0) {\r\n    $efficiency = ($ac_power / $dc_power) * 100;\r\n    return round($efficiency, 2);\r\n} else {\r\n    return 0.0;\r\n}",
+            "Translation": [],
+            "VariableType": 2,
+            "WriteAction": ""
+        },
+        {
+            "Active": true,
+            "Ident": "VA_UpdateCnt",
+            "Name": "Update Cnt",
+            "Profile": "",
+            "ReadAction": "$varId = @IPS_GetObjectIDByIdent(\"VA_UpdateCnt\", $_IPS['TARGET']);\r\nif ($varId === false) { return -1; } else { return GetValueInteger($varId)+1; }",
+            "Translation": [],
+            "VariableType": 1,
+            "WriteAction": ""
+        },
+        {
+            "Active": true,
+            "Ident": "VA_LastUpdate",
+            "Name": "Last Update",
+            "Profile": "~UnixTimestamp",
+            "ReadAction": "if(false) {\r\n    $ipsTarget = $_IPS['TARGET'];\r\n    $logSender = sprintf(\"[%s] %s\", $ipsTarget, IPS_GetName($ipsTarget));\r\n    $logMsg = sprintf(\"Fronius Modbus SunSpecModel '%s' updated\", $VALUES[\"SunSpecModel\"]);\r\n    IPS_LogMessage($logSender, $logMsg);\r\n}\r\nreturn (time());",
+            "Translation": [],
+            "VariableType": 1,
+            "WriteAction": ""
+        }
+    ]
+}

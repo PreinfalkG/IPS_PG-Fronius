@@ -526,7 +526,7 @@
         },
         "Fronius.Percent.1": {
             "Associations": [],
-            "Digits": 1,
+            "Digits": 2,
             "Icon": "",
             "MaxValue": 100.0,
             "MinValue": 0.0,
@@ -551,7 +551,19 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
+                    "Name": "NaN",
+                    "Value": -32768.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "n.a. [%d]",
+                    "Value": -32767.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "OutOfRange [%d]",
                     "Value": -11.0
                 },
                 {
@@ -569,13 +581,19 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
+                    "Name": "OutOfRange [%d]",
                     "Value": 11.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] n.a.",
+                    "Name": "n.a. [%d]",
+                    "Value": 32767.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
                     "Value": 32768.0
                 }
             ],
@@ -612,7 +630,7 @@
         }
     },
     "Requests": {
-        "Interval": 5000
+        "Interval": 0
     },
     "VirtualAddresses": [
         {
@@ -640,7 +658,7 @@
             "Ident": "MPPT1_DCP",
             "Name": "MPPT1_DCP",
             "Profile": "Fronius.Power.1",
-            "ReadAction": "$value = $VALUES[\"40285_MPPT1_DCW\"];\r\nif ($value != 65535) { \r\n    return round($value * pow(10, $VALUES[\"40268_DCW_SF\"]), 2);\r\n} else { return -0.01; }",
+            "ReadAction": "$value = $VALUES[\"40285_MPPT1_DCW\"];\r\nif ($value != 65535) { \r\n    return round($value * pow(10, $VALUES[\"40268_DCW_SF\"]), 2);\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -680,7 +698,7 @@
             "Ident": "MPPT2_DCP",
             "Name": "MPPT2_DCP",
             "Profile": "Fronius.Power.1",
-            "ReadAction": "$value = $VALUES[\"40305_MPPT2_DCW\"];\r\nif ($value != 65535) { \r\n    return round($value * pow(10, $VALUES[\"40268_DCW_SF\"]), 2);\r\n} else { return -0.01; }",
+            "ReadAction": "$value = $VALUES[\"40305_MPPT2_DCW\"];\r\nif ($value != 65535) { \r\n    return round($value * pow(10, $VALUES[\"40268_DCW_SF\"]), 2);\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -700,7 +718,7 @@
             "Ident": "MPPT3_DCA",
             "Name": "MPPT3_DCA",
             "Profile": "Fronius.Current.2",
-            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 2) {\r\n    $value = $VALUES[\"40323_MPPT3_DCA\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40266_DCA_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return -1; }",
+            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 2) {\r\n    $value = $VALUES[\"40323_MPPT3_DCA\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40266_DCA_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -710,7 +728,7 @@
             "Ident": "MPPT3_DCV",
             "Name": "MPPT3_DCV",
             "Profile": "Fronius.Voltage.2",
-            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 2) {\r\n    $value = $VALUES[\"40324_MPPT3_DCV\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40267_DCV_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return -1; }",
+            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 2) {\r\n    $value = $VALUES[\"40324_MPPT3_DCV\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40267_DCV_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -720,7 +738,7 @@
             "Ident": "MPPT3_DCP",
             "Name": "MPPT3_DCP",
             "Profile": "Fronius.Power.1",
-            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 2) {\r\n    $value = $VALUES[\"40325_MPPT3_DCW\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40268_DCW_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return -1; }",
+            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 2) {\r\n    $value = $VALUES[\"40325_MPPT3_DCW\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40268_DCW_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -730,7 +748,7 @@
             "Ident": "MPPT3_DCkWh",
             "Name": "MPPT3_DCkWh",
             "Profile": "Fronius.kWh.3",
-            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 2) {\r\n    $value = $VALUES[\"40326_MPPT3_LifetimeEnergy\"];\r\n    if ($value > 0) { \r\n        return round($value * pow(10, $VALUES[\"40269_DCWH_SF\"]) / 1000, 3);\r\n    } else { return null; }\r\n} else { return -1; }",
+            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 2) {\r\n    $value = $VALUES[\"40326_MPPT3_LifetimeEnergy\"];\r\n    if ($value > 0) { \r\n        return round($value * pow(10, $VALUES[\"40269_DCWH_SF\"]) / 1000, 3);\r\n    } else { return null; }\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -740,7 +758,7 @@
             "Ident": "MPPT4_DCA",
             "Name": "MPPT4_DCA",
             "Profile": "Fronius.Current.2",
-            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 3) {\r\n    $value = $VALUES[\"40343_MPPT4_DCA\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40266_DCA_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return -1; }\r\n",
+            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 3) {\r\n    $value = $VALUES[\"40343_MPPT4_DCA\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40266_DCA_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -750,7 +768,7 @@
             "Ident": "MPPT4_DCV",
             "Name": "MPPT4_DCV",
             "Profile": "Fronius.Voltage.2",
-            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 3) {\r\n    $value = $VALUES[\"40344_MPPT4_DCV\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40267_DCV_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return -1; }",
+            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 3) {\r\n    $value = $VALUES[\"40344_MPPT4_DCV\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40267_DCV_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -760,7 +778,7 @@
             "Ident": "MPPT4_DCP",
             "Name": "MPPT4_DCP",
             "Profile": "Fronius.Power.1",
-            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 3) {\r\n    $value = $VALUES[\"40345_MPPT4_DCW\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40268_DCW_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return -1; }",
+            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 3) {\r\n    $value = $VALUES[\"40345_MPPT4_DCW\"];\r\n    if ($value != 65535) { \r\n        return round($value * pow(10, $VALUES[\"40268_DCW_SF\"]), 2);\r\n    } else { return -0.01; }\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
@@ -770,7 +788,7 @@
             "Ident": "MPPT4_DCkWh",
             "Name": "MPPT4_DCkWh",
             "Profile": "Fronius.kWh.3",
-            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 3) {\r\n    $value = $VALUES[\"40346_MPPT4_LifetimeEnergy\"];\r\n    if ($value > 0) { \r\n        return round($value * pow(10, $VALUES[\"40269_DCWH_SF\"]) / 1000, 3);\r\n    } else { return null; }\r\n} else { return -1; }",
+            "ReadAction": "if($VALUES[\"40272_NumberOfModules\"] > 3) {\r\n    $value = $VALUES[\"40346_MPPT4_LifetimeEnergy\"];\r\n    if ($value > 0) { \r\n        return round($value * pow(10, $VALUES[\"40269_DCWH_SF\"]) / 1000, 3);\r\n    } else { return null; }\r\n} else { return null; }",
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""

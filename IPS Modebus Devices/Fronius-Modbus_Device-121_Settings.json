@@ -198,7 +198,7 @@
         {
             "Active": true,
             "ByteOrder": -1,
-            "DataType": 2,
+            "DataType": 5,
             "Factor": 0,
             "Ident": "40182_WMax_SF",
             "Length": 0,
@@ -213,7 +213,7 @@
         {
             "Active": true,
             "ByteOrder": -1,
-            "DataType": 2,
+            "DataType": 5,
             "Factor": 0,
             "Ident": "40183_VRef_SF",
             "Length": 0,
@@ -228,7 +228,7 @@
         {
             "Active": true,
             "ByteOrder": -1,
-            "DataType": 2,
+            "DataType": 5,
             "Factor": 0,
             "Ident": "40184_VRefOfs_SF",
             "Length": 0,
@@ -243,7 +243,7 @@
         {
             "Active": true,
             "ByteOrder": -1,
-            "DataType": 2,
+            "DataType": 5,
             "Factor": 0,
             "Ident": "40186_VAMax_SF",
             "Length": 0,
@@ -258,7 +258,7 @@
         {
             "Active": true,
             "ByteOrder": -1,
-            "DataType": 2,
+            "DataType": 5,
             "Factor": 0,
             "Ident": "40187_VArMax_SF",
             "Length": 0,
@@ -273,7 +273,7 @@
         {
             "Active": true,
             "ByteOrder": -1,
-            "DataType": 2,
+            "DataType": 5,
             "Factor": 0,
             "Ident": "40189_PFMin_SF",
             "Length": 0,
@@ -293,25 +293,37 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "n.a. [%f]",
+                    "Name": "NaN",
                     "Value": -32768.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "%f",
+                    "Name": "[%f] Out of Range",
+                    "Value": -1.01
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%.3f",
                     "Value": -1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "%f",
+                    "Name": "%.3f",
                     "Value": 1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "n.a. [%f]",
+                    "Name": "[%f] Out of Range",
+                    "Value": 1.01
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
                     "Value": 32768.0
                 }
             ],
@@ -329,7 +341,19 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
+                    "Name": "NaN",
+                    "Value": -32768.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "n.a. [%d]",
+                    "Value": -32767.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "OutOfRange [%d]",
                     "Value": -11.0
                 },
                 {
@@ -347,13 +371,19 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] OutOfRange",
+                    "Name": "OutOfRange [%d]",
                     "Value": 11.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] n.a.",
+                    "Name": "n.a. [%d]",
+                    "Value": 32767.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "NaN",
                     "Value": 32768.0
                 }
             ],
@@ -382,25 +412,25 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "n.a. [%f]",
+                    "Name": "NaN",
                     "Value": -327680.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "%f",
+                    "Name": "%f  Var",
                     "Value": -32867.9
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "%f",
+                    "Name": "%f Var",
                     "Value": 32867.9
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "n.a. [%f]",
+                    "Name": "NaN",
                     "Value": 327680.0
                 }
             ],
@@ -410,7 +440,7 @@
             "MinValue": 0.0,
             "Prefix": "",
             "StepSize": 100.0,
-            "Suffix": " Var",
+            "Suffix": "",
             "Type": 2
         },
         "Fronius.Voltage": {
@@ -437,7 +467,7 @@
         }
     },
     "Requests": {
-        "Interval": 5000
+        "Interval": 0
     },
     "VirtualAddresses": [
         {
