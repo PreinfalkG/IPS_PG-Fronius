@@ -273,6 +273,78 @@
     ],
     "ByteOrder": 0,
     "Profiles": {
+        "Fronius.CHARGE_MAX": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "DEAKTIVIERT",
+                    "Value": -50.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "DEAKTIVIERT",
+                    "Value": -1.0
+                },
+                {
+                    "Color": 16711680,
+                    "Icon": "",
+                    "Name": "0 W - Ladung gesperrt (nur Entladen)",
+                    "Value": 0.0
+                },
+                {
+                    "Color": 13875981,
+                    "Icon": "",
+                    "Name": "%.1f W Lade-Limit aktiv",
+                    "Value": 1.0
+                }
+            ],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 20500.0,
+            "MinValue": -50.0,
+            "Prefix": "",
+            "StepSize": 50.0,
+            "Suffix": "",
+            "Type": 2
+        },
+        "Fronius.CHARGE_MIN": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "DEAKTIVIERT",
+                    "Value": -50.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "DEAKTIVIERT",
+                    "Value": -1.0
+                },
+                {
+                    "Color": 16711680,
+                    "Icon": "",
+                    "Name": "0 W - Entladung gesperrt (nur Laden)",
+                    "Value": 0.0
+                },
+                {
+                    "Color": 10034643,
+                    "Icon": "",
+                    "Name": "%.1f W - Erzwungene Ladung",
+                    "Value": 1.0
+                }
+            ],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 20500.0,
+            "MinValue": -50.0,
+            "Prefix": "",
+            "StepSize": 50.0,
+            "Suffix": "",
+            "Type": 2
+        },
         "Fronius.ChaGriSet": {
             "Associations": [
                 {
@@ -369,15 +441,220 @@
             "Suffix": "",
             "Type": 1
         },
+        "Fronius.DISCHARGE_MAX": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "DEAKTIVIERT",
+                    "Value": -50.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "DEAKTIVIERT",
+                    "Value": -1.0
+                },
+                {
+                    "Color": 16711680,
+                    "Icon": "",
+                    "Name": "0 W - Entladung gesperrt (nur Laden)",
+                    "Value": 0.0
+                },
+                {
+                    "Color": 14458888,
+                    "Icon": "",
+                    "Name": "%.1f W - Entlade Limit aktiv",
+                    "Value": 1.0
+                }
+            ],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 20500.0,
+            "MinValue": -50.0,
+            "Prefix": "",
+            "StepSize": 50.0,
+            "Suffix": "",
+            "Type": 2
+        },
+        "Fronius.DISCHARGE_MIN": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "DEAKTIVIERT",
+                    "Value": -50.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "DEAKTIVIERT",
+                    "Value": -1.0
+                },
+                {
+                    "Color": 16711680,
+                    "Icon": "",
+                    "Name": "0 W - Ladung gesperrt (nur Entladen)",
+                    "Value": 0.0
+                },
+                {
+                    "Color": 381620,
+                    "Icon": "",
+                    "Name": "%.1f W - fixe Entladung",
+                    "Value": 1.0
+                }
+            ],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 20500.0,
+            "MinValue": -50.0,
+            "Prefix": "",
+            "StepSize": 50.0,
+            "Suffix": "",
+            "Type": 2
+        },
         "Fronius.InWRte_OutWRte": {
-            "Associations": [],
-            "Digits": 2,
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%.1f %%",
+                    "Value": -100.0
+                },
+                {
+                    "Color": 255,
+                    "Icon": "",
+                    "Name": "%.1f %%",
+                    "Value": -99.5
+                },
+                {
+                    "Color": 255,
+                    "Icon": "",
+                    "Name": "%.1f %%",
+                    "Value": -0.1
+                },
+                {
+                    "Color": 16711680,
+                    "Icon": "",
+                    "Name": "%.1f %%",
+                    "Value": 0.0
+                },
+                {
+                    "Color": 13107300,
+                    "Icon": "",
+                    "Name": "%.1f %%",
+                    "Value": 0.1
+                },
+                {
+                    "Color": 13107300,
+                    "Icon": "",
+                    "Name": "%.1f %%",
+                    "Value": 99.5
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "%.1f %%",
+                    "Value": 100.0
+                }
+            ],
+            "Digits": 1,
             "Icon": "",
             "MaxValue": 100.0,
             "MinValue": -100.0,
             "Prefix": "",
-            "StepSize": 1.0,
-            "Suffix": " %",
+            "StepSize": 0.5,
+            "Suffix": "",
+            "Type": 2
+        },
+        "Fronius.InWRte_Watt": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "max Entladung : %.1f W",
+                    "Value": -24480.0
+                },
+                {
+                    "Color": 381620,
+                    "Icon": "",
+                    "Name": "fixe Entladung: %.1f W",
+                    "Value": -24479.0
+                },
+                {
+                    "Color": 381620,
+                    "Icon": "",
+                    "Name": "fixe Entladung: %.1f W",
+                    "Value": -1.0
+                },
+                {
+                    "Color": 16711680,
+                    "Icon": "",
+                    "Name": " %.1f W",
+                    "Value": 0.0
+                },
+                {
+                    "Color": 13875469,
+                    "Icon": "",
+                    "Name": "Laden mit Sonne begrenzt: %.1f W",
+                    "Value": 1.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "Ladebegrenzung DEAKTIVIERT",
+                    "Value": 20480.0
+                }
+            ],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 0.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 100.0,
+            "Suffix": "",
+            "Type": 2
+        },
+        "Fronius.OutWRte_Watt": {
+            "Associations": [
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "erzwungene Nachladung: %.1f W",
+                    "Value": -20480.0
+                },
+                {
+                    "Color": 10034643,
+                    "Icon": "",
+                    "Name": "erzwungene Nachladung: %.1f W",
+                    "Value": -1.0
+                },
+                {
+                    "Color": 16711680,
+                    "Icon": "",
+                    "Name": " %.1f W",
+                    "Value": 0.0
+                },
+                {
+                    "Color": 14458960,
+                    "Icon": "",
+                    "Name": "Entladeleistung begrenzt: %.1f W",
+                    "Value": 1.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "Entladebegrenzung DEAKTIVIERT",
+                    "Value": 20480.0
+                }
+            ],
+            "Digits": 1,
+            "Icon": "",
+            "MaxValue": 0.0,
+            "MinValue": 0.0,
+            "Prefix": "",
+            "StepSize": 100.0,
+            "Suffix": "",
             "Type": 2
         },
         "Fronius.Percent": {
@@ -478,26 +755,32 @@
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] CHARGE",
+                    "Name": "[%d] Standardbetrieb",
                     "Value": 0.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] DiSCHARGE",
+                    "Name": "[%d] CHARGE - Lade Limit",
                     "Value": 1.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] CHARGE & DiSCHARGE",
+                    "Name": "[%d] DiSCHARGE - Entlade Limit",
                     "Value": 2.0
                 },
                 {
                     "Color": -1,
                     "Icon": "",
-                    "Name": "[%d] n.a.",
+                    "Name": "[%d] CHARGE & DiSCHARGE",
                     "Value": 3.0
+                },
+                {
+                    "Color": -1,
+                    "Icon": "",
+                    "Name": "[%d] n.a.",
+                    "Value": 4.0
                 }
             ],
             "Digits": 0,
@@ -552,7 +835,7 @@
         }
     },
     "Requests": {
-        "Interval": 0
+        "Interval": 5000
     },
     "VirtualAddresses": [
         {
@@ -574,6 +857,76 @@
             "Translation": [],
             "VariableType": 1,
             "WriteAction": ""
+        },
+        {
+            "Active": true,
+            "Ident": "VA_OutWRte_Watt",
+            "Name": "OutWRte_Watt",
+            "Profile": "Fronius.OutWRte_Watt",
+            "ReadAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\nif(($StorCtl_Mod == 2) OR ($StorCtl_Mod == 3)) {\r\n    $OutWRte = $VALUES[\"40366_OutWRte\"];\r\n    $OutWRte_Watt = round($WChaMax / 100 * $OutWRte, 2);\r\n    return $OutWRte_Watt;\r\n} else {\r\n    return $WChaMax;\r\n}",
+            "Translation": [],
+            "VariableType": 2,
+            "WriteAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\nif($StorCtl_Mod != 3) { $StorCtl_Mod = 2; }\r\n$OutWRte = round(100/$WChaMax * $VALUE, 2);\r\nif($OutWRte > 100) { $OutWRte = 100; } else if ($OutWRte < -100) { $OutWRte = -100; }\r\nreturn [\"40366_OutWRte\" => $OutWRte, \"40359_StorCtl_Mod\" =>  $StorCtl_Mod];"
+        },
+        {
+            "Active": true,
+            "Ident": "VA_InWRte_Watt",
+            "Name": "InWRte_Watt",
+            "Profile": "Fronius.InWRte_Watt",
+            "ReadAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\nif(($StorCtl_Mod == 1) OR ($StorCtl_Mod == 3)) {\r\n    $InWRte = $VALUES[\"40367_InWRte\"];\r\n    $InWRte_Watt = round($WChaMax / 100 * $InWRte, 2);\r\n    return $InWRte_Watt;\r\n} else {\r\n    return $WChaMax;\r\n}",
+            "Translation": [],
+            "VariableType": 2,
+            "WriteAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\nif($StorCtl_Mod != 3) { $StorCtl_Mod = 1; }\r\n$InWRte = round(100/$WChaMax * $VALUE, 2);\r\nif($InWRte > 100) { $InWRte = 100; } else if ($InWRte < -100) { $InWRte = -100; }\r\nreturn [\"40367_InWRte\" => $InWRte, \"40359_StorCtl_Mod\" =>  $StorCtl_Mod];"
+        },
+        {
+            "Active": true,
+            "Ident": "VA_CHARGE_MAX",
+            "Name": "CHARGE_MAX",
+            "Profile": "Fronius.CHARGE_MAX",
+            "ReadAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\n$InWRte = $VALUES[\"40367_InWRte\"];\r\nif(($StorCtl_Mod == 1) OR ($StorCtl_Mod == 3)) {\r\n    if($InWRte == 100) { \r\n        return -1; \r\n    } elseif ($InWRte == 0) {\r\n        return $InWRte;\r\n    } elseif ($InWRte < 0) {\r\n       return -1;\r\n    } else {\r\n       return round($WChaMax / 100 * $InWRte, 1);\r\n    }\r\n} else {\r\n    return -1;\r\n}",
+            "Translation": [],
+            "VariableType": 2,
+            "WriteAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\nif($VALUE < 0) {\r\n  $InWRte = 100; \r\n  if($StorCtl_Mod != 3) { $StorCtl_Mod = 1; }\r\n} else {\r\n  $InWRte = round(100/$WChaMax * $VALUE, 2);\r\n  if($InWRte > 100) { $InWRte = 100; } \r\n  if($StorCtl_Mod != 3) { \r\n    $StorCtl_Mod = 1;\r\n  } else {\r\n    $OutWRte = $VALUES[\"40366_OutWRte\"];\r\n    if( (-1 * $InWRte) > $OutWRte) {\r\n      $logMsg = sprintf(\"CHARGE_MAX - Invalid power window > Set StorCtl_Mod = 2 [40359_StorCtl_Mod: %s | 40366_OutWRte: %s | 40367_InWRte: %s | VALUE: %s] {%s | %s}\", $StorCtl_Mod, $OutWRte, $InWRte, $VALUE, $_IPS['SENDER'], IPS_GetName($_IPS['TARGET']));\r\n      $varIdLogInfo = @IPS_GetVariableIDByName(\"LogInfo\", $_IPS['TARGET']); if($varIdLogInfo !== false) { SetValue($varIdLogInfo, $logMsg); }\r\n      IPS_LogMessage(\"FroniusModBus_\".$_IPS['TARGET'].\"-WARN\", $logMsg);      \r\n      return [\"40359_StorCtl_Mod\" => 2];\r\n    }\r\n  } \r\n}\r\n$logMsg = sprintf(\"CHARGE_MAX | 40359_StorCtl_Mod: %s | 40367_InWRte: %s | VALUE: %s {%s | %s}\",  $StorCtl_Mod, $InWRte, $VALUE, $_IPS['SENDER'], IPS_GetName($_IPS['TARGET']));\r\n$varIdLogInfo = @IPS_GetVariableIDByName(\"LogInfo\", $_IPS['TARGET']); if($varIdLogInfo !== false) { SetValue($varIdLogInfo, $logMsg); }\r\nIPS_LogMessage(\"FroniusModBus_\".$_IPS['TARGET'], $logMsg);\r\nreturn [\"40367_InWRte\" => $InWRte, \"40359_StorCtl_Mod\" => $StorCtl_Mod];"
+        },
+        {
+            "Active": true,
+            "Ident": "VA_CHARGE_MIN",
+            "Name": "CHARGE_MIN",
+            "Profile": "Fronius.CHARGE_MIN",
+            "ReadAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\n$OutWRte = $VALUES[\"40366_OutWRte\"];\r\nif($StorCtl_Mod >= 2) {\r\n    if($OutWRte >= 0) {\r\n       return -1; \r\n    } else {\r\n       return abs(round($WChaMax / 100 * $OutWRte, 1));\r\n    }\r\n} else {\r\n    return -1;\r\n}",
+            "Translation": [],
+            "VariableType": 2,
+            "WriteAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\nif($VALUE < 0) {\r\n  $OutWRte = 100; \r\n  if($StorCtl_Mod != 3) { $StorCtl_Mod = 1; }\r\n} else {\r\n  $OutWRte = round(100/$WChaMax * $VALUE, 2) * -1;\r\n  if($OutWRte < -100) { $OutWRte = -100; }\r\n  if($StorCtl_Mod != 3) { \r\n    $StorCtl_Mod = 2;\r\n  } else {\r\n    $InWRte = $VALUES[\"40367_InWRte\"];\r\n    if( (-1 * $InWRte) > $OutWRte) {\r\n      $logMsg = sprintf(\"CHARGE_MIN - Invalid power window > Set StorCtl_Mod = 2 [40359_StorCtl_Mod: %s | 40366_OutWRte: %s | 40367_InWRte: %s | VALUE: %s] {%s | %s}\", $StorCtl_Mod, $OutWRte, $InWRte, $VALUE, $_IPS['SENDER'], IPS_GetName($_IPS['TARGET']));\r\n      $varIdLogInfo = @IPS_GetVariableIDByName(\"LogInfo\", $_IPS['TARGET']); if($varIdLogInfo !== false) { SetValue($varIdLogInfo, $logMsg); }\r\n      IPS_LogMessage(\"FroniusModBus_\".$_IPS['TARGET'].\"-WARN\", $logMsg);      \r\n      return [\"40359_StorCtl_Mod\" => 2];\r\n    }     \r\n  }\r\n}\r\n$logMsg = sprintf(\"CHARGE_MIN | 40359_StorCtl_Mod: %s | 40366_OutWRte: %s | VALUE: %s {%s | %s}\",  $StorCtl_Mod, $OutWRte, $VALUE, $_IPS['SENDER'], IPS_GetName($_IPS['TARGET']));\r\n$varIdLogInfo = @IPS_GetVariableIDByName(\"LogInfo\", $_IPS['TARGET']); if($varIdLogInfo !== false) { SetValue($varIdLogInfo, $logMsg); }\r\nIPS_LogMessage(\"FroniusModBus_\".$_IPS['TARGET'], $logMsg);\r\nreturn [\"40366_OutWRte\" => $OutWRte, \"40359_StorCtl_Mod\" => $StorCtl_Mod];"
+        },
+        {
+            "Active": true,
+            "Ident": "VA_DISCHARGE_MAX",
+            "Name": "DISCHARGE_MAX",
+            "Profile": "Fronius.DISCHARGE_MAX",
+            "ReadAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\n$OutWRte = $VALUES[\"40366_OutWRte\"];\r\nif($StorCtl_Mod >= 2) {\r\n    if($OutWRte == 100) { \r\n        return -1; \r\n    } elseif ($OutWRte == 0) {\r\n      return $OutWRte;\r\n    } elseif ($OutWRte < 0) {\r\n       return -1;\r\n    } else {\r\n       return round($WChaMax / 100 * $OutWRte, 1);\r\n    }\r\n} else {\r\n    return -1;\r\n}",
+            "Translation": [],
+            "VariableType": 2,
+            "WriteAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\n$OutWRte = $VALUES[\"40366_OutWRte\"];\r\nif($VALUE < 0) {\r\n  $OutWRte = 100; \r\n  if($StorCtl_Mod != 3) { $StorCtl_Mod = 1; }\r\n} else { \r\n  $OutWRte = round(100/$WChaMax * $VALUE, 2);\r\n  if($OutWRte > 100) { $OutWRte =  100; }\r\n  if($StorCtl_Mod != 3) {\r\n    $StorCtl_Mod = 2;  \r\n  } else {\r\n    $InWRte = $VALUES[\"40367_InWRte\"];\r\n    if( (-1 * $InWRte) > $OutWRte) {\r\n      $logMsg = sprintf(\"DISCHARGE_MAX - Invalid power window > Set StorCtl_Mod = 2 [40359_StorCtl_Mod: %s | 40366_OutWRte: %s | 40367_InWRte: %s | VALUE: %s] {%s | %s}\", $StorCtl_Mod, $OutWRte, $InWRte, $VALUE, $_IPS['SENDER'], IPS_GetName($_IPS['TARGET']));\r\n      $varIdLogInfo = @IPS_GetVariableIDByName(\"LogInfo\", $_IPS['TARGET']); if($varIdLogInfo !== false) { SetValue($varIdLogInfo, $logMsg); }\r\n      IPS_LogMessage(\"FroniusModBus_\".$_IPS['TARGET'].\"-WARN\", $logMsg);      \r\n      return [\"40359_StorCtl_Mod\" => 2];\r\n    }\r\n  }\r\n}\r\n$logMsg = sprintf(\"DISCHARGE_MAX | 40359_StorCtl_Mod: %s | 40366_OutWRte: %s | VALUE: %s {%s | %s}\",  $StorCtl_Mod, $OutWRte, $VALUE, $_IPS['SENDER'], IPS_GetName($_IPS['TARGET']));\r\n$varIdLogInfo = @IPS_GetVariableIDByName(\"LogInfo\", $_IPS['TARGET']); if($varIdLogInfo !== false) { SetValue($varIdLogInfo, $logMsg); }\r\nIPS_LogMessage(\"FroniusModBus_\".$_IPS['TARGET'], $logMsg);\r\nreturn [\"40366_OutWRte\" => $OutWRte, \"40359_StorCtl_Mod\" => $StorCtl_Mod];"
+        },
+        {
+            "Active": true,
+            "Ident": "VA_DISCHARGE_MIN",
+            "Name": "DISCHARGE_MIN",
+            "Profile": "Fronius.DISCHARGE_MIN",
+            "ReadAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\n$InWRte = $VALUES[\"40367_InWRte\"];\r\nif(($StorCtl_Mod == 1) OR ($StorCtl_Mod == 3)) {\r\n    if($InWRte >= 0) { \r\n        return -1; \r\n    } else {\r\n        return abs(round($WChaMax / 100 * $InWRte, 1));\r\n    }\r\n} else {\r\n    return -1;\r\n}",
+            "Translation": [],
+            "VariableType": 2,
+            "WriteAction": "$WChaMax = $VALUES[\"40356_WChaMax\"];\r\n$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\nif( $VALUE < 0) {\r\n  $InWRte = 100; \r\n  if($StorCtl_Mod != 3) { $StorCtl_Mod = 1; }\r\n} else {\r\n  $InWRte = round(100/$WChaMax * $VALUE, 2) * -1;\r\n  if($InWRte < -100) { $InWRte = -100; } \r\n  if($StorCtl_Mod != 3) {\r\n    $StorCtl_Mod = 1;  \r\n  } else {\r\n    $OutWRte = $VALUES[\"40366_OutWRte\"];\r\n    if( (-1 * $InWRte) > $OutWRte) {\r\n      $logMsg = sprintf(\"DISCHARGE_MIN - Invalid power window > Set StorCtl_Mod = 1 [40359_StorCtl_Mod: %s | 40366_OutWRte: %s | 40367_InWRte: %s | VALUE: %s] {%s | %s}\", $StorCtl_Mod, $OutWRte, $InWRte, $VALUE, $_IPS['SENDER'], IPS_GetName($_IPS['TARGET']));\r\n      $varIdLogInfo = @IPS_GetVariableIDByName(\"LogInfo\", $_IPS['TARGET']); if($varIdLogInfo !== false) { SetValue($varIdLogInfo, $logMsg); }\r\n      IPS_LogMessage(\"FroniusModBus_\".$_IPS['TARGET'].\"-WARN\", $logMsg);      \r\n      return [\"40359_StorCtl_Mod\" => 1];\r\n    }\r\n  }\r\n}\r\n$logMsg = sprintf(\"DISCHARGE_MIN | 40359_StorCtl_Mod: %s | 40367_InWRte: %s | VALUE: %s {%s | %s}\",  $StorCtl_Mod, $InWRte, $VALUE, $_IPS['SENDER'], IPS_GetName($_IPS['TARGET']));\r\n$varIdLogInfo = @IPS_GetVariableIDByName(\"LogInfo\", $_IPS['TARGET']); if($varIdLogInfo !== false) { SetValue($varIdLogInfo, $logMsg); }\r\nIPS_LogMessage(\"FroniusModBus_\".$_IPS['TARGET'], $logMsg);\r\nreturn [\"40367_InWRte\" => $InWRte, \"40359_StorCtl_Mod\" => $StorCtl_Mod];"
+        },
+        {
+            "Active": true,
+            "Ident": "VA_ControlActive",
+            "Name": "ControlActive",
+            "Profile": "~Switch",
+            "ReadAction": "$StorCtl_Mod = $VALUES[\"40359_StorCtl_Mod\"];\r\n$OutWRte = $VALUES[\"40366_OutWRte\"];\r\n$InWRte = $VALUES[\"40367_InWRte\"];\r\nif( ($StorCtl_Mod > 0) AND (($OutWRte != 100) OR ($InWRte != 100))) {\r\n    return true;\r\n} else {\r\n    return false;\r\n}",
+            "Translation": [],
+            "VariableType": 0,
+            "WriteAction": "if($VALUE) {\r\n    return null;\r\n} else {\r\n  return [\"40359_StorCtl_Mod\" => 0, \"40366_OutWRte\" => 100, \"40367_InWRte\" => 100];  \r\n}"
         }
     ]
 }
