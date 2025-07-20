@@ -196,7 +196,7 @@
             "WriteFunctionCode": 0
         },
         {
-            "Active": true,
+            "Active": false,
             "ByteOrder": -1,
             "DataType": 5,
             "Factor": 0,
@@ -363,7 +363,7 @@
         {
             "Active": true,
             "Ident": "VA_1_7_0",
-            "Name": "VA_1.7.0_Bezug",
+            "Name": "1.7.0_Bezug",
             "Profile": "Fronius.Watt",
             "ReadAction": "$value = $VALUES[\"88_TotalRealPower\"];\r\nif ($value > 0) { \r\n    return $value;\r\n} else { return 0; }",
             "Translation": [],
@@ -373,17 +373,17 @@
         {
             "Active": true,
             "Ident": "VA_2_7_0",
-            "Name": "VA_2.7.0_Lieferung",
+            "Name": "2.7.0_Lieferung",
             "Profile": "Fronius.Watt",
-            "ReadAction": "$value = $VALUES[\"88_TotalRealPower\"];\r\nif ($value < 0) { \r\n    return $value;\r\n} else { return 0; }",
+            "ReadAction": "$value = $VALUES[\"88_TotalRealPower\"];\r\nif ($value < 0) { \r\n    return abs($value);\r\n} else { return 0; }",
             "Translation": [],
             "VariableType": 1,
             "WriteAction": ""
         },
         {
             "Active": true,
-            "Ident": "",
-            "Name": "VA_1.8.0_Bezug",
+            "Ident": "VA_1_8_0",
+            "Name": "1.8.0_Bezug",
             "Profile": "~Electricity",
             "ReadAction": "$value = $VALUES[\"116_TotWhImp\"];\r\nif ($value > 0) { \r\n    return round($value * pow(10, $VALUES[\"124_TotWh_SF\"]) / 1000, 3);\r\n} else { return null; }",
             "Translation": [],
@@ -392,8 +392,8 @@
         },
         {
             "Active": true,
-            "Ident": "",
-            "Name": "VA_2.8.0 Lieferung",
+            "Ident": "VA_2_8_0",
+            "Name": "2.8.0 Lieferung",
             "Profile": "~Electricity",
             "ReadAction": "$value = $VALUES[\"108_TotWhExp\"];\r\nif ($value > 0) { \r\n    return round($value * pow(10, $VALUES[\"124_TotWh_SF\"]) / 1000, 3);\r\n} else { return null; }",
             "Translation": [],
