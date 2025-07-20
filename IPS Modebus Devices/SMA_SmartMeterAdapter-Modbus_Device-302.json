@@ -399,6 +399,26 @@
             "Translation": [],
             "VariableType": 2,
             "WriteAction": ""
+        },
+        {
+            "Active": true,
+            "Ident": "VA_UpdateCnt",
+            "Name": "Update Cnt",
+            "Profile": "",
+            "ReadAction": "$varId = @IPS_GetObjectIDByIdent(\"VA_UpdateCnt\", $_IPS['TARGET']);\r\nif ($varId === false) { return -1; } else { return GetValueInteger($varId)+1; }",
+            "Translation": [],
+            "VariableType": 1,
+            "WriteAction": ""
+        },
+        {
+            "Active": true,
+            "Ident": "VA_LastUpdate",
+            "Name": "Last Update",
+            "Profile": "~UnixTimestamp",
+            "ReadAction": "if(false) {\r\n    $ipsTarget = $_IPS['TARGET'];\r\n    $logSender = sprintf(\"[%s] %s\", $ipsTarget, IPS_GetName($ipsTarget));\r\n    IPS_LogMessage($logSender, \"MEC-Meter Modbus updated\");\r\n}\r\nreturn (time());",
+            "Translation": [],
+            "VariableType": 1,
+            "WriteAction": ""
         }
     ]
 }
