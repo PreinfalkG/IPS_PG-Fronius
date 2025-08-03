@@ -198,7 +198,7 @@ trait GEN24_PrivateAPI {
 
     public function RequestPowerFlow() {
        
-        $url = "http://" . $this->GEN24_IP . "/status/powerflow";
+        $url = "http://" . $this->GEN24_IP . "/api/status/powerflow";
 
         $parentRootId = IPS_GetParent($this->InstanceID);
         $categoryId = @IPS_GetObjectIDByIdent(self::CATEGORY_NAME_PowerFlow, $parentRootId);
@@ -383,7 +383,7 @@ trait GEN24_PrivateAPI {
 
     protected function RequesPowerMeters() {
        
-        $url = "http://" . $this->GEN24_IP . "/components/PowerMeter/readable";
+        $url = "http://" . $this->GEN24_IP . "/api/components/PowerMeter/readable";
         $categoryObjId = $this->GetCategoryObjId(self::CATEGORY_NAME_PowerMeters);
         if($categoryObjId !== false) {
 
@@ -474,7 +474,7 @@ trait GEN24_PrivateAPI {
 
     protected function RequestBatteryManagementSystem() {
        
-        $url = "http://" . $this->GEN24_IP . "/components/BatteryManagementSystem/readable";
+        $url = "http://" . $this->GEN24_IP . "/api/components/BatteryManagementSystem/readable";
         $categoryObjId = $this->GetCategoryObjId(self::CATEGORY_NAME_BatteryManagementSystem);
         if($categoryObjId !== false) {
 
@@ -515,7 +515,7 @@ trait GEN24_PrivateAPI {
 
     protected function RequestOhmpilot() {
        
-        $url = "http://" . $this->GEN24_IP . "/components/Ohmpilot/readable";
+        $url = "http://" . $this->GEN24_IP . "/api/components/Ohmpilot/readable";
         $categoryObjId = $this->GetCategoryObjId(self::CATEGORY_NAME_Ohmpilot);
         if($categoryObjId !== false) {
 
@@ -536,7 +536,7 @@ trait GEN24_PrivateAPI {
 
     protected function RequestDevices() {
        
-        $url = "http://" . $this->GEN24_IP . "/status/devices";
+        $url = "http://" . $this->GEN24_IP . "/api/status/devices";
         $categoryObjId = $this->GetCategoryObjId(self::CATEGROY_NAME_Devices);
         if($categoryObjId !== false) {
 
@@ -554,7 +554,7 @@ trait GEN24_PrivateAPI {
 
     protected function RequestCache() {
        
-        $url = "http://" . $this->GEN24_IP . "/components/cache/readable";
+        $url = "http://" . $this->GEN24_IP . "/api/components/inverter/readable";
         $categoryObjId = $this->GetCategoryObjId(self::CATEGROY_NAME_Cache);
         if($categoryObjId !== false) {
 
@@ -639,6 +639,10 @@ trait GEN24_PrivateAPI {
             $parmArr["PV_POWERACTIVE_MEAN_02_F32"]                          = array("varType" => VARIABLETYPE_FLOAT,    "multiplikator" => 1, 	                    "round" => 2,       "profileName" => "GEN24.Power.2");  
             $parmArr["PV_VOLTAGE_MEAN_01_F32"]                              = array("varType" => VARIABLETYPE_FLOAT,    "multiplikator" => 1, 	                    "round" => 2,       "profileName" => "GEN24.Voltage");
             $parmArr["PV_VOLTAGE_MEAN_02_F32"]                              = array("varType" => VARIABLETYPE_FLOAT,    "multiplikator" => 1, 	                    "round" => 2,       "profileName" => "GEN24.Voltage");  
+
+            $parmArr["RELAY_MODE_ACTIVATE_BACKUP_INTERLOCK_OPT_U16"]        = array("varType" => VARIABLETYPE_INTEGER,  "multiplikator" => 1, 	                    "round" => 0,       "profileName" => "");
+            $parmArr["RELAY_MODE_ACTIVATE_BACKUP_INTERLOCK_U16"]            = array("varType" => VARIABLETYPE_INTEGER,  "multiplikator" => 1, 	                    "round" => 0,       "profileName" => "");
+
             $parmArr["unknown"]                                             = array("varType" => VARIABLETYPE_STRING,   "multiplikator" => 1, 		                "round" => null,    "profileName" => "");
 
             $jsonData = $this->RequestJsonData($url);
